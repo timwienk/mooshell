@@ -1,0 +1,12 @@
+{
+	"mooShell":{
+		"Editor":{
+			"deps":["Element.Event","PostEditor"],
+			"desc":"Predefined options for Post Editor."
+		},
+		"Actions":{
+			"deps":["Element.Event"],
+			"desc":"Assign Events to buttons."
+		}
+	}
+}

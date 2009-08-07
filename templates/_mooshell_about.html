@@ -1,0 +1,23 @@
+<h3 class='toggler'>About</h3>
+<div class='element'>
+	<p>This project is under heavy development. Please do expect it to change dramatically and sometimes fail. 
+		Posted examples may be erased, etc. etc.</p>
+	<p>Please use this <a href='http://piotr.zalewa.info/mooshell_utility_test_mootools_code'>blog post</a> for bug and feature requests.</p>
+</div>
+
+<h3 class='toggler'>Backend support</h3>
+<div class='element'>
+	<p>To make Ajax calls possible there are two back-end views written.
+		<code>{% url ajax_json_echo %}</code> for JSON and 
+		<code>{% url ajax_html_echo %}</code> for HTML. They both wait 2 seconds 
+		before answering to simulate web latency. HTML one may contain the 
+		JavaScript, it will be run if Request.HTML used.
+	</p>
+	<p>
+		To use them just make an Ajax request using above URLs. 
+		JSON will return everything from POST and GET in the form 
+		of: { 'post_response': {}, 'get_response': {} }, HTML will 
+		return the HTML code provided in POST 'html' key. Please do follow
+		<a onclick='Layout.sidebar.accordion.display(Layout.sidebar.accordion.togglers.indexOf($("examples_toggler")))'>examples</a>.
+	</p>
+</div>

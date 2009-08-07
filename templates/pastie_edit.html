@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+
+{% block sidebar %}
+	{% include "_mooshell_actions.html" %}
+	{% include "_mooshell_latest.html" %}
+	{% include "_mooshell_about.html" %}
+	{% include "_mooshell_examples.html" %}
+	{% include "_mooshell_options.html" %}
+	<h3>License</h3>
+	<div class='text'>
+		<p>All code is published under MIT-style license unless specified otherwise.</p></p>
+	</div>
+{% endblock %}
+
+{% block header %}
+<script type="text/javascript">
+	nopairs = {% if nopairs %}true{% else %}false{% endif %};
+	window.addEvent('domready', function() {
+		var mooshell = new MooShellActions({
+			exampleURL: "{{ example_url }}",
+			exampleSaveUrl: '{% url pastie_save %}'
+		});
+		Layout.js_editor = new MooShellEditor.JS($('id_code_js'){% if nopairs %},{
+			smartTypingPairs: false
+		}{% endif %}); // add user defined parameters
+		Layout.html_editor = new MooShellEditor.HTML($('id_code_html'){% if nopairs %},{
+			smartTypingPairs: false
+		}{% endif %}); // add user defined parameters); // add user defined parameters
+		Layout.css_editor = new MooShellEditor.CSS($('id_code_css'){% if nopairs %},{
+			smartTypingPairs: false
+		}{% endif %}); // add user defined parameters); // add user defined parameters
+	});
+</script>
+<form method='post' id='show-result' target='result' action='{% url pastie_display %}' >
+{% endblock %}
+
+{% block content %}
+	{% include "_mooshell_editor.html" %}
+{% endblock %}
+
+{% block footer %}</form>{% endblock %}

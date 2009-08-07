@@ -1,0 +1,28 @@
+{# it is quite unusual form structure - that's why render is not automatedd #}
+{% if pastieform.non_field_errors %}{{ pastieform.non_field_errors }}{% endif %}
+{% if shelltform.non_field_errors %}{{ shellform.non_field_errors }}{% endif %}
+{{ pastieform.slug }}
+{{ shellform.version }}
+<fieldset class='fieldset_static'>
+	<p class='optional'>
+		{{ shellform.code_html.errors }}
+		{{ shellform.code_html.label_tag }}
+		{{ shellform.code_html }}
+	</p>
+	<p class='optional'>
+		{{ shellform.code_css.errors }}
+		{{ shellform.code_css.label_tag }}
+		{{ shellform.code_css }}
+	</p>
+</fieldset>
+<fieldset class=''>
+	<p class='optional'>
+		{{ shellform.code_js.errors }}
+		{{ shellform.code_js.label_tag }}
+		{{ shellform.code_js }}
+	</p>
+	<p id='result'>
+		<label id='result_label'>Result</label>
+		<iframe name='result'></iframe>
+	</p>
+</fieldset>
