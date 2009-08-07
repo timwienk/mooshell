@@ -1,0 +1,15 @@
+
+Connect MooShell application with your project
+* open settings.py
+* add 'MooShell' to INSTALLED_APPS
+
+Create MooShell specific tables
+* cd /path/to/your/project
+* python ./manage.py syncdb
+
+Create MooShell specific directory
+* edit urls.py in your project
+* add a line including MooShell urls
+  in example: (r'^mooshell/', include('MooShell.urls')),
+  
+  
