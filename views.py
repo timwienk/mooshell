@@ -152,7 +152,7 @@ def ajax_html_javascript_response(req):
 
 	
 def serve_static(request, path):
-	media = os.path.join(settings.FRAMEWORK_PATH, 'MooShell/media')
+	media = os.path.join(settings.FRAMEWORK_PATH, 'mooshell/media')
 	if os.path.exists(os.path.join(media,path)) and os.path.isfile(os.path.join(media,path)):
 		return static.serve( request, path, media)
 	raise Http404 
