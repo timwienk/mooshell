@@ -66,6 +66,7 @@ var MooShellActions = new Class({
 		if (this.resultText) {
 			document.id(this.options.resultLabel).set('text', this.resultText);
 		}
+		if ($(this.options.saveAndReloadId)) $(this.options.saveAndReloadId).destroy()
  		this.fireEvent('clean');
 	},
 	// rename iframe label to present the current URL
