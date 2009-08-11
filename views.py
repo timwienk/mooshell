@@ -1,4 +1,5 @@
 import os.path
+import random
 import time
 
 from django.shortcuts import render_to_response, get_object_or_404
@@ -120,7 +121,7 @@ def pastie_show(req, slug, shell=None):
 
 def ajax_json_echo(req):
 	" echo GET and POST "
-	time.sleep(2)
+	time.sleep(random.uniform(1,3))
 	c = {'get_response':{},'post_response':{}}
 	for key, value in req.GET.items():
 		c['get_response'].update({key: value})
@@ -130,7 +131,7 @@ def ajax_json_echo(req):
 
 
 def ajax_html_echo(req):
-	time.sleep(2)
+	time.sleep(random.uniform(1,3))
 	t = req.POST.get('html','')
 	return HttpResponse(t)
 
