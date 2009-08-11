@@ -1,0 +1,6 @@
+[submodule "media/js/mootools-more"]
+	path = media/js/mootools-more
+	url = git://github.com/mootools/mootools-more.git
+[submodule "media/js/mootools-core"]
+	path = media/js/mootools-core
+	url = git://github.com/mootools/mootools-core.git
