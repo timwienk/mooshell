@@ -1,1 +1,66 @@
 /* generic styles for mooShell functionality only */
+
+/* actions */
+#actions a {
+	display: block; 
+	float: left;
+	height: 27px;
+	margin-top: 6px;
+	background-image: url(/media/img/actions.png);
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+#actions a:hover { background-image: url(/media/img/actions_hover.png);}
+#actions a:active { background-image: url(/media/img/actions_mousedn.png);}
+#actions a span {
+	padding-left: 30px; color: #fdfdfd; padding-top: 5px; font-size: 13px; 
+	display: block;
+	background: url(/media/img/actions_labels.png);
+	background-repeat: no-repeat;
+}
+
+#actions #show_result { width: 70px; margin-right: 6px; }
+#actions #show_result span { background-position: 6px 0px; }
+
+#actions #save { width: 82px; background-position: -76px 0; }
+#actions #save span { background-position: 6px -26px; }
+/*
+#actions #run { width: 82px; background-position: -76px 0; }
+#actions #run span { background-position: 6px -26px; }
+
+#actions #save { width: 97px; background-position: -158px 0; }
+#actions #save span { background-position: 6px -52px; }
+*/
+
+#actions #clean { width: 77px; background-position: -255px 0; }
+#actions #clean span { background-position: 6px -77px; }
+
+/* select link */
+
+#select_link { 
+	float: right; 
+	border: 0px solid red;
+	background: transparent url(/media/img/select_link.png) no-repeat 0 0;
+	width: 229px;
+	height: 27px;
+	margin: 6px 10px 0;
+	color: #fdfdfd;
+	font-size: 13px;
+	padding-left: 15px; 
+	line-height: 27px;
+}
+
+/* editor */
+#content fieldset.fieldset_static { margin-bottom: 10px; }
+
+#content fieldset p { width: 49.5%; float: left; display: inline; }
+
+#content textarea,
+#result iframe { 
+	font-family: Inconsolata, Monaco, Courier, monospace;
+	line-height:15px; font-size: 12px;
+	min-width: 190px; width: 98%; height: 150px;
+}
+
+#content #id_code_js, 
+#result iframe { height: 250px; min-height: 150px; }

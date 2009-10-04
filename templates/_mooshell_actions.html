@@ -1,6 +1,7 @@
-<div class='actions clearfix'>
-	<a id='show_result'>run</a>
-	{% if pastie %}<a id="run">update</a>{% endif %}
-	<a id="save">save new</a> 
-	<a id='clean'>clean</a>
+<div id='actions'>
+	<a id='show_result'><span>Run</span></a>
+	{# if pastie %}<a id="run"><span>Update</span></a>{% endif #}
+	<a id="save"><span>Save</span></a> 
+	<a id='clean'><span>Clean</span></a>
 </div>
+{% if pastie %}<input id="select_link" type='text' value='{{ example_url }}'>{% endif %}

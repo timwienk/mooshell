@@ -21,7 +21,6 @@
 	<![endif]-->
 
 	<link rel="stylesheet" type="text/css" href="{% url media "css/style.css" %}"/>
-	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/style.css" %}"/>
 	<link rel="stylesheet" type="text/css" href="{% url media "css/colors.css" %}"/>
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
@@ -34,47 +33,16 @@
 	{% block head %}{% endblock %}
 </head><body>
 
-	<script type="text/javascript">
-		nopairs = {% if nopairs %}true{% else %}false{% endif %};
-		window.addEvent('domready', function() {
-			var mooshell = new MooShellActions({
-				exampleURL: "{{ example_url }}",
-				exampleSaveUrl: '{% url pastie_save %}'
-			});
-			Layout.js_editor = new MooShellEditor.JS($('id_code_js'){% if nopairs %},{
-				smartTypingPairs: false
-			}{% endif %}); // add user defined parameters
-			Layout.html_editor = new MooShellEditor.HTML($('id_code_html'){% if nopairs %},{
-				smartTypingPairs: false
-			}{% endif %}); // add user defined parameters); // add user defined parameters
-			Layout.css_editor = new MooShellEditor.CSS($('id_code_css'){% if nopairs %},{
-				smartTypingPairs: false
-			}{% endif %}); // add user defined parameters); // add user defined parameters
-		});
-	</script>
+	{% block header %}{% endblock %}	
+	<div id='sidebar'>
+		<div id='branding'>
+			<p id='name'><a href='/' id='home'>{{ project_name }}</a>{{ project_status }}</p>
+		</div>
+		{% block sidebar %}{% endblock %}
+	</div>
+	<div id="content">{% block content %}{% endblock %}</div>
+	{% block footer %}{% endblock %}
 	
-	<form method='post' id='show-result' target='result' action='{% url pastie_display %}' >
-		<div id='header'>
-			<div id='branding'>
-				<p id='name'><a href='/' id='home'>{{ project_name }}</a>{{ project_status }}</p>
-			</div>
-			{% include "_mooshell_actions.html" %}
-		</div>
-		<div id='sidebar'>
-			{% include "_mooshell_latest.html" %}
-			{% include "_mooshell_about.html" %}
-			{% include "_mooshell_examples.html" %}
-			{% include "_mooshell_options.html" %}
-			{% include "_mooshell_credits.html" %}
-			<h3>License</h3>
-			<div class='text'>
-				<p>All code is published under MIT-style license unless specified otherwise.</p></p>
-			</div>
-		</div>
-		<div id="content">		
-			{% include "_mooshell_editor.html" %}	
-		</div>
-	<form>
 	{% if not debug %}
 		<script type="text/javascript">
 			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

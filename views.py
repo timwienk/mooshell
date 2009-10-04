@@ -21,7 +21,7 @@ def pastie_edit(req, slug=None, version=0):
 	c = {}
 	if slug:
 		shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
-		example_url = ''.join([settings.WEB_SERVER, shell.get_absolute_url()])
+		example_url = ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()])
 		shell.version += 1
 		shellform = ShellForm(instance=shell)
 		pastieform = PastieForm(instance=shell.pastie)
@@ -52,7 +52,7 @@ def pastie_edit(req, slug=None, version=0):
 					],
 			'title': "Shell Editor",
 			'example_url': example_url,
-			'web_server': settings.WEB_SERVER,
+			'web_server': 'http://%s' % req.META['SERVER_NAME'],
 			'nopairs': nopairs
 			})
 	return render_to_response('pastie_edit.html',c,
@@ -94,7 +94,7 @@ def pastie_save(req, nosave=False):
 				shell.save()
 				" return json with pastie url "
 				return HttpResponse(simplejson.dumps(
-						{'pastie_url': ''.join([settings.WEB_SERVER, shell.get_absolute_url()])}
+						{'pastie_url': ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()])}
 						),mimetype='application/javascript'
 					)
 			else: error = "Pastie form does not validate %s" % pastieform['slug'].errors

@@ -13,6 +13,7 @@ var MooShellActions = new Class({
 		cleanId: 'clean',
 		entriesSelector: 'textarea',
 		resultLabel: 'result_label',
+		resultInput: 'select_link',
 		exampleURL: '',
 		exampleSaveURL: ''
 	},
@@ -71,6 +72,7 @@ var MooShellActions = new Class({
 	},
 	// rename iframe label to present the current URL
 	displayExampleURL: function() {
+		/*
 		var label = document.id(this.options.resultLabel)
 		if (label) {
 			this.resultText = label.get('text');
@@ -79,6 +81,14 @@ var MooShellActions = new Class({
 				href: this.options.exampleURL,
 				text: this.options.exampleURL
 			}).inject(label)
+		}*/
+		var resultInput = document.id(this.options.resultInput);
+		if (resultInput) {
+			if (Browser.Engine.gecko) {
+				resultInput.setStyle('padding-top', '4px');
+			}
+			resultInput.select();
 		}
+			
 	}
 });

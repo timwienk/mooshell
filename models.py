@@ -1,6 +1,7 @@
 from datetime import date, timedelta, datetime
 
 from django.db import models
+from django.db.models.signals import pre_save, post_save
 
 def next_week():
 	return datetime.now() + timedelta(days=7)
@@ -55,6 +56,21 @@ class Shell(models.Model):
 			return  ('pastie',[self.pastie.slug])
 		return ('shell',[self.pastie.slug,self.version])
 	
+	
+def increse_version_on_save(instance, **kwargs):
+	if kwargs.get('raw',False): return
+	if kwargs.get('created'):
+		# check if any shell exists for the pastie
+		try:
+			shells = Shell.objects.select(pastie_id=instance.pastie_id).orderBy('-version')
+			version = list(shells)[0].version + 1
+		except:
+			version = 0
+		print version
+		instance.version = version
+		instance.save()
+pre_save.connect(increse_version_on_save, sender=Shell)
+
 
 class JSLibrary(models.Model):
 	"""
