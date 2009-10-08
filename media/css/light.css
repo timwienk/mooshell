@@ -1,0 +1,58 @@
+/* colors for mooShell functionality only */
+
+body { background: #efefef; }	
+
+#sidebar { color: #444 }
+
+#sidebar #branding { color: #444; }	
+
+#sidebar #branding #home { color: #444; }
+
+
+#sidebar .toggler:hover { color: #444; }
+
+#sidebar a { color: #36f; }
+
+#content textarea,
+#result iframe { background: white; border: 1px solid #bbb; }
+
+/* header */
+#header { background: url(../img/sprites.png) repeat-x; }
+#branding { color: #ffffff; }
+#home { color: #ffffff; }
+
+/* sidebar */
+#sidebar .toggler {
+	background: transparent url(../img/sprites.png) no-repeat 0 -288px;
+	color: #333; text-shadow: 0 1px 0 #fff;
+}
+#sidebar .toggler:hover {
+	background-position: 0 -323px;
+}
+#sidebar .toggler.selected {
+	background-position: 0 -323px;
+}
+
+/* actions */
+#actions a {
+	background-image: url(../img/sprites.png);
+}
+#actions a span {
+	text-shadow: 0 1px 0 #000; color: #ffffff;  
+	background: url(../img/sprites.png);
+}
+
+
+/* select link */
+
+#select_link { 
+	border: 0px solid red;
+	background: transparent url(../img/sprites.png) no-repeat 0 -254px;
+	color: #fdfdfd;
+}
+
+
+/* editor labels */
+.editor_label {
+	background: transparent url(../img/sprites.png) no-repeat -255px -50px;
+}

@@ -14,45 +14,36 @@
 
 	{% for js in js_libs %}<script type="text/javascript" src="{{ js }}"></script>
 	{% endfor %}
-	<link rel="stylesheet" type="text/css" href="{% url media "css/normalize.css" %}"/>
-	<link rel="stylesheet" type="text/css" href="{% url media "css/tricks.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/normalize.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/tricks.css" %}"/>
 	<!--[if lte IE 6]>
-		<link rel="stylesheet" type="text/css" href="{% url media "css/ie-hacks.css" %}"/>
+		<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/ie-hacks.css" %}"/>
 	<![endif]-->
 
-	<link rel="stylesheet" type="text/css" href="{% url media "css/style.css" %}"/>
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/style.css" %}"/>
-	<link rel="stylesheet" type="text/css" href="{% url media "css/colors.css" %}"/>
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
-		window.addEvent('domready', function() {
-			$extend(Layout, new Events());
-			Layout.start();
-			Layout.resize();
-		})
-	</script>
-	{% block head %}{% endblock %}
-</head><body>
-
-	<script type="text/javascript">
 		nopairs = {% if nopairs %}true{% else %}false{% endif %};
-		window.addEvent('domready', function() {
+		window.addEvent('load', function() {
+			$extend(Layout, new Events());
 			var mooshell = new MooShellActions({
 				exampleURL: "{{ example_url }}",
 				exampleSaveUrl: '{% url pastie_save %}'
 			});
-			Layout.js_editor = new MooShellEditor.JS($('id_code_js'){% if nopairs %},{
+			new MooShellEditor.JS($('id_code_js'){% if nopairs %},{
 				smartTypingPairs: false
 			}{% endif %}); // add user defined parameters
-			Layout.html_editor = new MooShellEditor.HTML($('id_code_html'){% if nopairs %},{
+			new MooShellEditor.HTML($('id_code_html'){% if nopairs %},{
 				smartTypingPairs: false
 			}{% endif %}); // add user defined parameters); // add user defined parameters
-			Layout.css_editor = new MooShellEditor.CSS($('id_code_css'){% if nopairs %},{
+			new MooShellEditor.CSS($('id_code_css'){% if nopairs %},{
 				smartTypingPairs: false
 			}{% endif %}); // add user defined parameters); // add user defined parameters
+			Layout.start();
 		});
 	</script>
-	
+	{% block head %}{% endblock %}
+</head><body>
 	<form method='post' id='show-result' target='result' action='{% url pastie_display %}' >
 		<div id='header'>
 			<div id='branding'>

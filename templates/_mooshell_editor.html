@@ -6,23 +6,23 @@
 <fieldset class='fieldset_static'>
 	<p class='optional'>
 		{{ shellform.code_html.errors }}
-		{{ shellform.code_html.label_tag }}
 		{{ shellform.code_html }}
+		<span class='editor_label'>HTML</span>
 	</p>
 	<p class='optional'>
 		{{ shellform.code_css.errors }}
-		{{ shellform.code_css.label_tag }}
 		{{ shellform.code_css }}
+		<span class='editor_label'>CSS</span>
 	</p>
 </fieldset>
 <fieldset class=''>
 	<p class='optional'>
 		{{ shellform.code_js.errors }}
-		{{ shellform.code_js.label_tag }}
 		{{ shellform.code_js }}
+		<span class='editor_label'>JavaScript</span>
 	</p>
 	<p id='result'>
-		<label id='result_label'>Result</label>
 		<iframe name='result'></iframe>
+		<span class='editor_label'>Result</span>
 	</p>
 </fieldset>

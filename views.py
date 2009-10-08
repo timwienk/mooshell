@@ -42,13 +42,16 @@ def pastie_edit(req, slug=None, version=0):
 	c.update({
 			'pastieform':pastieform,
 			'shellform':shellform,
+			'css_files': [
+					reverse('mooshell_media', args=["css/light.css"])
+					],
 			'js_libs': [
-					moo,
-					params.MOOTOOLS_MORE,
-					reverse('media', args=['js/lib/posteditor-clientcide-trunk-2.1.0.js']),
-					reverse('media', args=['js/layout.js']),
-					reverse("mooshell_media", args=["js/mooShell/Actions.js"]),
-					reverse("mooshell_media", args=["js/mooShell/Editor.js"]),
+					reverse('mooshell_media', args=[moo]),
+					reverse('mooshell_media', args=[params.MOOTOOLS_MORE]),
+					reverse('mooshell_media', args=['js/lib/posteditor-clientcide-trunk-2.1.0.js']),
+					reverse('mooshell_media', args=['js/Layout.js']),
+					reverse("mooshell_media", args=["js/Actions.js"]),
+					reverse("mooshell_media", args=["js/Editor.js"]),
 					],
 			'title': "Shell Editor",
 			'example_url': example_url,
@@ -113,8 +116,8 @@ def pastie_show(req, slug, shell=None):
 	return render_to_response('pastie_show.html', {
 									'shell': shell,
 									'js_libs': [
-										params.MOOTOOLS_DEV_CORE,
-										params.MOOTOOLS_MORE
+										reverse('mooshell_media', args=[params.MOOTOOLS_DEV_CORE]),
+										reverse('mooshell_media', args=[params.MOOTOOLS_MORE])
 									]
 							})
 

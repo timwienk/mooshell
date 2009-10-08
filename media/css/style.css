@@ -1,31 +1,62 @@
 /* generic styles for mooShell functionality only */
 
+/* generic tools */
+body { font-family: Helvetica, Arial; }	
+
+/* main structure */
+#sidebar { float: left; width: 204px; }
+#content { margin-left: 240px; }
+
+/* header */
+#header { height: 39px; }
+#branding { float: left; padding: 7px 18px 0; font-size: 10px; width: 212px; }
+#home { font-weight: bold; font-size: 20px; text-decoration: none; margin-right: 3px; }
+
+/* sidebar */
+#sidebar { font-size: 11px; margin: 18px 0 0 18px; }
+#sidebar p { margin-top: 3px; }
+
+#sidebar .element,
+#sidebar .text { padding: 0px 10px 0px; margin-bottom: 5px;   }
+
+#sidebar h3 { 
+	padding: 0 10px; 
+	height: 28px; line-height: 28px;
+	font-family: Lucida Grande, Lucida Sans, Lucida Sans Unicode, Luxi Sans, Sans, Tahoma; 
+	font-size: 11px; font-weight: bold; 
+	clear: both; 
+	
+}
+
+#sidebar .toggler,
+#sidebar a { cursor: pointer; }
+
 /* actions */
 #actions a {
 	display: block; 
 	float: left;
 	height: 27px;
 	margin-top: 6px;
-	background-image: url(/media/img/sprites.png);
 	background-repeat: no-repeat;
 	cursor: pointer;
 }
 #actions a span {
-	padding-left: 30px; color: #fdfdfd; padding-top: 5px; font-size: 13px; 
+	font-family: Lucida Grande, Lucida Sans, Luxi Sans, Sans, Tahoma; 
+	font-weight: bold; line-height: 27px; 
+	padding-left: 30px; font-size: 11px; 
 	display: block;
-	background: url(/media/img/sprites.png);
 	background-repeat: no-repeat;
 }
 
 #actions #show_result { width: 70px; margin-right: 6px; background-position: 0px -154px; }
 #actions #show_result:hover { background-position: 0px -187px; }
 #actions #show_result:active { background-position: 0px -220px; }
-#actions #show_result span { background-position: 6px -44px; }
+#actions #show_result span { background-position: 0px -44px; }
 
 #actions #save { width: 82px; background-position: -76px -154px; }
 #actions #save:hover { background-position: -76px -187px; }
 #actions #save:active { background-position: -76px -220px; }
-#actions #save span { background-position: 6px -70px; }
+#actions #save span { background-position: 0px -70px; }
 /*
 #actions #run { width: 82px; background-position: -76px -154px; }
 #actions #run span { background-position: 6px -26px; }
@@ -37,27 +68,28 @@
 #actions #clean { width: 77px; background-position: -255px -154px; }
 #actions #clean:hover { background-position: -255px -187px; }
 #actions #clean:active { background-position: -255px -220px; }
-#actions #clean span { background-position: 6px -96px; }
+#actions #clean span { background-position: 0px -96px; }
 
 /* select link */
 
 #select_link { 
 	float: right; 
-	border: 0px solid red;
-	background: transparent url(/media/img/sprites.png) no-repeat 0 -254px;
 	width: 229px;
 	height: 27px;
 	margin: 6px 10px 0;
-	color: #fdfdfd;
 	font-size: 13px;
 	padding-left: 15px; 
 	line-height: 27px;
 }
 
 /* editor */
-#content fieldset.fieldset_static { margin-bottom: 10px; }
+#content fieldset { margin-top: 18px; }
 
-#content fieldset p { width: 49.5%; float: left; display: inline; }
+
+#content fieldset p { 
+	width: 49.5%; float: left; display: inline; 
+	position: relative;
+}
 
 #content textarea,
 #result iframe { 
@@ -68,3 +100,11 @@
 
 #content #id_code_js, 
 #result iframe { height: 250px; min-height: 150px; }
+
+/* editor labels */
+.editor_label { 
+	display: block; width: 79px; height: 28px; line-height: 28px; 
+	z-index: 100; position: absolute; top: 0; right: 16px;
+	font-family: Lucida Grande, Lucida Sans, Lucida Sans Unicode, Luxi Sans, Sans, Tahoma; 
+	text-align: center;	font-size: 11px; font-weight: bold; 
+}
