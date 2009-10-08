@@ -28,6 +28,8 @@ body { font-family: Helvetica, Arial; }
 	
 }
 
+#sidebar .toggler { margin-bottom: 5px; }
+#sidebar .element { }
 #sidebar .toggler,
 #sidebar a { cursor: pointer; }
 
