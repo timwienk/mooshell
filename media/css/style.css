@@ -9,8 +9,8 @@ body { font-family: Helvetica, Arial; }
 
 /* header */
 #header { height: 39px; }
-#branding { float: left; padding: 7px 18px 0; font-size: 10px; width: 212px; }
-#home { font-weight: bold; font-size: 20px; text-decoration: none; margin-right: 3px; }
+#branding { float: left; padding: 0 10px; font-size: 10px; width: 218px; }
+#home { text-indent: -9999px; display: block; width: 96px; height: 39px; }
 
 /* sidebar */
 #sidebar { font-size: 11px; margin: 18px 0 0 18px; }

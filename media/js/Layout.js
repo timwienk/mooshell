@@ -47,7 +47,6 @@ var Layout = {
 		var window_size = window.getSize();
 		var full_width = window_size.x - $('content').getPosition().x;
 		var width = Math.floor(full_width / 2) - 20; // width + border
-		console.log(full_width, width )
 		$$('fieldset p').setStyle('width', width + 20);
 
 		if (this.js_edit) {
