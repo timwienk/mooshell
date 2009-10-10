@@ -2,14 +2,12 @@
 
 body { background: #efefef; }	
 
-#sidebar { color: #444 }
+#sidebar { color: #444; background-color: #fff; }
 
 #sidebar #branding { color: #444; }	
 
 #sidebar #branding #home { color: #444; }
 
-
-#sidebar .toggler:hover { color: #444; }
 
 #sidebar a { color: #36f; }
 
@@ -26,19 +24,21 @@ body { background: #efefef; }
 	background: transparent url(../img/sprites.png) no-repeat 0 -288px;
 	color: #333; text-shadow: 0 1px 0 #fff;
 }
-#sidebar .toggler:hover {
+#sidebar .toggler.active {
 	background-position: 0 -323px;
 }
 #sidebar .toggler.selected {
 	background-position: 0 -323px;
 }
+#sidebar pre,
+#sidebar code { background: #FFFADB; }
 
 /* actions */
 #actions a {
 	background-image: url(../img/sprites.png);
 }
 #actions a span {
-	text-shadow: 0 1px 0 #000; color: #ffffff;  
+	text-shadow: 0 -1px 0 #000; color: #ffffff;  
 	background: url(../img/sprites.png);
 }
 
@@ -55,4 +55,12 @@ body { background: #efefef; }
 /* editor labels */
 .editor_label {
 	background: transparent url(../img/sprites.png) no-repeat -255px -50px;
+}
+#content textarea,
+#result iframe {
+	background: #fff;
+	border-top: 1px solid #959595;
+	border-left: 1px solid #959595;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
 }

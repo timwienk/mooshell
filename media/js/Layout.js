@@ -1,5 +1,5 @@
 var Sidebar = new Class({
-	Implements: [Options],
+	Implements: [Options, Class.Occlude],
 	options: {
 		DOM: ''
 	},
@@ -14,11 +14,15 @@ var Sidebar = new Class({
 			window.addEvents({
 				'scroll': this.resize.bind(this)
 			});
+			this.element.getFirst('.toggler').addClass('active');
 			this.accordion = new Fx.Accordion('#' + this.options.DOM + ' .toggler', '#' + this.options.DOM + ' .element');
+			this.accordion.addEvent('active', function(toggler, element) {
+				toggler.addClass('active').getSiblings('.toggler').removeClass('active');
+			});
 		}
 	},
 	resize: function () {
-		this.element.setStyle('min-height',window.getSize().y - this.element.getPosition().y)
+		this.element.setStyle('min-height',window.getSize().y - this.element.getPosition().y - 18)
 	}
 });
 
