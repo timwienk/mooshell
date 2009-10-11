@@ -9,7 +9,7 @@ body { font-family: Helvetica, Arial; }
 
 /* header */
 #header { height: 39px; }
-#branding { float: left; padding: 0 10px; font-size: 10px; width: 236px; }
+#branding { float: left; padding: 0 10px; font-size: 10px; width: 212px; }
 #home { text-indent: -9999px; display: block; width: 96px; height: 39px; }
 
 /* sidebar */
