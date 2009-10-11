@@ -22,7 +22,7 @@ var Sidebar = new Class({
 		}
 	},
 	resize: function () {
-		this.element.setStyle('min-height',window.getSize().y - this.element.getPosition().y - 18)
+		this.element.setStyle('min-height',window.getSize().y - this.element.getPosition().y - 8)
 	}
 });
 
@@ -50,13 +50,13 @@ var Layout = {
 		
 		var window_size = window.getSize();
 		var full_width = window_size.x - $('content').getPosition().x;
-		var width = Math.floor(full_width / 2) - 20; // width + border
-		$$('fieldset p').setStyle('width', width + 20);
+		var width = Math.floor(full_width / 2) - 10; // width + border
+		$$('fieldset p').setStyle('width', width + 10);
 
 		if (this.js_edit) {
 			this.js_edit.element.show();
 			var top = this.js_edit.element.getPosition().y;
-			var height = window_size.y - top - 20; // height + border
+			var height = window_size.y - top - 10; // height + border
 			this.js_edit.element.setStyles({
 				'height': height,
 				'width': width
@@ -66,7 +66,7 @@ var Layout = {
 			this.result.show();
 			if (!this.js_edit) {
 				var top = this.result.getPosition().y;
-				var height = window_size.y - top - 20;
+				var height = window_size.y - top - 10;
 			}
 			this.result.setStyles({
 				'height': height,
