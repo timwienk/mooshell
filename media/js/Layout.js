@@ -17,7 +17,7 @@ var Sidebar = new Class({
 			this.element.getFirst('.toggler').addClass('active');
 			this.accordion = new Fx.Accordion('#' + this.options.DOM + ' .toggler', '#' + this.options.DOM + ' .element');
 			this.accordion.addEvent('active', function(toggler, element) {
-				toggler.addClass('active').getSiblings('.toggler').removeClass('active');
+				toggler.addClass('active').getSiblings('.toggler').removeClass('active');				
 			});
 		}
 	},
@@ -29,11 +29,11 @@ var Sidebar = new Class({
 var Layout = {
 	start: function () {
 		this.sidebar = new Sidebar({DOM: 'sidebar'});
-		window.addEvents({
-			'resize': function() {
-				this.resize();
-			}.bind(this),
-		});
+		this.sidebar.accordion.addEvent('active', function(){
+			var self = this
+			return (function() {self.resize()}.delay(700))
+		}.bind(this));
+		window.addEvent('resize', this.resize.bind(this))
 		var results = $$('#result')
 		var result = ($type(results) == 'array') ? results[0] : false;
 		$$('.editor_label').setStyle('opacity',0.8);
@@ -49,8 +49,10 @@ var Layout = {
 		if (this.result) this.result.hide();
 		
 		var window_size = window.getSize();
-		var full_width = window_size.x - $('content').getPosition().x;
+		var full_width = $('content').getSize().x;
 		var width = Math.floor(full_width / 2) - 10; // width + border
+		
+		
 		$$('fieldset p').setStyle('width', width + 10);
 
 		if (this.js_edit) {
