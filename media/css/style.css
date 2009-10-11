@@ -13,7 +13,7 @@ body { font-family: Helvetica, Arial; }
 #home { text-indent: -9999px; display: block; width: 96px; height: 39px; }
 
 /* sidebar */
-#sidebar { font-size: 11px; padding: 18px 18px 0 18px; }
+#sidebar { font-size: 11px; padding: 8px 8px 0 8px; }
 #sidebar p { margin-top: 3px;  line-height: 135%; padding: 0 0 3px;}
 #sidebar pre,
 #sidebar code { 
@@ -27,10 +27,11 @@ body { font-family: Helvetica, Arial; }
 #sidebar .text { padding: 0px 10px 0px; margin-bottom: 5px;   }
 
 #sidebar h3 { 
-	padding: 0 10px; 
+	padding: 0 5px; 
 	height: 28px; line-height: 28px;
-	font-family: Lucida Grande, Lucida Sans, Lucida Sans Unicode, Luxi Sans, Sans, Tahoma; 
-	font-size: 11px; font-weight: bold; 
+	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma; 
+	font-size: 11px; font-weight: bold;
+	text-shadow: 0 1px 0 #fff;
 	clear: both; 
 	
 }
@@ -50,7 +51,7 @@ body { font-family: Helvetica, Arial; }
 	cursor: pointer;
 }
 #actions a span {
-	font-family: Lucida Grande, Lucida Sans, Luxi Sans, Sans, Tahoma; 
+	font-family: "Lucida Grande", "Lucida Sans", "Luxi Sans", Sans, Tahoma; 
 	font-weight: bold; line-height: 27px; 
 	padding-left: 30px; font-size: 11px; 
 	display: block;
@@ -92,7 +93,7 @@ body { font-family: Helvetica, Arial; }
 }
 
 /* editor */
-#content fieldset { margin-top: 18px; }
+#content fieldset { margin-top: 8px; }
 
 
 #content fieldset p { 
@@ -102,7 +103,7 @@ body { font-family: Helvetica, Arial; }
 
 #content textarea,
 #result iframe { 
-	font-family: Inconsolata, Monaco, Courier, monospace;
+	font-family: "Inconsolata", "Monaco", Courier, monospace;
 	line-height:15px; font-size: 12px;
 	min-width: 190px; width: 98%; height: 150px;
 }
@@ -114,6 +115,6 @@ body { font-family: Helvetica, Arial; }
 .editor_label { 
 	display: block; width: 79px; height: 28px; line-height: 28px; 
 	z-index: 100; position: absolute; top: 0; right: 16px;
-	font-family: Lucida Grande, Lucida Sans, Lucida Sans Unicode, Luxi Sans, Sans, Tahoma; 
+	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma; 
 	text-align: center;	font-size: 11px; font-weight: bold; 
 }
