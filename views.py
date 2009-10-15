@@ -81,7 +81,7 @@ def pastie_save(req, nosave=False):
 			
 			if nosave:
 				" return the pastie page only " 
-				return pastie_show(req, None, shell)
+				return pastie_display(req, None, shell)
 			
 			if pastieform.is_valid():
 				pastie = pastieform.save(commit=False)
@@ -108,11 +108,21 @@ def pastie_save(req, nosave=False):
 					mimetype='application/javascript'
 	)
 
-		
-def pastie_show(req, slug, shell=None):
+def pastie_display(req, slug, shell=None):
 	" render the shell only "
 	if not shell:
 		shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
+	return render_to_response('pastie_show.html', {
+									'shell': shell,
+									'js_libs': [
+										reverse('mooshell_media', args=[params.MOOTOOLS_DEV_CORE]),
+										reverse('mooshell_media', args=[params.MOOTOOLS_MORE])
+									]
+							})
+		
+def pastie_show(req, slug, version=0):
+	" render the shell only "
+	shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
 	return render_to_response('pastie_show.html', {
 									'shell': shell,
 									'js_libs': [
