@@ -12,7 +12,6 @@ from django.template import Template,RequestContext
 
 from models import Pastie, Shell
 from forms import PastieForm, ShellForm
-import params
 
 def pastie_edit(req, slug=None, version=0):
 	"""
@@ -34,8 +33,8 @@ def pastie_edit(req, slug=None, version=0):
 		pastieform = PastieForm()
 		shellform = ShellForm()
 	
-	if settings.DEBUG: moo = params.MOOTOOLS_DEV_CORE
-	else: moo = params.MOOTOOLS_CORE
+	if settings.DEBUG: moo = settings.MOOTOOLS_DEV_CORE
+	else: moo = settings.MOOTOOLS_CORE
 	
 	nopairs = req.GET.get('nopairs',False)
 	
@@ -47,7 +46,7 @@ def pastie_edit(req, slug=None, version=0):
 					],
 			'js_libs': [
 					reverse('mooshell_media', args=[moo]),
-					reverse('mooshell_media', args=[params.MOOTOOLS_MORE]),
+					reverse('mooshell_media', args=[settings.MOOTOOLS_MORE]),
 					reverse('mooshell_media', args=['js/lib/posteditor-clientcide-trunk-2.1.0.js']),
 					reverse('mooshell_media', args=['js/Layout.js']),
 					reverse("mooshell_media", args=["js/Actions.js"]),
@@ -90,8 +89,9 @@ def pastie_save(req, nosave=False):
 				if not pastie.slug:
 					allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 					from random import choice
-					pastie.slug =  ''.join([choice(allowed_chars) for i in range(params.SLUG_LENGTH)]) #here some random stuff
-				
+					pastie.slug =  ''.join([choice(allowed_chars) for i in range(settings.MOOSHELL_SLUG_LENGTH)]) #here some random stuff
+					#TODO: check if slug already exists - create another if so
+					
 				pastie.save()
 				shell.pastie = pastie
 				shell.save()
@@ -115,8 +115,8 @@ def pastie_display(req, slug, shell=None):
 	return render_to_response('pastie_show.html', {
 									'shell': shell,
 									'js_libs': [
-										reverse('mooshell_media', args=[params.MOOTOOLS_DEV_CORE]),
-										reverse('mooshell_media', args=[params.MOOTOOLS_MORE])
+										reverse('mooshell_media', args=[settings.MOOTOOLS_DEV_CORE]),
+										reverse('mooshell_media', args=[settings.MOOTOOLS_MORE])
 									]
 							})
 		
@@ -126,8 +126,8 @@ def pastie_show(req, slug, version=0):
 	return render_to_response('pastie_show.html', {
 									'shell': shell,
 									'js_libs': [
-										reverse('mooshell_media', args=[params.MOOTOOLS_DEV_CORE]),
-										reverse('mooshell_media', args=[params.MOOTOOLS_MORE])
+										reverse('mooshell_media', args=[settings.MOOTOOLS_DEV_CORE]),
+										reverse('mooshell_media', args=[settings.MOOTOOLS_MORE])
 									]
 							})
 
