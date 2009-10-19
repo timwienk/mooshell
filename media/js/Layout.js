@@ -55,9 +55,9 @@ var Layout = {
 	resizeWithDelay: function() {
 		this.resize();
 		// sometimes size is counted with scrollbars (especially in webkit)
-		(function() { return this.resize(); }.bind(this) ).delay(50);
+		(function() { return this.resize(); }.bind(this) ).delay(3);
 		// after scrollbars are removed - resize again to the right size
-		(function() { return this.resize(); }.bind(this) ).delay(100);
+		(function() { return this.resize(); }.bind(this) ).delay(10);
 	},
 	resize: function(e) {
 		// hide results to measure the size of a window without them
