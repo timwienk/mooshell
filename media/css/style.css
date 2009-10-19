@@ -107,7 +107,7 @@ body { font-family: Helvetica, Arial; }
 	line-height:15px; font-size: 12px;
 	min-width: 190px; width: 98%; height: 150px;
 }
-
+/* resizing sets display to inline, this overrides */
 #content textarea { display: block !important;}
 
 #content #id_code_js, 
