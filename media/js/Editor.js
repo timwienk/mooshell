@@ -1,6 +1,9 @@
 /*
  * Add PostEditor (and possibly other) functionality to the textareas
  */
+
+$extend(Element.NativeEvents, {	paste: 2 });
+
 var MooShellEditor = new Class({
 	Extends: PostEditor,
 	options: {
@@ -12,7 +15,6 @@ var MooShellEditor = new Class({
 		this.parent(el,this.options);
 		this.editorLabelFX = new Fx.Tween(this.element.getParent('p').getElement('.editor_label'))
 		//this.add_fullscreen_button();
-		this.element.set('onpaste', 'Layout.resizeWithDelay();');
 		this.element.addEvents({
 			focus: function() {
 				this.editorLabelFX.start('opacity',0.15);
@@ -22,6 +24,9 @@ var MooShellEditor = new Class({
 				this.editorLabelFX.start('opacity',1);
 				//this.fullscreen.retrieve('fx').start(0);
 			}.bind(this),
+			paste: function() {
+				Layout.resizeWithDelay();
+			}
 		});
 	},
 	add_fullscreen_button: function() {
