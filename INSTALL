@@ -8,8 +8,9 @@ Create MooShell specific tables
 * python ./manage.py syncdb
 
 Create MooShell specific directory
-* edit urls.py in your project
+* edit urls.py in your project (machine_urls.py if mooshell_project used)
 * add a line including MooShell urls
   in example: (r'^mooshell/', include('mooshell.urls')),
+  
   
   
