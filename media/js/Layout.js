@@ -29,36 +29,50 @@ var Sidebar = new Class({
 var Layout = {
 	start: function () {
 		this.sidebar = new Sidebar({DOM: 'sidebar'});
+		
 		this.sidebar.accordion.addEvent('active', function(){
 			var self = this
-			return (function() {self.resize()}.delay(700))
+			// resize needed as accordion height may be changed and scrollbar may appear
+			// add delay to make accordion set it's height
+			return (function() {self.resize()}.delay(700));
 		}.bind(this));
-		window.addEvent('resize', this.resize.bind(this))
-		var results = $$('#result')
+		window.addEvent('resize', this.resizeWithDelay.bind(this));
+		
+		// set editor labels
+		var results = $$('#result');
 		var result = ($type(results) == 'array') ? results[0] : false;
 		$$('.editor_label').setStyle('opacity',0.8);
 		if (result) {
 			result.getElement('.editor_label').setStyle('opacity', 0.3);
 			this.result = result.getElement('iframe');
 		}
-		this.resize();
+		
+		// resize
+		this.resizeWithDelay();
+		
 		this.fireEvent('ready');
 	},
+	resizeWithDelay: function() {
+		this.resize();
+		// sometimes size is counted with scrollbars (especially in webkit)
+		(function() { return this.resize(); }.bind(this) ).delay(100);
+		// after scrollbars are removed - resize again to the right size
+		(function() { return this.resize(); }.bind(this) ).delay(300);
+	},
 	resize: function(e) {
+		// hide results to measure the size of a window without them
 		if (this.js_edit) this.js_edit.element.hide();
 		if (this.result) this.result.hide();
-		
 		var window_size = window.getSize();
-		var full_width = $('content').getSize().x;
-		var width = Math.floor(full_width / 2) - 10; // width + border
-		
+		// width of textareas and iframe
+		var width = Math.floor($('content').getSize().x / 2) - 10; // 8px gap + 2px border
 		
 		$$('fieldset p').setStyle('width', width + 10);
 
 		if (this.js_edit) {
 			this.js_edit.element.show();
 			var top = this.js_edit.element.getPosition().y;
-			var height = window_size.y - top - 10; // height + border
+			var height = window_size.y - top - 10; // 8px gap + 2px border
 			this.js_edit.element.setStyles({
 				'height': height,
 				'width': width
@@ -81,5 +95,6 @@ var Layout = {
 		this.fireEvent('resize');
 	}
 }
+// add events to Layout object
 $extend(Layout, new Events())
 

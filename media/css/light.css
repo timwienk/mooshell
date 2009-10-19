@@ -56,6 +56,12 @@ body { background: #efefef; }
 .editor_label {
 	background: transparent url(../img/sprites.png) no-repeat -255px -50px;
 }
+/* fullscreen */
+.fullscreen {
+	background: transparent url(../img/sprites.png) no-repeat -301px -320px;
+}
+
+/* editors */
 #content textarea,
 #result iframe {
 	background: #fff;

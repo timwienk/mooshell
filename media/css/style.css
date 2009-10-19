@@ -108,6 +108,8 @@ body { font-family: Helvetica, Arial; }
 	min-width: 190px; width: 98%; height: 150px;
 }
 
+#content textarea { display: block !important;}
+
 #content #id_code_js, 
 #result iframe { height: 250px; min-height: 150px; }
 
@@ -117,4 +119,10 @@ body { font-family: Helvetica, Arial; }
 	z-index: 100; position: absolute; top: 0; right: 6px;
 	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma; 
 	text-align: center;	font-size: 11px; font-weight: bold; 
+}
+/* fullscreen */
+.fullscreen { 
+	display: block; width: 31px; height: 31px; text-indent: -9999px;
+	z-index: 100; position: absolute; bottom: 6px; right: 14px;
+	cursor: pointer;
 }
