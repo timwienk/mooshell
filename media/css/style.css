@@ -58,27 +58,29 @@ body { font-family: Helvetica, Arial; }
 	background-repeat: no-repeat;
 }
 
-#actions #show_result { width: 70px; margin-right: 6px; background-position: 0px -154px; }
-#actions #show_result:hover { background-position: 0px -187px; }
-#actions #show_result:active { background-position: 0px -220px; }
-#actions #show_result span { background-position: 0px -44px; }
+#actions #run { width: 70px; margin-right: 6px; background-position: 0px -154px; }
+#actions #run:hover { background-position: 0px -187px; }
+#actions #run:active { background-position: 0px -220px; }
+#actions #run span { background-position: 0px -44px; }
 
-#actions #save { width: 82px; background-position: -76px -154px; }
-#actions #save:hover { background-position: -76px -187px; }
-#actions #save:active { background-position: -76px -220px; }
-#actions #save span { background-position: 0px -70px; }
+#actions #update { width: 82px; background-position: -76px -154px; }
+#actions #update:hover { background-position: -76px -187px; }
+#actions #update:active { background-position: -76px -220px; }
+#actions #update span { background-position: 0px -70px; }
 /*
 #actions #run { width: 82px; background-position: -76px -154px; }
 #actions #run span { background-position: 6px -26px; }
-
-#actions #save { width: 97px; background-position: -158px -154px; }
-#actions #save span { background-position: 6px -52px; }
 */
+
+#actions #savenew { width: 97px; background-position: -158px -154px; }
+#actions #savenew:hover { background-position: -158px -187px; }
+#actions #savenew:active { background-position: -158px -220px; }
+#actions #savenew span { background-position: 0px -96px; }
 
 #actions #clean { width: 77px; background-position: -255px -154px; }
 #actions #clean:hover { background-position: -255px -187px; }
 #actions #clean:active { background-position: -255px -220px; }
-#actions #clean span { background-position: 0px -96px; }
+#actions #clean span { background-position: 0px -122px; }
 
 /* select link */
 

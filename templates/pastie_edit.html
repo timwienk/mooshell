@@ -23,7 +23,8 @@
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/style.css" %}"/>
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
-		nopairs = {% if nopairs %}true{% else %}false{% endif %};
+		var nopairs = {% if nopairs %}true{% else %}false{% endif %};
+		var get_dependencies_url = '{{ get_dependencies_url|safe }}';
 		window.addEvent('load', function() {
 			$extend(Layout, new Events());
 			var mooshell = new MooShellActions({
@@ -40,6 +41,7 @@
 				smartTypingPairs: false
 			}{% endif %}); // add user defined parameters); // add user defined parameters
 			Layout.start();
+			var mooshellSettings = new MooShellSettings();
 		});
 	</script>
 	{% block head %}{% endblock %}
@@ -52,6 +54,7 @@
 			{% include "_mooshell_actions.html" %}
 		</div>
 		<div id='sidebar'>
+			{# include "_mooshell_settings.html" #}
 			{% include "_mooshell_latest.html" %}
 			{% include "_mooshell_about.html" %}
 			{% include "_mooshell_examples.html" %}

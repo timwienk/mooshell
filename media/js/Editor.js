@@ -13,15 +13,15 @@ var MooShellEditor = new Class({
 		this.setOptions(options);
 		this.tab = this.options.tab;
 		this.parent(el,this.options);
-		this.editorLabelFX = new Fx.Tween(this.element.getParent('p').getElement('.editor_label'))
+		this.editorLabelFX = new Fx.Tween(this.element.getParent('p').getElement('.editor_label'), {property: 'opacity'});
 		//this.add_fullscreen_button();
 		this.element.addEvents({
 			focus: function() {
-				this.editorLabelFX.start('opacity',0.15);
+				this.editorLabelFX.start(0);
 				//this.fullscreen.retrieve('fx').start(0.3);
 			}.bind(this),
 			blur: function() {
-				this.editorLabelFX.start('opacity',1);
+				this.editorLabelFX.start(1);
 				//this.fullscreen.retrieve('fx').start(0);
 			}.bind(this),
 			paste: function() {
@@ -42,7 +42,7 @@ var MooShellEditor = new Class({
 			})
 		this.fullscreen.store(
 			'fx', 
-			new Fx.Tween(this.fullscreen, {'property': 'opacity'}))
+			new Fx.Tween(this.fullscreen, {property: 'opacity'}))
 
 		this.fullscreen.retrieve('fx').set(0);
 	},

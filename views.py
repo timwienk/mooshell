@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 from django.utils import simplejson
 from django.template import Template,RequestContext
 
-from models import Pastie, Shell
+from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSDependency
 from forms import PastieForm, ShellForm
 
 def pastie_edit(req, slug=None, version=0):
@@ -21,7 +21,7 @@ def pastie_edit(req, slug=None, version=0):
 	if slug:
 		shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
 		example_url = ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()])
-		shell.version += 1
+		#shell.version = shell.get_next_version()
 		shellform = ShellForm(instance=shell)
 		pastieform = PastieForm(instance=shell.pastie)
 		c.update({
@@ -51,11 +51,13 @@ def pastie_edit(req, slug=None, version=0):
 					reverse('mooshell_media', args=['js/Layout.js']),
 					reverse("mooshell_media", args=["js/Actions.js"]),
 					reverse("mooshell_media", args=["js/Editor.js"]),
+					reverse("mooshell_media", args=["js/Settings.js"]),
 					],
 			'title': "Shell Editor",
 			'example_url': example_url,
 			'web_server': 'http://%s' % req.META['SERVER_NAME'],
-			'nopairs': nopairs
+			'nopairs': nopairs,
+			'get_dependencies_url': reverse("_get_dependencies", args=["lib_id"]).replace('lib_id','{lib_id}')
 			})
 	return render_to_response('pastie_edit.html',c,
 							context_instance=RequestContext(req))
@@ -88,12 +90,22 @@ def pastie_save(req, nosave=False):
 				# at the moment no versioning - just saving with version 0
 				if not pastie.slug:
 					allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-					from random import choice
-					pastie.slug =  ''.join([choice(allowed_chars) for i in range(settings.MOOSHELL_SLUG_LENGTH)]) #here some random stuff
+					check_slug = True
+					while check_slug:
+						from random import choice
+						pastie.slug =  ''.join([choice(allowed_chars) for i in range(settings.MOOSHELL_SLUG_LENGTH)]) #here some random stuff
+						try:
+							check_slug = Pastie.objects.get(slug=pastie.slug)
+						except: 
+							check_slug = False
 					#TODO: check if slug already exists - create another if so
 					
 				pastie.save()
+				
 				shell.pastie = pastie
+				if slug:
+					shell.set_next_version()
+					
 				shell.save()
 				" return json with pastie url "
 				return HttpResponse(simplejson.dumps(
@@ -131,6 +143,10 @@ def pastie_show(req, slug, version=0):
 									]
 							})
 
+def show_part(req, slug, part, version=0):
+	shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
+	return render_to_response('show_part.html', 
+								{'content': getattr(shell, 'code_'+part)})
 
 def ajax_json_echo(req):
 	" echo GET and POST "
@@ -170,3 +186,8 @@ def serve_static(request, path):
 	if os.path.exists(os.path.join(media,path)) and os.path.isfile(os.path.join(media,path)):
 		return static.serve( request, path, media)
 	raise Http404 
+
+def get_dependencies(request, lib_id): 
+	dependencies = JSDependency.objects.filter(library__id=lib_id)
+	c = [{'id': d.id, 'name': d.name, 'selected': d.selected} for d in dependencies ]
+	return HttpResponse(simplejson.dumps(c),mimetype='application/javascript')

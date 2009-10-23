@@ -56,8 +56,14 @@ class Shell(models.Model):
 			return  ('pastie',[self.pastie.slug])
 		return ('shell',[self.pastie.slug,self.version])
 	
+	def get_next_version(self):
+		shell_with_highest_version = Shell.objects.filter(pastie=self.pastie).order_by('-version')[0]
+		return shell_with_highest_version.version + 1
 	
-def increse_version_on_save(instance, **kwargs):
+	def set_next_version(self):
+		self.version = self.get_next_version()
+	
+def increase_version_on_save(instance, **kwargs):
 	if kwargs.get('raw',False): return
 	if kwargs.get('created'):
 		# check if any shell exists for the pastie
@@ -69,18 +75,23 @@ def increse_version_on_save(instance, **kwargs):
 		print version
 		instance.version = version
 		instance.save()
-pre_save.connect(increse_version_on_save, sender=Shell)
+pre_save.connect(increase_version_on_save, sender=Shell)
 
 
-class JSLibrary(models.Model):
+class JSLibraryGroup(models.Model):
 	"""
 	Main library to load - MooTools core, jQuery, Prototype, etc.
 	"""
-	name = models.CharField('Name', max_length=100)
-	url = models.URLField('URL to the core library file')
-	version = models.CharField(max_length=30, null=True, blank=True)
+	name = models.CharField('Name', max_length=100, unique=True)
 	description = models.TextField(blank=True, null=True)
+	selected = models.BooleanField(blank=True, default=False)
 
+class JSLibrary(models.Model):
+	library_group = models.ForeignKey(JSLibraryGroup)
+	version = models.CharField(max_length=30, null=True, blank=True)
+	url = models.URLField('URL to the core library file')
+	selected = models.BooleanField(blank=True, default=False)
+	
 
 class JSDependency(models.Model):
 	"""
@@ -90,6 +101,7 @@ class JSDependency(models.Model):
 	name = models.TextField('Name')
 	url = models.URLField('URL to the library file')
 	description = models.TextField(blank=True, null=True)
+	selected = models.BooleanField(blank=True, default=False)
 	
 	
 class Example(models.Model):
