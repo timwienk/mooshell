@@ -1,0 +1,3 @@
+{% for lib in libraries %}
+<option value="{{ lib.id }}"{% if lib.selected %} selected="selected"{% endif %}>{{ group_name }} {{ lib.version }}</option>
+{% endfor %}

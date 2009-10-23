@@ -1,0 +1,11 @@
+{% load mooshell_extras %}
+<h3 class='toggler'>Settings</h3>
+<div class='element'>
+	<p>new version: {{ shell.version }}</p>
+	<select name='js_library' id='js_library'>
+	{% get_js_libraries %}
+	</select>
+	
+	<ul id='js_dependency'>
+	</ul>
+</div>
