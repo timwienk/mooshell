@@ -6,102 +6,126 @@
 	<meta name="keywords" edit="mootools,javascript,javascript framework,shell,test">
 	<meta name="robots" edit="all">
 
-	<title>Error 404 | mooShell | to test your Mootools code</title>
+	<title>Error 404 {{ title_separator }}{{ project_name }}{{ seo_title_tail }}</title>
 	
 	<meta name="author" edit="Piotr Zalewa">
 	<meta name='copyright' content='share alike'/>
 
-	<script type="text/javascript" src="{% url media "js/lib/mootools-1.2.3-core-yc.js" %}"></script>
-	<script type="text/javascript" src="{% url media "js/lib/mootools-1.2.3.1-more.js" %}"></script>
-	<script type="text/javascript" src="{% url media "js/lib/posteditor-clientcide-trunk-2.1.0.js" %}"></script>
-	<script type="text/javascript" src="{% url media "js/layout.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/mooShell/Actions.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/mooShell/Editor.js" %}"></script>
-	<link rel="stylesheet" type="text/css" href="{% url media "css/normalize.css" %}"/>
-	<link rel="stylesheet" type="text/css" href="{% url media "css/tricks.css" %}"/>	
+	<script type="text/javascript" src="{% url mooshell_media "js/lib/mootools-1.2.4-core-yc.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/lib/mootools-1.2.4.1-more.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/lib/posteditor-clientcide-trunk-2.1.0.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/Layout.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/Actions.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/Editor.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/Settings.js" %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/normalize.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/tricks.css" %}"/>	
 	<!--[if lte IE 6]>
-		<link rel="stylesheet" type="text/css" href="{% url media "css/ie-hacks.css" %}"/>
+		<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/ie-hacks.css" %}"/>
 	<![endif]-->
-	<link rel="stylesheet" type="text/css" href="{% url media "css/style.css" %}"/>	
-	<link rel="stylesheet" type="text/css" href="{% url media "css/colors.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/style.css" %}"/>	
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/light.css" %}"/>
 
-	
-	<script type="text/javascript">
-		window.addEvent('domready',function() {			
+	<script type='text/javascript'>
+		var no_pairs = false;		
+		var get_dependencies_url = '/_get_dependencies/xxx/';
+		window.addEvent('load', function() {
 			$extend(Layout, new Events());
-			Layout.start();
-			Layout.resize();
 			var mooshell = new MooShellActions({
 				exampleURL: "",
 				exampleSaveUrl: '{% url pastie_save %}'
-			}).run();	
-			Layout.js_editor = new MooShellEditor.JS($('id_code_js')); 
-			Layout.html_editor = new MooShellEditor.HTML($('id_code_html')); 
-			Layout.css_editor = new MooShellEditor.CSS($('id_code_css'));  
-		})
+			}).run();
+			new MooShellEditor.JS($('id_code_js'));
+			new MooShellEditor.HTML($('id_code_html'));
+			new MooShellEditor.CSS($('id_code_css'));
+			Layout.start();
+		});
 	</script>
 </head>
 <body>
-<form method='post' id='show-result' target='result' action='/_display/' >
-	<div id='sidebar'>
-		<div id='branding'>
-			<p id='name'><a href='/' id='home'>mooShell</a>(404)</p>
+	
+	<form method='post' id='show-result' target='result' action='/_display/' >
+		<div id='header'>
+			<div id='branding'>
+				<p id='name'><a href='/' id='home'>MooShell (alpha - 404)</a></p>
+			</div>
+			<div id='actions'>
+				<a id='run'><span>Run</span></a>
+				<a id="savenew"><span>Save New</span></a> 
+				<a id='clean'><span>Clean</span></a>
+			</div>
 		</div>
-		{% include "_mooshell_actions.html" %}
-		<h3>Error 404</h3>
-		<div class='element'>
-			<p>
-				We did our best searching for it, but it seems that this example
-				does not exist in our database. It may be it is expired or deleted.
-			</p>
+		
+		<div id='sidebar'>
+			<h3>Error 404</h3>
+			<div class='text'>
+				<p>
+					We did our best search, but it seems that this <em>shell</em>
+					does not exist in our database. It may be expired or deleted.
+				</p>
+			</div>
+			{% include "_mooshell_latest.html" %}
+			{% include "_mooshell_about.html" %}
+			{% include "_mooshell_examples.html" %}
+			{% include "_mooshell_options.html" %}
+			<h3>License</h3>
+
+			<div class='text'>
+			{% comment %}
+				<p>All code is published under MIT-style license unless specified otherwise.</p>
+			{% endcomment %}
+				<p>All code belongs to the poster and no license is enforced</p>
+			</div>
 		</div>
-		{% include "_mooshell_latest.html" %}
-		{% include "_mooshell_about.html" %}
-		{% include "_mooshell_examples.html" %}
-		{% include "_mooshell_options.html" %}
-	</div>
-	<div id="content">
-		<fieldset class="fieldset_static">
-					<p class="optional">
-						<label for="id_code_html">HTML</label>
-						<textarea id="id_code_html" rows="10" cols="40" name="code_html"><h1>Error 404.</h1>
+		
+		
+		<div id="content">		
+			<input type="hidden" name="slug" id="id_slug" />
+			<input type="hidden" name="version" id="id_version" />
+			<fieldset class='fieldset_static'>
+				<p class='optional'>
+					<textarea id="id_code_html" rows="10" cols="40" name="code_html"><h1>Error 404.</h1>
 <p id='error'>I'm sorry, but this example does not exist.</p></textarea>
-					</p>
-					<p class="optional">
-						<label for="id_code_css">CSS</label>
-						<textarea id="id_code_css" rows="10" cols="40" name="code_css">#error { 
+					<span class='editor_label'>HTML</span>
+				</p>
+				<p class='optional'>
+					<textarea id="id_code_css" rows="10" cols="40" name="code_css">#error { 
   padding: 4px; 
   border: 1px solid #f90; 
   background: #ff9; 
 }</textarea>
-					</p>
-		</fieldset>
-		<fieldset class="fieldset_">
-					<p class="optional">
-						<label for="id_code_js">Javascript</label>
-						<textarea id="id_code_js" rows="10" cols="40" name="code_js">var err = new Fx.Tween('error', {
+					<span class='editor_label'>CSS</span>
+				</p>
+			</fieldset>
+			<fieldset class=''>
+				<p class='optional'>
+					<textarea id="id_code_js" rows="10" cols="40" name="code_js">var err = new Fx.Tween('error', {
   link: 'chain',
   property: 'opacity',
   duration: 1000
 });
 (function() { 
   err.start(0.5).start(1);
-}).periodical(1000);
-</textarea>
-					</p>
-						<p id='result'><label id='result_label'>Result</label><iframe name='result'></iframe></p>
-		</fieldset>
-</div>
-</form>
-
-<script type="text/javascript">
-	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-	try {
-		var pageTracker = _gat._getTracker("UA-366077-12");
-		pageTracker._trackPageview();
-	} catch(err) {}
-</script>
+}).periodical(1000);</textarea>
+					<span class='editor_label'>JavaScript</span>
+				</p>
+				<p id='result'>
+					<iframe name='result'></iframe>
+					<span class='editor_label'>Result</span>
+				</p>
+			</fieldset>
+		</form>	
+	</div>
+	
+	
+	<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		try {
+			var pageTracker = _gat._getTracker("UA-366077-12");
+			pageTracker._trackPageview();
+		} catch(err) {}
+	</script>
 </body></html>

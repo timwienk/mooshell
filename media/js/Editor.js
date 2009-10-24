@@ -21,7 +21,7 @@ var MooShellEditor = new Class({
 				//this.fullscreen.retrieve('fx').start(0.3);
 			}.bind(this),
 			blur: function() {
-				this.editorLabelFX.start(1);
+				this.editorLabelFX.start(0.8);
 				//this.fullscreen.retrieve('fx').start(0);
 			}.bind(this),
 			paste: function() {
