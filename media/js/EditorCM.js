@@ -52,7 +52,8 @@ var MooShellEditor = new Class({
 	hide: function() {
 		if (this.editor) {
 			this.element.hide();
-			return this.editor.frame.hide();
+			if (this.editor.frame) this.editor.frame.hide();
+			return this.editor.frame;
 		}
 		return this.element.hide();
 	},

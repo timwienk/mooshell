@@ -5,18 +5,18 @@
 
 Element.implement({
 	getInnerWidth: function() {
-		return this.getSize().x 
-				- this.getStyle('padding-left').toInt()
-				- this.getStyle('padding-right').toInt()
-				- this.getStyle('border-left-width').toInt()
-				- this.getStyle('border-right-width').toInt()
+		return this.getSize().x - 
+				this.getStyle('padding-left').toInt() - 
+				this.getStyle('padding-right').toInt() -
+				this.getStyle('border-left-width').toInt() -
+				this.getStyle('border-right-width').toInt();
 	},
 	getInnerHeight: function() {
-		return this.getSize().y 
-				- this.getStyle('padding-top').toInt()
-				- this.getStyle('padding-bottom').toInt()
-				- this.getStyle('border-top-width').toInt()
-				- this.getStyle('border-bottom-width').toInt()
+		return this.getSize().y - 
+				this.getStyle('padding-top').toInt() -
+				this.getStyle('padding-bottom').toInt() -
+				this.getStyle('border-top-width').toInt() -
+				this.getStyle('border-bottom-width').toInt();
 	}
 });
 
@@ -28,10 +28,10 @@ var Layout = {
 		this.sidebar = new Sidebar({
 			DOM: 'sidebar',
 			onActive: function(){
-				var self = this
+				var self = this;
 				// resize needed as accordion height may be changed and scrollbar may appear
 				// add delay to make accordion set it's height
-				return (function() {self.resize()}.delay(700));
+				return (function() {self.resize();}.delay(700));
 			}.bind(this)
 		});
 		window.addEvent('resize', this.resizeWithDelay.bind(this));
@@ -66,16 +66,16 @@ var Layout = {
 	},
 	resize: function(e) {
 		// hide results to measure the size of a window without them
-		
+		var height, window_size, offset, width, js, js_top, top;
 		this.editors.each( function(ed) {
 			ed.hide();
 		});
 		if (this.result) this.result.hide();
 		
-		var window_size = window.getSize();
+		window_size = window.getSize();
 		// width of textareas and iframe
-		var offset = 10; // options?
-		var width = Math.floor($('content').getInnerWidth() / 2) - offset;
+		offset = 10; // options?
+		width = Math.floor($('content').getInnerWidth() / 2) - offset;
 		
 		$$('fieldset p').setStyle('width', width + offset);
 
@@ -86,18 +86,18 @@ var Layout = {
 		});
 		
 		// get JS height
-		if (this.editors['js']) {
-			var js = this.editors['js'];
-			var js_top = js.getPosition().y;
-			var height = window_size.y - js_top - offset;
+		if (this.editors.js) {
+			js = this.editors.js;
+			js_top = js.getPosition().y;
+			height = window_size.y - js_top - offset;
 			js.setStyle('height', height);
 		}
 
 		if (this.result) {
 			this.result.show();
-			if (!this.editors['js']) {
-				var top = this.result.getPosition().y;
-				var height = window_size.y - top - offset;
+			if (!this.editors.js) {
+				top = this.result.getPosition().y;
+				height = window_size.y - top - offset;
 			}
 			this.result.setStyles({
 				'height': height,
@@ -107,7 +107,7 @@ var Layout = {
 		
 		this.fireEvent('resize');
 	}
-}
+};
 // add events to Layout object
-$extend(Layout, new Events())
+$extend(Layout, new Events());
 
