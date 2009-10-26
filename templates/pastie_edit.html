@@ -24,6 +24,8 @@
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
 		var nopairs = {% if nopairs %}true{% else %}false{% endif %};
+		var mediapath = "{% url mooshell_media "" %}";
+		var codemirrorpath = "{% url mooshell_media "js/lib/codemirror-0.64/" %}";
 		var get_dependencies_url = '{{ get_dependencies_url|safe }}';
 		window.addEvent('load', function() {
 			$extend(Layout, new Events());
@@ -31,15 +33,15 @@
 				exampleURL: "{{ example_url }}",
 				exampleSaveUrl: '{% url pastie_save %}'
 			});
-			new MooShellEditor.JS($('id_code_js'){% if nopairs %},{
-				smartTypingPairs: false
-			}{% endif %}); // add user defined parameters
-			new MooShellEditor.HTML($('id_code_html'){% if nopairs %},{
-				smartTypingPairs: false
-			}{% endif %}); // add user defined parameters); // add user defined parameters
-			new MooShellEditor.CSS($('id_code_css'){% if nopairs %},{
-				smartTypingPairs: false
-			}{% endif %}); // add user defined parameters); // add user defined parameters
+			new MooShellEditor.JS($('id_code_js'),{
+				{% if nopairs %}smartTypingPairs: false,{% endif %}
+			}); // add user defined parameters
+			new MooShellEditor.HTML($('id_code_html'), {
+				{% if nopairs %}smartTypingPairs: false,{% endif %}
+			}); // add user defined parameters
+			new MooShellEditor.CSS($('id_code_css'), {
+				{% if nopairs %}smartTypingPairs: false,{% endif %}
+			}); // add user defined parameters
 			Layout.start();
 			{# var mooshellSettings = new MooShellSettings(); #}
 		});

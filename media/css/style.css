@@ -104,13 +104,16 @@ body { font-family: Helvetica, Arial; }
 }
 
 #content textarea,
-#result iframe { 
+#result iframe,
+body.editbox { 
 	font-family: "Inconsolata", "Monaco", Courier, monospace;
 	line-height:15px; font-size: 12px;
 	min-width: 190px; width: 98%; height: 150px;
 }
+.fieldset_static iframe { height: 150px !important; }
+
 /* resizing sets display to inline, this overrides */
-#content textarea { display: block !important;}
+#content textarea { display: block;}
 
 #content #id_code_js, 
 #result iframe { height: 250px; min-height: 150px; }

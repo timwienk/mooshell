@@ -1,0 +1,5 @@
+/* generic styles for CodeMirror */
+body.editbox { 
+	font-family: "Inconsolata", "Monaco", Courier, monospace;
+	line-height:15px; font-size: 12px;
+}

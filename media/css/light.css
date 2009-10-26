@@ -8,7 +8,6 @@ body { background: #efefef; }
 
 #sidebar #branding #home { color: #444; }
 
-
 #sidebar a { color: #36f; }
 
 #content textarea,
@@ -63,10 +62,11 @@ body { background: #efefef; }
 
 /* editors */
 #content textarea,
-#result iframe {
-	background: #fff;
-	border-top: 1px solid #959595;
-	border-left: 1px solid #959595;
-	border-bottom: 1px solid #ccc;
-	border-right: 1px solid #ccc;
+#content fieldset iframe {
+	background: #fff !important;
+	border-top: 1px solid #959595 !important;
+	border-left: 1px solid #959595 !important;
+	border-bottom: 1px solid #ccc !important;
+	border-right: 1px solid #ccc !important;
 }
+
