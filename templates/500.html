@@ -14,10 +14,15 @@
 	<script type="text/javascript" src="{% url mooshell_media "js/lib/mootools-1.2.4-core-yc.js" %}"></script>
 	<script type="text/javascript" src="{% url mooshell_media "js/lib/mootools-1.2.4.1-more.js" %}"></script>
 	<script type="text/javascript" src="{% url mooshell_media "js/lib/posteditor-clientcide-trunk-2.1.0.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/Layout.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/lib/codemirror-0.64/js/codemirror.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/lib/codemirror-0.64/js/mirrorframe.js" %}"></script>
+
+	<script type="text/javascript" src="{% url mooshell_media "js/Sidebar.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/LayoutCM.js" %}"></script>
 	<script type="text/javascript" src="{% url mooshell_media "js/Actions.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/Editor.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_media "js/EditorCM.js" %}"></script>
 	<script type="text/javascript" src="{% url mooshell_media "js/Settings.js" %}"></script>
+
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/normalize.css" %}"/>
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/tricks.css" %}"/>	
 	<!--[if lte IE 6]>
@@ -28,17 +33,26 @@
 
 	<script type='text/javascript'>
 		var no_pairs = false;		
-		var get_dependencies_url = '/_get_dependencies/xxx/';
+		var mediapath = "{% url mooshell_media "/" %}";
+		var codemirrorpath = "{% url mooshell_media "js/lib/codemirror-0.64/" %}";
+		var get_dependencies_url = '{{ get_dependencies_url|safe }}';
 		window.addEvent('load', function() {
 			$extend(Layout, new Events());
 			var mooshell = new MooShellActions({
-				exampleURL: "",
+				exampleURL: "{{ example_url }}",
 				exampleSaveUrl: '{% url pastie_save %}'
 			}).run();
-			new MooShellEditor.JS($('id_code_js'));
-			new MooShellEditor.HTML($('id_code_html'));
-			new MooShellEditor.CSS($('id_code_css'));
+			new MooShellEditor.JS($('id_code_js'),{
+				{% if nopairs %}smartTypingPairs: false,{% endif %}
+			}); // add user defined parameters
+			new MooShellEditor.HTML($('id_code_html'), {
+				{% if nopairs %}smartTypingPairs: false,{% endif %}
+			}); // add user defined parameters
+			new MooShellEditor.CSS($('id_code_css'), {
+				{% if nopairs %}smartTypingPairs: false,{% endif %}
+			}); // add user defined parameters
 			Layout.start();
+			{# var mooshellSettings = new MooShellSettings(); #}
 		});
 	</script>
 </head>

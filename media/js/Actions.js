@@ -22,11 +22,18 @@ var MooShellActions = new Class({
 	 */
 	initialize: function(options) {
 		this.setOptions(options);
-		if ($(this.options.saveAndReloadId)) $(this.options.saveAndReloadId).addEvent('click', this.saveAndReload.bind(this));
-		if ($(this.options.saveAsNewId)) $(this.options.saveAsNewId).addEvent('click', this.saveAsNew.bind(this));
-		if ($(this.options.runId)) $(this.options.runId).addEvent('click', this.run.bind(this));
-		if ($(this.options.cleanId)) $(this.options.cleanId).addEvent('click', this.cleanEntries.bind(this));
+		if ($(this.options.saveAndReloadId)) 
+			$(this.options.saveAndReloadId).addEvent('click', this.saveAndReload.bind(this));
+		if ($(this.options.saveAsNewId)) 
+			$(this.options.saveAsNewId).addEvent('click', this.saveAsNew.bind(this));
+		if ($(this.options.runId)) 
+			$(this.options.runId).addEvent('click', this.run.bind(this));
+		if ($(this.options.cleanId)) 
+			$(this.options.cleanId).addEvent('click', this.cleanEntries.bind(this));
 		// actions run if shell loaded
+		
+		this.form = document.id(this.options.formId);
+		
 		if (this.options.exampleURL) {
 			this.run(),
 			this.displayExampleURL()
@@ -34,7 +41,7 @@ var MooShellActions = new Class({
 	},
 	// save and create new pastie
 	saveAsNew: function() {
-		var form = $(this.options.formId);
+		Layout.updateFromMirror();
 		$('id_slug').value='';
 		$('id_version').value='0';
 		new Request.JSON({
@@ -43,26 +50,28 @@ var MooShellActions = new Class({
 				// reload page after successful save
 				window.location = json.pastie_url + (nopairs ? "?nopairs=save" : '');
 			}
-		}).send(form);
+		}).send(this.form);
 	},
 	// update existing (create shell with new version)
 	saveAndReload: function() {
-		var form = $(this.options.formId);
+		Layout.updateFromMirror();
 		new Request.JSON({
 			'url': this.options.exampleSaveUrl,
 			'onSuccess': function(json) {
 				// reload page after successful save
 				window.location = json.pastie_url + (nopairs ? "?nopairs=save" : '');
 			}
-		}).send(form);
+		}).send(this.form);
 	},
 	// run - submit the form (targets to the iframe)
 	run: function() { 
+		Layout.updateFromMirror();
 		document.id(this.options.formId).submit();
 		this.fireEvent('run');
 	},
 	// clean all entries, rename example to default value
 	cleanEntries: function () {
+		// here reload Mirrors
 		$$(this.options.entriesSelector).each( function(t) {t.value='';});
 		if (this.resultText) {
 			document.id(this.options.resultLabel).set('text', this.resultText);
