@@ -10,6 +10,9 @@ var MooShellEditor = new Class({
 	options: {
 		useCodeMirror: true,
 		codeMirrorOptions: {
+			lineNumbers: false,
+			indentUnit: 4,
+			tabMode: 'shift'
 		}
 	},
 	initialize: function(el, options) {
