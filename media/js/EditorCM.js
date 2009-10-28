@@ -13,7 +13,8 @@ var MooShellEditor = new Class({
 		}
 	},
 	initialize: function(el, options) {
-		this.element = document.id(el);
+		//options.useCodeMirror = false;
+		this.element = $(el);
 		this.element.hide();
 		if (this.occlude()) return this.occluded; 
 		this.setOptions(options);
@@ -52,25 +53,24 @@ var MooShellEditor = new Class({
 	hide: function() {
 		if (this.editor) {
 			this.element.hide();
-			if (this.editor.frame) this.editor.frame.hide();
-			return this.editor.frame;
+			if (this.editor.frame) return $(this.editor.frame).hide();
 		}
 		return this.element.hide();
 	},
 	show: function() {
-		if (this.editor) return this.editor.frame.show();
+		if (this.editor) return $(this.editor.frame).show();
 		return this.element.show();
 	},
 	setStyle: function(key, value) {
-		if (this.editor) return this.editor.frame.setStyle(key, value);
+		if (this.editor) return $(this.editor.frame).setStyle(key, value);
 		return this.element.setStyle(key, value);
 	},
 	setStyles: function(options) {
-		if (this.editor) return this.editor.frame.setStyles(options);
+		if (this.editor) return $(this.editor.frame).setStyles(options);
 		return this.element.setStyles(options);
 	},
 	getPosition: function() {
-		if (this.editor) return this.editor.frame.getPosition();
+		if (this.editor) return $(this.editor.frame).getPosition();
 		return this.element.getPosition();
 	}
 });

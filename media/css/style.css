@@ -99,7 +99,7 @@ body { font-family: Helvetica, Arial; }
 
 
 #content fieldset p { 
-	width: 49.5%; float: left; display: inline; 
+	width: 49.5%; float: left; 
 	position: relative;
 }
 

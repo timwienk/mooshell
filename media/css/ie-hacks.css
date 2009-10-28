@@ -2,3 +2,8 @@
 	zoom: 1;     /* triggers hasLayout */
 	display: block;     /* resets display for IE/Win */
 }  
+
+#sidebar,
+#actions a,
+#select_link,
+#content fieldset p { display: inline; }

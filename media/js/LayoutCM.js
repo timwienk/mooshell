@@ -60,11 +60,13 @@ var Layout = {
 	resizeWithDelay: function() {
 		this.resize();
 		// sometimes size is counted with scrollbars (especially in webkit)
-		 (function() { return this.resize(); }.bind(this) ).delay(3);
+		// (function() { return this.resize(); }.bind(this) ).delay(3);
 		// after scrollbars are removed - resize again to the right size
 		 (function() { return this.resize(); }.bind(this) ).delay(10);
 	},
 	resize: function(e) {
+		// there is a need to do some IE fixes
+		var ie_offset = (Browser.Engine.trident) ? 2 : 0; 
 		// hide results to measure the size of a window without them
 		var height, window_size, offset, width, js, js_top, top;
 		this.editors.each( function(ed) {
@@ -74,10 +76,10 @@ var Layout = {
 		
 		window_size = window.getSize();
 		// width of textareas and iframe
-		offset = 10; // options?
+		offset = 10 + ie_offset; // options?
 		width = Math.floor($('content').getInnerWidth() / 2) - offset;
 		
-		$$('fieldset p').setStyle('width', width + offset);
+		$$('fieldset p').setStyle('width', width + offset - ie_offset);
 
 		// set all editors width
 		this.editors.each( function(ed) {

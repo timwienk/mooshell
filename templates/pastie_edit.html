@@ -27,7 +27,7 @@
 		var mediapath = "{% url mooshell_media "" %}";
 		var codemirrorpath = "{% url mooshell_media "js/lib/codemirror-0.64/" %}";
 		var get_dependencies_url = '{{ get_dependencies_url|safe }}';
-		window.addEvent('load', function() {
+		window.addEvent('domready', function() {
 			$extend(Layout, new Events());
 			var mooshell = new MooShellActions({
 				exampleURL: "{{ example_url }}",
