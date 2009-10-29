@@ -16,7 +16,7 @@ var MooShellEditor = new Class({
 		}
 	},
 	initialize: function(el, options) {
-		//options.useCodeMirror = false;
+		if (Browser.Engine.trident) options.useCodeMirror = false;
 		this.element = $(el);
 		this.element.hide();
 		if (this.occlude()) return this.occluded; 
