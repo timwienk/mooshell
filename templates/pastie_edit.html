@@ -23,15 +23,16 @@
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/style.css" %}"/>
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
-		var nopairs = {% if nopairs %}true{% else %}false{% endif %};
-		var mediapath = "{% url mooshell_media "" %}";
-		var codemirrorpath = "{% url mooshell_media "js/lib/codemirror-0.64/" %}";
-		var get_dependencies_url = '{{ get_dependencies_url|safe }}';
+		var nopairs = {% if nopairs %}true{% else %}false{% endif %},
+			mediapath = "{% url mooshell_media "" %}",
+			codemirrorpath = "{% url mooshell_media "js/lib/codemirror-0.64/" %}",
+			mooshell;
 		window.addEvent('domready', function() {
 			$extend(Layout, new Events());
-			var mooshell = new MooShellActions({
+			mooshell = new MooShellActions({
 				exampleURL: "{{ example_url }}",
-				exampleSaveUrl: '{% url pastie_save %}'
+				exampleSaveUrl: '{% url pastie_save %}',
+				loadDependenciesURL: '{{ get_dependencies_url|safe }}'
 			});
 			new MooShellEditor.JS($('id_code_js'),{
 				{% if nopairs %}smartTypingPairs: false,{% endif %}
@@ -45,6 +46,12 @@
 			Layout.start();
 			{# var mooshellSettings = new MooShellSettings(); #}
 		});
+		{% if not example_url %}
+			window.addEvent('load', function() {
+				Layout.sidebar.accordion
+					.display(Layout.sidebar.accordion.togglers.indexOf($("about_toggler")));
+			});
+		{% endif %}
 	</script>
 	{% block head %}{% endblock %}
 </head><body>
@@ -56,9 +63,9 @@
 			{% include "_mooshell_actions.html" %}
 		</div>
 		<div id='sidebar'>
-			{# include "_mooshell_settings.html" #}
-			{% include "_mooshell_latest.html" %}
+			{% include "_mooshell_settings.html" %}
 			{% include "_mooshell_about.html" %}
+			{% include "_mooshell_latest.html" %}
 			{% include "_mooshell_examples.html" %}
 			{% include "_mooshell_options.html" %}
 			{% include "_mooshell_credits.html" %}

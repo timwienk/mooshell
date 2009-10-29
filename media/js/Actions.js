@@ -15,7 +15,8 @@ var MooShellActions = new Class({
 		resultLabel: 'result_label',
 		resultInput: 'select_link',
 		exampleURL: '',
-		exampleSaveURL: ''
+		exampleSaveURL: '',
+		loadDependenciesURL: ''
 	},
 	/*
 	 * Assign actions
@@ -99,6 +100,22 @@ var MooShellActions = new Class({
 			}
 			// resultInput.select();
 		}
-			
+	},
+	loadDependencies: function(lib_id) {
+		new Request.JSON({
+			url: this.options.loadDependenciesURL.substitute({lib_id: lib_id}),
+			onSuccess: function(response) {
+				$('js_dependency').empty();
+				response.each(function (dep) {
+					new Element('li', {
+						html: [
+							"<input id='dep_{id}' type='checkbox' name='dep_{id}' value='on'/>",
+							"<label for='dep_{id}'>{name}</label>"
+							].join('').substitute(dep)
+					}).inject($('js_dependency'));
+					if (dep.selected) $('dep_'+dep.id).set('checked', true);
+				});
+			}
+		}).send()
 	}
 });

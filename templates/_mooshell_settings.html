@@ -1,11 +1,24 @@
 {% load mooshell_extras %}
 <h3 class='toggler'>Settings</h3>
 <div class='element'>
-	<p>new version: {{ shell.version }}</p>
-	<select name='js_library' id='js_library'>
+	<select name='js_lib' id='js_lib'>
 	{% get_js_libraries %}
 	</select>
 	
 	<ul id='js_dependency'>
 	</ul>
+	
+	<select name='js_wrap' id='js_wrap'>
+		<option value=''>no wrap</option>
+		<option value='d'>onDomready</option>
+		<option value='l' selected='1'>onLoad</option>
+	</select>
 </div>
+<script type='application/javascript'>
+	window.addEvent('load', function() {
+		$('js_lib').addEvent('change', function() {
+			mooshell.loadDependencies(this.value);
+		})
+		mooshell.loadDependencies($('js_lib').value);
+	});
+</script>
