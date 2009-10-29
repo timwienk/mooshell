@@ -16,7 +16,8 @@ var MooShellEditor = new Class({
 		}
 	},
 	initialize: function(el, options) {
-		//options.useCodeMirror = false;
+		// switch off CodeMirror for IE
+		if (Browser.Engine.trident) options.useCodeMirror = false;
 		this.element = $(el);
 		this.element.hide();
 		if (this.occlude()) return this.occluded; 
@@ -52,6 +53,9 @@ var MooShellEditor = new Class({
 	},
 	updateFromMirror: function() {
 		if (this.editor) this.element.set('value', this.editor.getCode());
+	},
+	cleanMirror: function() {
+		if (this.editor) this.editor.setCode('');
 	},
 	hide: function() {
 		if (this.editor) {

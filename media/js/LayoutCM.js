@@ -57,6 +57,11 @@ var Layout = {
 			ed.updateFromMirror();
 		});
 	},
+	cleanMirrors: function() {
+		this.editors.each( function(ed) {
+			ed.cleanMirror();
+		});
+	},
 	resizeWithDelay: function() {
 		this.resize();
 		// sometimes size is counted with scrollbars (especially in webkit)

@@ -72,6 +72,7 @@ var MooShellActions = new Class({
 	// clean all entries, rename example to default value
 	cleanEntries: function () {
 		// here reload Mirrors
+		Layout.cleanMirrors();
 		$$(this.options.entriesSelector).each( function(t) {t.value='';});
 		if (this.resultText) {
 			document.id(this.options.resultLabel).set('text', this.resultText);
