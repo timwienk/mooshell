@@ -98,7 +98,6 @@ class Shell(models.Model):
 	# string representing the author who originated current version (no checks made)
 	modified_by = models.CharField(max_length=255, null=True, blank=True)
 	# loaded library
-	js_lib_group = models.ForeignKey(JSLibraryGroup, blank=True, default=1)
 	js_lib = models.ForeignKey(JSLibrary)
 	js_dependency = models.ManyToManyField(JSDependency)
 	js_wrap = models.CharField(max_length=1, choices=WRAPCHOICE)
@@ -137,6 +136,6 @@ class Example(models.Model):
 	List of examples 
 	"""
 	name = models.CharField(max_length=255)
-	pastie = models.ForeignKey(Pastie, related_name='example', unique=True)
+	shell = models.ForeignKey(Shell, related_name='example', unique=True)
 	
 	
