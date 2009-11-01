@@ -1,3 +1,10 @@
-{% for lib in libraries %}
-<option value="{{ lib.id }}"{% if lib.selected %} selected="selected"{% endif %}>{{ group_name }} {{ lib.version }}</option>
-{% endfor %}
+{% load mooshell_extras %}
+<select name='js_lib' id='js_lib'>
+	{% for lib in libraries %}
+		<option value="{{ lib.id }}"{% if lib.current %} selected="selected"{% endif %}>{{ group_name }} {{ lib.version }}</option>
+	{% endfor %}
+</select>
+
+<ul id='js_dependency'>
+	{% get_js_dependencies current_lib shell %}
+</ul>

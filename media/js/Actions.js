@@ -48,8 +48,12 @@ var MooShellActions = new Class({
 		new Request.JSON({
 			'url': this.options.exampleSaveUrl,
 			'onSuccess': function(json) {
-				// reload page after successful save
-				window.location = json.pastie_url + (nopairs ? "?nopairs=save" : '');
+				if (!json.error) {
+					// reload page after successful save
+					window.location = json.pastie_url + (nopairs ? "?nopairs=save" : '');
+				} else {
+					alert('ERROR: ' + json.error)
+				}
 			}
 		}).send(this.form);
 	},

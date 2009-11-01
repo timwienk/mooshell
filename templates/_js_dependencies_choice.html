@@ -1,0 +1,3 @@
+{% for dep in dependencies %}
+	<input type='checkbox' id='dep_{{ dep.id }}' name='js_dependency[{{ dep.id }}]' value="{{ dep.id }}"{% if dep.current %} checked="checked"{% endif %}/>{{ dep.name }}</option>
+{% endfor %}

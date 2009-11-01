@@ -9,17 +9,32 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.utils import simplejson
 from django.template import Template,RequestContext
+from django.contrib.auth.models import User
 
-from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSDependency
+from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSLibraryWrap, JSDependency
 from forms import PastieForm, ShellForm
 
-def pastie_edit(req, slug=None, version=0):
+def author_pastie_edit(req, author, slug, version=0, revision=0):
+	"""
+	display pastie authored by author
+	"""
+	user = get_object_or_404(User,username=author)
+	shell = get_object_or_404(Shell,
+								pastie__slug=slug,
+								version=version,
+								author=user)
+	return pastie_edit(req, slug, version, revision, shell)
+	
+def pastie_edit(req, slug=None, version=0, revision=0, shell=None):
 	"""
 	display the edit shell page ( main display)
 	"""
 	c = {}
 	if slug:
-		shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
+		if not shell: shell = get_object_or_404(Shell,
+												pastie__slug=slug,
+												version=version,
+												author=None)
 		example_url = ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()])
 		#shell.version = shell.get_next_version()
 		shellform = ShellForm(instance=shell)
@@ -41,6 +56,7 @@ def pastie_edit(req, slug=None, version=0):
 	c.update({
 			'pastieform':pastieform,
 			'shellform':shellform,
+			'shell': shell if shell else None,
 			'css_files': [
 					reverse('mooshell_media', args=["css/light.css"])
 					],
@@ -69,82 +85,111 @@ def pastie_edit(req, slug=None, version=0):
 def pastie_save(req, nosave=False):
 	"""
 	retrieve shell from the form, save or display
+	Fix dependency
 	"""
 	if req.method == 'POST':
 		slug = req.POST.get('slug', None)
 		if slug:
+			" UPDATE - get the instance if slug provided "
 			pastieinstance = get_object_or_404(Pastie,slug=slug)
 			pastieform = PastieForm(req.POST, instance=pastieinstance)
 		else:	
+			" CREATE "
 			pastieform = PastieForm(req.POST)
 			
 		shellform = ShellForm(req.POST)
 			
 		if shellform.is_valid():
+			
+			" Instantiate shell data from the form "
 			shell = shellform.save(commit=False)
 			
+			# add js_dependency
+			dependency_ids = [int(dep[1]) for dep in req.POST.items() if dep[0].startswith('js_dependency')]
+			dependencies = []
+			for dep_id in dependency_ids:
+				dep = JSDependency.objects.get(id=dep_id)
+				dependencies.append(dep)
 			if nosave:
 				" return the pastie page only " 
-				return pastie_display(req, None, shell)
+				return pastie_display(req, None, shell, dependencies)
+			" add user to shell if anyone logged in "
+			if req.user.is_authenticated():
+				shell.author = req.user
 			
 			if pastieform.is_valid():
+				" prepare pastie object from DB and POST "
 				pastie = pastieform.save(commit=False)
-				" create slug from random string"
-				# at the moment no versioning - just saving with version 0
-				if not pastie.slug:
-					allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-					check_slug = True
-					while check_slug:
-						from random import choice
-						pastie.slug =  ''.join([choice(allowed_chars) for i in range(settings.MOOSHELL_SLUG_LENGTH)]) #here some random stuff
-						try:
-							check_slug = Pastie.objects.get(slug=pastie.slug)
-						except: 
-							check_slug = False
-					#TODO: check if slug already exists - create another if so
-					
-				pastie.save()
 				
+				" create slug from random string if needed"
+				if not pastie.slug:
+					pastie.set_slug()
+
+				pastie.save()
+
+				" Connect shell with pastie "
 				shell.pastie = pastie
 				if slug:
 					shell.set_next_version()
 					
 				shell.save()
+				
+				for dep in dependencies:
+					shell.js_dependency.add(dep)
+			
 				" return json with pastie url "
 				return HttpResponse(simplejson.dumps(
 						{'pastie_url': ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()])}
 						),mimetype='application/javascript'
 					)
 			else: error = "Pastie form does not validate %s" % pastieform['slug'].errors
-		else: error = "Shell form does not validate"
+		else: 
+			error = "Shell form does not validate"
+			for s in shellform:
+				if hasattr(s, 'errors') and s.errors:
+					error = error + str(s.__dict__) 
 	else: error = 'Please use POST request'
 	
 	return HttpResponse(simplejson.dumps({'error':error}),
 					mimetype='application/javascript'
 	)
 
-def pastie_display(req, slug, shell=None):
+def pastie_display(req, slug, shell=None, dependencies = []):
 	" render the shell only "
 	if not shell:
 		shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
+		" prepare dependencies if needed "
+		dependencies = shell.js_dependency.all()
+		
+	wrap = getattr(shell.js_lib, 'wrap_'+shell.js_wrap, None) if shell.js_wrap else None
+	if not slug:
+		" assign dependencies from request "
+	
 	return render_to_response('pastie_show.html', {
 									'shell': shell,
+									'dependencies': dependencies,
+									'wrap': wrap,
 									'js_libs': [
 										reverse('mooshell_media', args=[settings.MOOTOOLS_DEV_CORE]),
 										reverse('mooshell_media', args=[settings.MOOTOOLS_MORE])
 									]
 							})
 		
+def author_pastie_show(req, author, slug, version=0):
+	"""
+	display pastie authored by author
+	"""
+	user = get_object_or_404(User,username=author)
+	shell = get_object_or_404(Shell,
+								pastie__slug=slug,
+								version=version,
+								author=user)
+	return pastie_display(req, slug, shell, shell.js_dependency.all())
+
 def pastie_show(req, slug, version=0):
 	" render the shell only "
 	shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
-	return render_to_response('pastie_show.html', {
-									'shell': shell,
-									'js_libs': [
-										reverse('mooshell_media', args=[settings.MOOTOOLS_DEV_CORE]),
-										reverse('mooshell_media', args=[settings.MOOTOOLS_MORE])
-									]
-							})
+	return pastie_display(req, slug, shell, shell.js_dependency.all())
 
 def show_part(req, slug, part, version=0):
 	shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
