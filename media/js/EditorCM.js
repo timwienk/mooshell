@@ -11,6 +11,7 @@ var MooShellEditor = new Class({
 		useCodeMirror: true,
 		codeMirrorOptions: {
 			lineNumbers: false,
+			autoMatchParens: true,
 			indentUnit: 4,
 			tabMode: 'shift'
 		}

@@ -113,7 +113,7 @@ var MooShellActions = new Class({
 				response.each(function (dep) {
 					new Element('li', {
 						html: [
-							"<input id='dep_{id}' type='checkbox' name='dep_{id}' value='on'/>",
+							"<input id='dep_{id}' type='checkbox' name='js_dependency[{id}]' value='{id}'/>",
 							"<label for='dep_{id}'>{name}</label>"
 							].join('').substitute(dep)
 					}).inject($('js_dependency'));
