@@ -4,9 +4,9 @@
 	{% get_js_libraries "Mootools" shell %}
 	
 	<select name='js_wrap' id='js_wrap'>
-		<option value=''{% if shell %}{% if not shell.js_wrap %} selected-'1'{% endif %}{% endif %}>no wrap</option>
-		<option value='d'{% ifequal shell.js_wrap "d" %} selected-'1'{% endifequal %}>onDomready</option>
-		<option value='l'{% ifequal shell.js_wrap "l" %} selected-'1'{% endifequal %}{% if not shell %} selected-'1'{% endif %}>onLoad</option>
+		<option value=''{% if shell %}{% if not shell.js_wrap %} selected='1'{% endif %}{% endif %}>no wrap</option>
+		<option value='d'{% ifequal shell.js_wrap "d" %} selected='1'{% endifequal %}>onDomready</option>
+		<option value='l'{% ifequal shell.js_wrap "l" %} selected='1'{% endifequal %}{% if not shell %} selected='1'{% endif %}>onLoad</option>
 	</select>
 </div>
 <script type='application/javascript'>
