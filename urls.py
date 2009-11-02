@@ -2,6 +2,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('mooshell.views',
     url(r'^mooshellmedia/(?P<path>.*)$', 'serve_static', name='mooshell_media'),
+		url(r'^codemirror/(?P<path>.*)$', 'codemirror_serve_static', name='codemirror'),
 	url(r'^_save/$','pastie_save', name='pastie_save'),
 	url(r'^_display/$','pastie_save', {'nosave': True}, name='pastie_display'),
 	url(r'^ajax_json_response/$','ajax_json_response', name='ajax_json_response'),

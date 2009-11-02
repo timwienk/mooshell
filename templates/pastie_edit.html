@@ -25,7 +25,7 @@
 	<script type='text/javascript'>
 		var nopairs = {% if nopairs %}true{% else %}false{% endif %},
 			mediapath = "{% url mooshell_media "" %}",
-			codemirrorpath = "{% url mooshell_media "js/lib/codemirror-0.64/" %}",
+			codemirrorpath = "{% url codemirror "" %}",
 			mooshell;
 		window.addEvent('domready', function() {
 			$extend(Layout, new Events());

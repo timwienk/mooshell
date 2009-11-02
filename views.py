@@ -64,8 +64,8 @@ def pastie_edit(req, slug=None, version=0, revision=0, shell=None):
 					reverse('mooshell_media', args=[moo]),
 					reverse('mooshell_media', args=[settings.MOOTOOLS_MORE]),
 					reverse('mooshell_media', args=['js/lib/posteditor-clientcide-trunk-2.1.0.js']),
-					reverse('mooshell_media', args=['js/lib/codemirror-0.64/js/codemirror.js']),
-					reverse('mooshell_media', args=['js/lib/codemirror-0.64/js/mirrorframe.js']),
+					reverse('codemirror', args=['js/codemirror.js']),
+					reverse('codemirror', args=['js/mirrorframe.js']),
 					reverse("mooshell_media", args=["js/Sidebar.js"]),
 					reverse('mooshell_media', args=['js/LayoutCM.js']),
 					reverse("mooshell_media", args=["js/Actions.js"]),
@@ -227,6 +227,12 @@ def ajax_json_response(req):
 
 def ajax_html_javascript_response(req):
 	return HttpResponse("<p>A sample paragraph</p><script type='text/javascript'>alert('sample alert');</script>")
+
+def codemirror_serve_static(request, path):
+	media = os.path.join(settings.FRAMEWORK_PATH, 'mooshell/codemirror')
+	if os.path.exists(os.path.join(media,path)) and os.path.isfile(os.path.join(media,path)):
+		return static.serve( request, path, media)
+	raise Http404 
 
 	
 def serve_static(request, path):

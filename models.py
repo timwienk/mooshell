@@ -64,6 +64,7 @@ class JSLibrary(models.Model):
 	
 	class Meta:
 		verbose_name_plural = "JS Library versions"
+		ordering = ["version"]
 
 
 

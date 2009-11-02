@@ -7,3 +7,6 @@
 [submodule "media/js/clientcide"]
 	path = media/js/clientcide
 	url = git://github.com/anutron/clientcide.git
+[submodule "codemirror"]
+	path = codemirror
+	url = git://github.com/marijnh/CodeMirror.git

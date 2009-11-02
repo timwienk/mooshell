@@ -13,7 +13,8 @@ var MooShellEditor = new Class({
 			lineNumbers: false,
 			autoMatchParens: true,
 			indentUnit: 4,
-			tabMode: 'shift'
+			tabMode: 'shift',
+			height: ""
 		}
 	},
 	initialize: function(el, options) {
