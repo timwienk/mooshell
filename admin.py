@@ -28,5 +28,5 @@ admin.site.register(Pastie, PastieAdmin)
 
 
 class ShellAdmin(admin.ModelAdmin):
-	pass	
+	search_fields = ['pastie__slug', 'author__username', 'description', 'code_css', 'code_html', 'code_js'] 
 admin.site.register(Shell, ShellAdmin)
