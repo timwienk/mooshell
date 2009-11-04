@@ -191,8 +191,15 @@ def pastie_show(req, slug, version=0):
 	shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
 	return pastie_display(req, slug, shell, shell.js_dependency.all())
 
+
+def author_show_part(req, author, slug, part, version=0):
+	user = get_object_or_404(User,username=author)
+	shell = get_object_or_404(Shell,pastie__slug=slug,version=version,author=user)
+	return render_to_response('show_part.html', 
+								{'content': getattr(shell, 'code_'+part)})
+
 def show_part(req, slug, part, version=0):
-	shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
+	shell = get_object_or_404(Shell,pastie__slug=slug,version=version,author=None)
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
