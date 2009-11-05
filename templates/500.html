@@ -14,8 +14,8 @@
 	<script type="text/javascript" src="{% url mooshell_media "js/lib/mootools-1.2.4-core-yc.js" %}"></script>
 	<script type="text/javascript" src="{% url mooshell_media "js/lib/mootools-1.2.4.1-more.js" %}"></script>
 	<script type="text/javascript" src="{% url mooshell_media "js/lib/posteditor-clientcide-trunk-2.1.0.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/lib/codemirror-0.64/js/codemirror.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/lib/codemirror-0.64/js/mirrorframe.js" %}"></script>
+	<script type="text/javascript" src="{% url codemirror "js/codemirror.js" %}"></script>
+	<script type="text/javascript" src="{% url codemirror "js/mirrorframe.js" %}"></script>
 
 	<script type="text/javascript" src="{% url mooshell_media "js/Sidebar.js" %}"></script>
 	<script type="text/javascript" src="{% url mooshell_media "js/LayoutCM.js" %}"></script>
@@ -34,7 +34,7 @@
 	<script type='text/javascript'>
 		var no_pairs = false;		
 		var mediapath = "{% url mooshell_media "/" %}";
-		var codemirrorpath = "{% url mooshell_media "js/lib/codemirror-0.64/" %}";
+		var codemirrorpath = "{% url codemirror "" %}";
 		var get_dependencies_url = '{{ get_dependencies_url|safe }}';
 		window.addEvent('load', function() {
 			$extend(Layout, new Events());
