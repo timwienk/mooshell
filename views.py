@@ -14,27 +14,16 @@ from django.contrib.auth.models import User
 from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSLibraryWrap, JSDependency
 from forms import PastieForm, ShellForm
 
-def author_pastie_edit(req, author, slug, version=0, revision=0):
-	"""
-	display pastie authored by author
-	"""
-	user = get_object_or_404(User,username=author)
-	shell = get_object_or_404(Shell,
-								pastie__slug=slug,
-								version=version,
-								author=user)
-	return pastie_edit(req, slug, version, revision, shell)
-	
-def pastie_edit(req, slug=None, version=0, revision=0, shell=None):
+def pastie_edit(req, slug=None, version=0, revision=0, author=None):
 	"""
 	display the edit shell page ( main display)
 	"""
+	shell = None
 	c = {}
 	if slug:
-		if not shell: shell = get_object_or_404(Shell,
-												pastie__slug=slug,
-												version=version,
-												author=None)
+		user = get_object_or_404(User,username=author) if author else None
+		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
+		
 		example_url = ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()])
 		#shell.version = shell.get_next_version()
 		shellform = ShellForm(instance=shell)
@@ -56,7 +45,7 @@ def pastie_edit(req, slug=None, version=0, revision=0, shell=None):
 	c.update({
 			'pastieform':pastieform,
 			'shellform':shellform,
-			'shell': shell if shell else None,
+			'shell': shell,
 			'css_files': [
 					reverse('mooshell_media', args=["css/light.css"])
 					],
@@ -175,31 +164,25 @@ def pastie_display(req, slug, shell=None, dependencies = []):
 									]
 							})
 		
-def author_pastie_show(req, author, slug, version=0):
+def embedded(req, slug, version=0, revision=0, author=None):
 	"""
-	display pastie authored by author
+	display embeddable version of the shell
 	"""
-	user = get_object_or_404(User,username=author)
-	shell = get_object_or_404(Shell,
-								pastie__slug=slug,
-								version=version,
-								author=user)
-	return pastie_display(req, slug, shell, shell.js_dependency.all())
-
-def pastie_show(req, slug, version=0):
+		
+def pastie_show(req, slug, version=0, author=None):
 	" render the shell only "
-	shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
+	user = get_object_or_404(User, username=author) if author else None
+	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	return pastie_display(req, slug, shell, shell.js_dependency.all())
 
 
 def author_show_part(req, author, slug, part, version=0):
-	user = get_object_or_404(User,username=author)
-	shell = get_object_or_404(Shell,pastie__slug=slug,version=version,author=user)
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
-def show_part(req, slug, part, version=0):
-	shell = get_object_or_404(Shell,pastie__slug=slug,version=version,author=None)
+def show_part(req, slug, part, version=0, author=None):
+	user = get_object_or_404(User, username=author) if author else None
+	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
