@@ -199,6 +199,46 @@ class Shell(models.Model):
 			args.extend([self.pastie.slug,self.version,self.revision])
 		return (rev, args)
 	
+	@models.permalink
+	def get_embedded_url(self):
+		if self.author:
+			args = [self.author.username] 
+			rev = 'author_'
+		else:
+			args=[]
+			rev = ''
+		rev += 'embedded'
+		if not self.revision or self.revision == 0:
+			if not self.version or self.version == 0:
+				args.append(self.pastie.slug)
+			else:
+				rev += '_with_version'
+				args.extend([self.pastie.slug,self.version])
+		else:
+			rev += '_revision'
+			args.extend([self.pastie.slug,self.version,self.revision])
+		return (rev, args)
+	
+	@models.permalink
+	def get_show_url(self):
+		if self.author:
+			args = [self.author.username] 
+			rev = 'author_'
+		else:
+			args=[]
+			rev = ''
+		rev += 'pastie_show'
+		if not self.revision or self.revision == 0:
+			if not self.version or self.version == 0:
+				args.append(self.pastie.slug)
+			else:
+				rev += '_with_version'
+				args.extend([self.pastie.slug,self.version])
+		else:
+			rev += '_revision'
+			args.extend([self.pastie.slug,self.version,self.revision])
+		return (rev, args)
+	
 	def get_next_version(self):
 		shell_with_highest_version = Shell.objects.filter(pastie=self.pastie).order_by('-version')[0]
 		return shell_with_highest_version.version + 1

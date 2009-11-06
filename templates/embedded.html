@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="edit-Type" edit="text/html; charset=utf-8">
+
+	{% for js in js_libs %}<script type="text/javascript" src="{{ js }}"></script>
+	{% endfor %}
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/normalize.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/tricks.css" %}"/>
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/ie-hacks.css" %}"/>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/embedded.css" %}"/>
+	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
+	<script type='text/javascript'>
+	</script>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="head">
+			<h1>MooShell Frame</h1>
+			<ul id="triggers">
+				<li class="tRun"><a title="Run" href="#" id='run'>Run</a></li>
+	
+				<li class="tEdit"><a title="Edit" href="#">Edit</a></li>
+			</ul>			
+			
+			<ul id="actions">
+				<li class="active"><a title="JavaScript" href="#">JavaScript</a></li>
+				<li><a title="HTML" href="#">HTML</a></li>
+				<li><a title="CSS" href="#">CSS</a></li>
+				<li><a title="Result" href="#" id='result_trigger'>Result</a></li>
+	
+			</ul>
+		</div>
+		
+		<div id="tabs">
+			<pre class="tCont active">{{ shell.code_js }}</pre>
+			<pre class="tCont">{{ shell.code_html }}</pre>
+			<pre class="tCont">{{ shell.code_css }}</pre>
+			<div class="tCont" id='result'></div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript" charset="utf-8">
+		var shell_src = "{{ shell.get_show_url }}";
+		
+		var loadResult = function () {
+			console.log('show result');
+			new Element('iframe', {
+				'src': shell_src
+			}).inject($('result'));
+			this.removeEvent('click',loadResult);
+			window.fireEvent('result_included');
+		};
+		
+		window.addEvent('result_included', function() {
+			$('result_trigger').removeEvent('click',loadResult);
+			$('run').removeEvent('click',loadResult);
+			$('run').addEvent('click', function() {
+				$('result').getFirst('iframe').src = shell_src;
+			})
+		});
+		(function(){
+			$('result_trigger').addEvent('click', loadResult);
+			$('run').addEvent('click', loadResult);
+			this.sections	= $$('#tabs .tCont');
+			this.actions	= $$('#actions a');
+			
+			this.actions.each(function(action, index, actions){
+				action.addEvents({
+					click: function(e){
+						e.stop();
+						this.sections.removeClass('active');
+						this.sections[index].addClass('active');
+						actions.getParent().removeClass('active');
+						action.getParent().addClass('active');
+					}.bind(this)
+				});
+			}, this);
+		})();
+	</script>
+
+
+</body>
+</html>

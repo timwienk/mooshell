@@ -52,7 +52,7 @@ def pastie_edit(req, slug=None, version=0, revision=0, author=None):
 			'js_libs': [
 					reverse('mooshell_media', args=[moo]),
 					reverse('mooshell_media', args=[settings.MOOTOOLS_MORE]),
-					reverse('mooshell_media', args=['js/lib/posteditor-clientcide-trunk-2.1.0.js']),
+					#reverse('mooshell_media', args=['js/lib/posteditor-clientcide-trunk-2.1.0.js']),
 					reverse('codemirror', args=['js/codemirror.js']),
 					reverse('codemirror', args=['js/mirrorframe.js']),
 					reverse("mooshell_media", args=["js/Sidebar.js"]),
@@ -158,16 +158,22 @@ def pastie_display(req, slug, shell=None, dependencies = []):
 									'shell': shell,
 									'dependencies': dependencies,
 									'wrap': wrap,
-									'js_libs': [
-										reverse('mooshell_media', args=[settings.MOOTOOLS_DEV_CORE]),
-										reverse('mooshell_media', args=[settings.MOOTOOLS_MORE])
-									]
 							})
 		
 def embedded(req, slug, version=0, revision=0, author=None):
-	"""
-	display embeddable version of the shell
-	"""
+	" display embeddable version of the shell "
+	user = get_object_or_404(User, username=author) if author else None
+	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
+	return render_to_response('embedded.html', {
+							'shell': shell,
+							'css_files': [
+									reverse('mooshell_media', args=["css/embed_light.css"])
+									],
+							'js_libs': [
+									reverse('mooshell_media', args=[settings.MOOTOOLS_CORE]),
+									reverse('mooshell_media', args=[settings.MOOTOOLS_MORE]),
+									]
+							})
 		
 def pastie_show(req, slug, version=0, author=None):
 	" render the shell only "
