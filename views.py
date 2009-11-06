@@ -167,7 +167,7 @@ def embedded(req, slug, version=0, revision=0, author=None):
 	return render_to_response('embedded.html', {
 							'shell': shell,
 							'css_files': [
-									reverse('mooshell_media', args=["css/embed_light.css"])
+									#reverse('mooshell_media', args=["css/embed_light.css"])
 									],
 							'js_libs': [
 									reverse('mooshell_media', args=[settings.MOOTOOLS_CORE]),
