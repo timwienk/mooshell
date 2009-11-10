@@ -41,6 +41,10 @@ body { font-family: Helvetica, Arial; }
 #sidebar .toggler,
 #sidebar a { cursor: pointer; }
 
+#sidebar select { margin: 3px 0; width: 100%; }
+#shell_settings li { margin: 3px 0; }
+#shell_settings li input { margin-right: 3px; }
+
 /* actions */
 #actions a {
 	display: block; 
