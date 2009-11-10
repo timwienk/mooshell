@@ -77,6 +77,7 @@ class JSDependency(models.Model):
 	url = models.CharField('URL to the library file', max_length=255)
 	description = models.TextField(blank=True, null=True)
 	selected = models.BooleanField(blank=True, default=False)
+	ord = models.IntegerField("Order",default=0, blank=True, null=True)
 
 	def __unicode__(self):
 		return self.name
@@ -86,6 +87,7 @@ class JSDependency(models.Model):
 	
 	class Meta:
 		verbose_name_plural = "JS Dependencies"
+		ordering = ["-ord"]
 
 	
 WRAPCHOICE = (
