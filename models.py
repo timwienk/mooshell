@@ -68,6 +68,10 @@ class JSLibrary(models.Model):
 
 
 
+class JSDependencyManager(models.Manager):
+	def get_active(self):
+		return self.get_query_set().filter(active=True)
+
 class JSDependency(models.Model):
 	"""
 	Additional library file - MooTools more, Scriptaculous, etc.
@@ -78,6 +82,9 @@ class JSDependency(models.Model):
 	description = models.TextField(blank=True, null=True)
 	selected = models.BooleanField(blank=True, default=False)
 	ord = models.IntegerField("Order",default=0, blank=True, null=True)
+	active = models.BooleanField(default=True, blank=True)
+
+	objects = JSDependencyManager()
 
 	def __unicode__(self):
 		return self.name

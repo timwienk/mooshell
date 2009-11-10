@@ -27,7 +27,7 @@ var MooShellSettings = new Class({
 				result.each( function(dep) {
 					new Element('li', {
 						'html': "<input type='checkbox' id='dep_{id}' name='dep_{id}'/><label for='dep_{id}'>{name}</label>".substitute(dep)
-					}).inject(this.depEl);
+					}).inject(this.depEl, 'top');
 				}, this)
 			}.bind(this)
 		}).send();

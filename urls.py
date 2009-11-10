@@ -19,8 +19,8 @@ urlpatterns = patterns('mooshell.views',
 
 	# embedded
 	url(r'^(?P<slug>\w+)/embedded/$','embedded', name='embedded'),
-	url(r'^(?P<author>\w+)/(?P<slug>\w+)/embedded/$','embedded', name='author_embedded'),
 	url(r'^(?P<slug>\w+)/(?P<version>\d+)/embedded/$','embedded', name='embedded_with_version'),
+	url(r'^(?P<author>\w+)/(?P<slug>\w+)/embedded/$','embedded', name='author_embedded'),
 	url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/embedded/$','embedded', name='author_embedded_with_version'),
 	
 	# simple API

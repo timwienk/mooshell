@@ -238,6 +238,6 @@ def serve_static(request, path):
 	raise Http404 
 
 def get_dependencies(request, lib_id): 
-	dependencies = JSDependency.objects.filter(library__id=lib_id)
+	dependencies = JSDependency.objects.filter(active=True,library__id=lib_id)
 	c = [{'id': d.id, 'name': d.name, 'selected': d.selected} for d in dependencies ]
 	return HttpResponse(simplejson.dumps(c),mimetype='application/javascript')

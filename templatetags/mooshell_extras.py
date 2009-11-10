@@ -28,8 +28,15 @@ def get_js_libraries(group_name='Mootools', shell=None):
 @register.inclusion_tag('_js_dependencies_choice.html')
 def get_js_dependencies(js_lib, shell=None):
 	" return a list of all possible dependencies for a js_lib "
-	dependencies = JSDependency.objects.filter(library__id=js_lib.id)
-	selected = shell.js_dependency.all() if shell else [dep for dep in dependencies if dep.selected]
+	dependencies = list(JSDependency.objects.filter(active=True,library__id=js_lib.id))
+	if shell:
+		inactive_included = list(shell.js_dependency.filter(active=False))
+		if inactive_included:
+			dependencies.extend(inactive_included)
+		selected = shell.js_dependency.all()
+	else:
+		selected = [dep for dep in dependencies if dep.selected]
+	
 	for dep in dependencies:
 		if dep in selected:
 			dep.current = True
