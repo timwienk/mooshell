@@ -44,6 +44,11 @@ var Layout = {
 			this.result = result.getElement('iframe');
 		}
 		
+		// set appropriate classes to the first and the last action items
+		var actions = document.id('actions');
+		actions.getElement('a.collapsedActions').addClass('firstChild');
+		actions.getElements('a.collapsedActions:last-child').addClass('lastChild');
+		
 		this.resizeWithDelay();
 				
 		this.fireEvent('ready');
@@ -117,4 +122,3 @@ var Layout = {
 };
 // add events to Layout object
 $extend(Layout, new Events());
-

@@ -1,7 +1,8 @@
 <div id='actions'>
 	<a id='run'><span>Run</span></a>
-	{% if pastie %}<a id="update"><span>Update</span></a>{% endif %}
-	<a id="savenew"><span>Save New</span></a> 
-	<a id='clean'><span>Clean</span></a>
+	{% if pastie %}<a class="collapsedActions" id="update"><strong><span>Update</span></strong></a>{% endif %}	
+	<a class="collapsedActions" id="savenew"><strong><span>Save New</span></strong></a> 
+	<a class="collapsedActions" id='clean'><strong><span>Clean</span></strong></a>
 </div>
+
 {% if pastie %}<input id="select_link" type='text' value='{{ example_url }}'>{% endif %}

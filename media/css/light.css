@@ -33,7 +33,8 @@ body { background: #efefef; }
 #sidebar code { background: #FFFADB; }
 
 /* actions */
-#actions a {
+#actions a,
+#actions a.collapsedActions strong {	
 	background-image: url(../img/sprites.png);
 }
 #actions a span {
