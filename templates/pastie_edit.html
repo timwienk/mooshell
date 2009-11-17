@@ -34,7 +34,8 @@
 			mooshell = new MooShellActions({
 				exampleURL: "{{ example_url }}",
 				exampleSaveUrl: '{% url pastie_save %}',
-				loadDependenciesURL: '{{ get_dependencies_url|safe }}'
+				loadDependenciesURL: '{{ get_dependencies_url|safe }}',
+				loadLibraryVersionsURL: '{{ get_library_versions_url|safe }}'
 			});
 			new MooShellEditor.JS($('id_code_js'),{
 				{% if nopairs %}smartTypingPairs: false,{% endif %}

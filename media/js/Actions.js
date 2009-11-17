@@ -105,6 +105,31 @@ var MooShellActions = new Class({
 			// resultInput.select();
 		}
 	},
+	loadLibraryVersions: function(group_id) {
+		new Request.JSON({
+			url: this.options.loadLibraryVersionsURL.substitute({group_id: group_id}),
+			onSuccess: function(response) {
+				$('js_lib').empty();
+				$('js_dependency').empty();
+				response.libraries.each( function(lib) {
+					new Element('option', {
+						value: lib.id,
+						text: "{group_name} {version}".substitute(lib),
+					}).inject($('js_lib'));
+					if (lib.selected) $('js_lib').set('value',lib.id);
+				});
+				response.dependencies.each(function (dep) {
+					new Element('li', {
+						html: [
+							"<input id='dep_{id}' type='checkbox' name='js_dependency[{id}]' value='{id}'/>",
+							"<label for='dep_{id}'>{name}</label>"
+							].join('').substitute(dep)
+					}).inject($('js_dependency'));
+					if (dep.selected) $('dep_'+dep.id).set('checked', true);
+				});
+			}
+		}).send();
+	},
 	loadDependencies: function(lib_id) {
 		new Request.JSON({
 			url: this.options.loadDependenciesURL.substitute({lib_id: lib_id}),

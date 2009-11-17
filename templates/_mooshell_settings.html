@@ -7,13 +7,18 @@
 		<option value='l'{% ifequal shell.js_wrap "l" %} selected='1'{% endifequal %}{% if not shell %} selected='1'{% endif %}>onLoad</option>
 	</select>
 	
-	{% get_js_libraries "Mootools" shell %}
+	{% if default_library_group %}{% get_js_libraries default_library_group shell %}
+	{% else %}{% get_js_library_groups shell %}
+	{% endif %}
 </div>
 
 <script type='application/javascript'>
 	window.addEvent('load', function() {
 		$('js_lib').addEvent('change', function() {
 			mooshell.loadDependencies(this.value);
+		})
+		if ($('library_group')) $('library_group').addEvent('change', function() {
+			mooshell.loadLibraryVersions(this.value);
 		})
 	});
 </script>

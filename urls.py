@@ -13,6 +13,7 @@ urlpatterns = patterns('mooshell.views',
 	url(r'^ajax_json_echo/$','ajax_json_echo', name='ajax_json_echo'),
 	url(r'^ajax_html_echo/$','ajax_html_echo', name='ajax_html_echo'),
 	url(r'^_get_dependencies/(?P<lib_id>.*)/$','get_dependencies', name='_get_dependencies'),
+	url(r'^_get_library_versions/(?P<group_id>.*)/$','get_library_versions', name='_get_library_versions'),
 	
 
 	# compatibility with old moshell/* urls DO NOT USE THEM

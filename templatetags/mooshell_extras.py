@@ -4,6 +4,31 @@ from mooshell.models import JSLibraryGroup, JSLibrary, JSDependency
 
 register = template.Library()
 
+
+@register.inclusion_tag('_js_library_groups.html')
+def get_js_library_groups(shell=None):
+	"return a list of possible library groups if more than one"
+	current_group = shell.js_lib.library_group if shell else None
+	groups = JSLibraryGroup.objects.all()
+	for group in groups:
+		if current_group:
+			if group == current_group:
+				group.current = True
+		else:
+			group.current = group.selected
+			if group.current:
+				currrent_group = group
+	print {
+		'groups': groups,
+		'current_group': current_group,
+		'shell': shell
+		}
+	return {
+		'groups': groups,
+		'current_group': current_group,
+		'shell': shell
+		}
+
 @register.inclusion_tag('_js_libraries_options.html')
 def get_js_libraries(group_name='Mootools', shell=None):
 	" return a list of all possible libraries for a group "

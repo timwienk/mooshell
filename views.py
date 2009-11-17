@@ -17,7 +17,7 @@ from forms import PastieForm, ShellForm
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-#@cache_page(60 * 60)
+@cache_page(60 * 5)
 def pastie_edit(req, slug=None, version=0, revision=None, author=None):
 	"""
 	display the edit shell page ( main display)
@@ -69,7 +69,8 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None):
 			'example_url': example_url,
 			'web_server': 'http://%s' % req.META['SERVER_NAME'],
 			'nopairs': nopairs,
-			'get_dependencies_url': reverse("_get_dependencies", args=["lib_id"]).replace('lib_id','{lib_id}')
+			'get_dependencies_url': reverse("_get_dependencies", args=["lib_id"]).replace('lib_id','{lib_id}'),
+			'get_library_versions_url': reverse("_get_library_versions", args=["group_id"]).replace('group_id','{group_id}'),
 			})
 	return render_to_response('pastie_edit.html',c,
 							context_instance=RequestContext(req))
@@ -166,7 +167,7 @@ def pastie_display(req, slug, shell=None, dependencies = []):
 	
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-#@cache_page(60 * 60)	
+@cache_page(60 * 5)	
 def embedded(req, slug, version=0, revision=0, author=None):
 	" display embeddable version of the shell "
 	user = get_object_or_404(User, username=author) if author else None
@@ -184,7 +185,7 @@ def embedded(req, slug, version=0, revision=0, author=None):
 		
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-#@cache_page(60 * 60)
+@cache_page(60 * 5)
 def pastie_show(req, slug, version=0, author=None):
 	" render the shell only "
 	user = get_object_or_404(User, username=author) if author else None
@@ -194,14 +195,14 @@ def pastie_show(req, slug, version=0, author=None):
 
 # caching views added - however it is bad for automate picking the latest revision 
 # consider better caching for that function.
-#@cache_page(60 * 60)
+@cache_page(60 * 5)
 def author_show_part(req, author, slug, part, version=0):
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-# @cache_page(60 * 60)
+@cache_page(60 * 5)
 def show_part(req, slug, part, version=0, author=None):
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
@@ -241,7 +242,7 @@ def ajax_html_javascript_response(req):
 	return HttpResponse("<p>A sample paragraph</p><script type='text/javascript'>alert('sample alert');</script>")
 
 
-#@cache_page(60 * 60)
+@cache_page(60 * 5)
 def serve_static(request, path, media='mooshell/media', type=None):
 	media = os.path.join(settings.FRAMEWORK_PATH, media)
 	if type: path = '/'.join([type, path])
@@ -249,9 +250,21 @@ def serve_static(request, path, media='mooshell/media', type=None):
 		return static.serve( request, path, media)
 	raise Http404 
 
-
-#@cache_page(60 * 60)
-def get_dependencies(request, lib_id): 
-	dependencies = JSDependency.objects.filter(active=True,library__id=lib_id)
-	c = [{'id': d.id, 'name': d.name, 'selected': d.selected} for d in dependencies ]
+@cache_page(60 * 5)
+def get_library_versions(request, group_id): 
+	libraries = JSLibrary.objects.filter(library_group__id=group_id)
+	c = {'libraries': [{'id': l.id, 'version': l.version, 'selected': l.selected, 'group_name': l.library_group.name} for l in libraries ]}
+	selected = [l for l in libraries if l.selected]
+	if selected:
+		selected = selected[0]
+		c['dependencies'] = get_dependencies_dict(selected.id)
 	return HttpResponse(simplejson.dumps(c),mimetype='application/javascript')
+
+
+@cache_page(60 * 5)
+def get_dependencies(request, lib_id): 
+	return HttpResponse(simplejson.dumps(get_dependencies_dict(lib_id)),mimetype='application/javascript')
+
+def get_dependencies_dict(lib_id):
+	dependencies = JSDependency.objects.filter(active=True,library__id=lib_id)
+	return [{'id': d.id, 'name': d.name, 'selected': d.selected} for d in dependencies ]
