@@ -14,16 +14,18 @@
 
 	{% for js in js_libs %}<script type="text/javascript" src="{{ js }}"></script>
 	{% endfor %}
-	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/normalize.css" %}"/>
-	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/tricks.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "normalize.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "tricks.css" %}"/>
 	<!--[if lte IE 6]>
 		<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/ie-hacks.css" %}"/>
 	<![endif]-->
 
-	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/style.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "style.css" %}"/>
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
-		var nopairs = {% if nopairs %}true{% else %}false{% endif %},
+		var csspath = "{% url mooshell_css "" %}",
+			jspath = "{% url mooshell_js "" %}",
+			imgpath = "{% url mooshell_img "" %}",
 			mediapath = "{% url mooshell_media "" %}",
 			codemirrorpath = "{% url codemirror "" %}",
 			mooshell;
@@ -43,7 +45,7 @@
 			new MooShellEditor.CSS($('id_code_css'), {
 				{% if nopairs %}smartTypingPairs: false,{% endif %}
 			}); // add user defined parameters
-			Layout.start();
+			Layout.render();
 			{# var mooshellSettings = new MooShellSettings(); #}
 		});
 		{% if not example_url %}
@@ -71,9 +73,6 @@
 			{% include "_mooshell_credits.html" %}
 			<h3>License</h3>
 			<div class='text'>
-			{% comment %}
-				<p>All code is published under MIT-style license unless specified otherwise.</p>
-			{% endcomment %}
 				<p>All code belongs to the poster and no license is enforced</p>
 			</div>
 		</div>
@@ -81,7 +80,7 @@
 			{% include "_mooshell_editor.html" %}	
 		</div>
 	<form>
-	{% if not debug %}
+	{% if not DEBUG %}
 		<script type="text/javascript">
 			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

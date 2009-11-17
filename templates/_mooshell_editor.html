@@ -3,26 +3,29 @@
 {% if shelltform.non_field_errors %}{{ shellform.non_field_errors }}{% endif %}
 {{ pastieform.slug }}
 {{ shellform.version }}
-<fieldset class='fieldset_static'>
-	<p class='optional'>
-		{{ shellform.code_html.errors }}
+
+<fieldset class='column'>
+	<div class='window'>
 		{{ shellform.code_html }}
-		<span class='editor_label'>HTML</span>
-	</p>
-	<p class='optional'>
-		{{ shellform.code_css.errors }}
-		{{ shellform.code_css }}
-		<span class='editor_label'>CSS</span>
-	</p>
-</fieldset>
-<fieldset class=''>
-	<p class=''>
-		{{ shellform.code_js.errors }}
+		<span class='window_label'>HTML</span>
+	</div>
+	<div class='handler handler_horizontal'></div>
+	<div class='window'>
 		{{ shellform.code_js }}
-		<span class='editor_label'>JavaScript</span>
-	</p>
-	<p id='result'>
+		<span class='window_label'>JavaScript</span>
+	</div>
+</fieldset>
+
+<div class='handler' id='handler_vertical'></div>
+
+<fieldset class='column'>
+	<div class='window'>
+		{{ shellform.code_css }}
+		<span class='window_label'>CSS</span>
+	</div>
+	<div class='handler handler_horizontal'></div>
+	<div id='result' class='window'>
 		<iframe name='result'></iframe>
-		<span class='editor_label'>Result</span>
-	</p>
+		<span class='window_label'>Result</span>
+	</div>
 </fieldset>

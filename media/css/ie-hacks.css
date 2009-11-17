@@ -6,4 +6,4 @@
 #sidebar,
 #actions a,
 #select_link,
-#content fieldset p { display: inline; }
+#content .window { display: inline; }

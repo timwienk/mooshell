@@ -22,7 +22,7 @@ Element.implement({
 
 var Layout = {
 	editors: $H({}),
-	start: function () {
+	render: function () {
 		
 		// instantiate sidebar
 		this.sidebar = new Sidebar({
@@ -38,9 +38,9 @@ var Layout = {
 		
 		// set editor labels
 		var result = document.id('result');
-		$$('.editor_label').setStyle('opacity',0.8);
+		$$('.window_label').setStyle('opacity',0.8);
 		if (result) {
-			result.getElement('.editor_label').setStyle('opacity', 0.3);
+			result.getElement('.window_label').setStyle('opacity', 0.3);
 			this.result = result.getElement('iframe');
 		}
 		
@@ -70,11 +70,60 @@ var Layout = {
 	resizeWithDelay: function() {
 		this.resize();
 		// sometimes size is counted with scrollbars (especially in webkit)
-		// (function() { return this.resize(); }.bind(this) ).delay(3);
+		(function() { return this.resize(); }.bind(this) ).delay(3);
 		// after scrollbars are removed - resize again to the right size
-		 (function() { return this.resize(); }.bind(this) ).delay(10);
+		(function() { return this.resize(); }.bind(this) ).delay(10);
 	},
 	resize: function(e) {
+		
+		this.editors.each( function(ed) {
+			ed.hide();
+		});
+		
+		var win_size = window.getSize();
+		
+		var fieldsets = $('content').getChildren('.column');
+		var fieldset_top = fieldsets[0].getPosition().y + fieldsets[0].getStyle('margin-top').toInt(); 
+		var av_height = win_size.y - fieldset_top;
+		var av_width = win_size.x - $('content').getStyle('margin-left').toInt() - 8;
+		
+		$('content').setStyle('width', av_width);
+				
+		// set handler size
+		$('handler_vertical').setStyle('height',av_height);
+		
+		// calculate width
+		var width = Math.floor((av_width - 8) / 2);
+		
+		fieldsets.each(function(fieldset) {fieldset.setStyle('width', width)});
+		
+		// set all editors width
+		this.editors.each( function(ed) {
+			ed.setWidth(width);
+		});
+
+		
+		this.editors.each( function(ed) {
+			ed.show();
+		});
+		
+		if (this.editors.js) {
+			var js = this.editors.js;
+			js.setHeight(win_size.y - js.getWindow().getPosition().y - 8);
+		}
+		
+		if (this.result) {
+			var height = win_size.y - this.result.getPosition().y - 8;
+			this.result.getParent('.window').setStyles({
+				'width': width,
+				'height': height
+			});
+			this.result.setStyles({
+				'width': width-2,
+				'height': height-2
+			});
+		}
+		/*
 		// there is a need to do some IE fixes
 		var ie_offset = (Browser.Engine.trident) ? 2 : 0; 
 		// hide results to measure the size of a window without them
@@ -116,7 +165,7 @@ var Layout = {
 				'width': width 
 			});
 		}
-		
+		*/
 		this.fireEvent('resize');
 	}
 };

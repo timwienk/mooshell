@@ -53,7 +53,7 @@ body { background: #efefef; }
 
 
 /* editor labels */
-.editor_label {
+.window_label {
 	background: transparent url(../img/sprites.png) no-repeat -255px -50px;
 }
 /* fullscreen */

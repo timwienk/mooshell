@@ -8,5 +8,6 @@ def load_settings(request):
 			'seo_title_pre': settings.MOOSHELL_SEO_TITLE_HEAD,
 			'seo_title_tail': settings.MOOSHELL_SEO_TITLE_TAIL,
 			'title_separator': settings.MOOSHELL_TITLE_SEPARATOR,
+			'DEBUG': settings.DEBUG,
 			'WEB_SERVER': request.META['SERVER_NAME']
 			}

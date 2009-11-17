@@ -10,11 +10,15 @@ from django.core.urlresolvers import reverse
 from django.utils import simplejson
 from django.template import Template,RequestContext
 from django.contrib.auth.models import User
+from django.views.decorators.cache import cache_page
 
 from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSLibraryWrap, JSDependency
 from forms import PastieForm, ShellForm
 
-def pastie_edit(req, slug=None, version=0, revision=0, author=None):
+# it is bad for automate picking the latest revision 
+# consider better caching for that function.
+#@cache_page(60 * 60)
+def pastie_edit(req, slug=None, version=0, revision=None, author=None):
 	"""
 	display the edit shell page ( main display)
 	"""
@@ -50,16 +54,16 @@ def pastie_edit(req, slug=None, version=0, revision=0, author=None):
 					reverse('mooshell_media', args=["css/light.css"])
 					],
 			'js_libs': [
-					reverse('mooshell_media', args=[moo]),
-					reverse('mooshell_media', args=[settings.MOOTOOLS_MORE]),
+					reverse('mooshell_js', args=[moo]),
+					reverse('mooshell_js', args=[settings.MOOTOOLS_MORE]),
 					#reverse('mooshell_media', args=['js/lib/posteditor-clientcide-trunk-2.1.0.js']),
 					reverse('codemirror', args=['js/codemirror.js']),
 					reverse('codemirror', args=['js/mirrorframe.js']),
-					reverse("mooshell_media", args=["js/Sidebar.js"]),
-					reverse('mooshell_media', args=['js/LayoutCM.js']),
-					reverse("mooshell_media", args=["js/Actions.js"]),
-					reverse("mooshell_media", args=["js/EditorCM.js"]),
-					reverse("mooshell_media", args=["js/Settings.js"]),
+					reverse("mooshell_js", args=["Sidebar.js"]),
+					reverse('mooshell_js', args=['LayoutCM.js']),
+					reverse("mooshell_js", args=["Actions.js"]),
+					reverse("mooshell_js", args=["EditorCM.js"]),
+					reverse("mooshell_js", args=["Settings.js"]),
 					],
 			'title': "Shell Editor",
 			'example_url': example_url,
@@ -159,7 +163,10 @@ def pastie_display(req, slug, shell=None, dependencies = []):
 									'dependencies': dependencies,
 									'wrap': wrap,
 							})
-		
+	
+# it is bad for automate picking the latest revision 
+# consider better caching for that function.
+#@cache_page(60 * 60)	
 def embedded(req, slug, version=0, revision=0, author=None):
 	" display embeddable version of the shell "
 	user = get_object_or_404(User, username=author) if author else None
@@ -175,6 +182,9 @@ def embedded(req, slug, version=0, revision=0, author=None):
 									]
 							})
 		
+# it is bad for automate picking the latest revision 
+# consider better caching for that function.
+#@cache_page(60 * 60)
 def pastie_show(req, slug, version=0, author=None):
 	" render the shell only "
 	user = get_object_or_404(User, username=author) if author else None
@@ -182,10 +192,16 @@ def pastie_show(req, slug, version=0, author=None):
 	return pastie_display(req, slug, shell, shell.js_dependency.all())
 
 
+# caching views added - however it is bad for automate picking the latest revision 
+# consider better caching for that function.
+#@cache_page(60 * 60)
 def author_show_part(req, author, slug, part, version=0):
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
+# it is bad for automate picking the latest revision 
+# consider better caching for that function.
+# @cache_page(60 * 60)
 def show_part(req, slug, part, version=0, author=None):
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
@@ -224,19 +240,17 @@ def ajax_json_response(req):
 def ajax_html_javascript_response(req):
 	return HttpResponse("<p>A sample paragraph</p><script type='text/javascript'>alert('sample alert');</script>")
 
-def codemirror_serve_static(request, path):
-	media = os.path.join(settings.FRAMEWORK_PATH, 'mooshell/codemirror')
+
+#@cache_page(60 * 60)
+def serve_static(request, path, media='mooshell/media', type=None):
+	media = os.path.join(settings.FRAMEWORK_PATH, media)
+	if type: path = '/'.join([type, path])
 	if os.path.exists(os.path.join(media,path)) and os.path.isfile(os.path.join(media,path)):
 		return static.serve( request, path, media)
 	raise Http404 
 
-	
-def serve_static(request, path):
-	media = os.path.join(settings.FRAMEWORK_PATH, 'mooshell/media')
-	if os.path.exists(os.path.join(media,path)) and os.path.isfile(os.path.join(media,path)):
-		return static.serve( request, path, media)
-	raise Http404 
 
+#@cache_page(60 * 60)
 def get_dependencies(request, lib_id): 
 	dependencies = JSDependency.objects.filter(active=True,library__id=lib_id)
 	c = [{'id': d.id, 'name': d.name, 'selected': d.selected} for d in dependencies ]

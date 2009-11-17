@@ -19,13 +19,14 @@ var MooShellEditor = new Class({
 	},
 	initialize: function(el, options) {
 		// switch off CodeMirror for IE
-		if (Browser.Engine.trident) options.useCodeMirror = false;
+		//if (Browser.Engine.trident) options.useCodeMirror = false;
 		this.element = $(el);
 		this.element.hide();
 		if (this.occlude()) return this.occluded; 
 		this.setOptions(options);
 		
-		this.editorLabelFX = new Fx.Tween(this.element.getParent('p').getElement('.editor_label'), {property: 'opacity'});
+		this.editorLabelFX = new Fx.Tween(this.getLabel(), {property: 'opacity'});
+		
 		if (this.options.useCodeMirror) {
 			if (!this.options.codeMirrorOptions.stylesheet && this.options.stylesheet) {
 				this.options.codeMirrorOptions.stylesheet = this.options.stylesheet.map( function(path) {
@@ -39,9 +40,8 @@ var MooShellEditor = new Class({
 				this.element, this.options.codeMirrorOptions
 			);
 			this.element.hide();
-			
 		}
-		this.element.getParent('p').addEvents({
+		this.getWindow().addEvents({
 			mouseenter: function() {
 				this.editorLabelFX.start(0);
 				//this.fullscreen.retrieve('fx').start(0.3);
@@ -53,22 +53,33 @@ var MooShellEditor = new Class({
 		});
 		Layout.registerEditor(this);	
 	},
+	getEditor: function() {
+		return this.editor || this.element;
+	},
+	getWindow: function() {
+		if (!this.window) {
+			this.window = this.element.getParent('.window');
+		} 
+		return this.window;
+	},
+	getLabel: function() {
+		return this.getWindow().getElement('.window_label')
+	},
 	updateFromMirror: function() {
 		if (this.editor) this.element.set('value', this.editor.getCode());
 	},
-	cleanMirror: function() {
+	clean: function() {
+		this.element.set('value','');
+		this.cleanEditor();
+	},
+	cleanEditor: function() {
 		if (this.editor) this.editor.setCode('');
 	},
 	hide: function() {
-		if (this.editor) {
-			this.element.hide();
-			if (this.editor.frame) return $(this.editor.frame).hide();
-		}
-		return this.element.hide();
+		this.getWindow().hide();
 	},
 	show: function() {
-		if (this.editor) return $(this.editor.frame).show();
-		return this.element.show();
+		this.getWindow().show();
 	},
 	setStyle: function(key, value) {
 		if (this.editor) return $(this.editor.frame).setStyle(key, value);
@@ -77,6 +88,14 @@ var MooShellEditor = new Class({
 	setStyles: function(options) {
 		if (this.editor) return $(this.editor.frame).setStyles(options);
 		return this.element.setStyles(options);
+	},
+	setWidth: function(width) {
+		this.getWindow().setStyle('width',width);
+		this.setStyle('width', width-2);
+	},
+	setHeight: function(height) {
+		this.getWindow().setStyle('height',height);
+		this.setStyle('height', height-2);
 	},
 	getPosition: function() {
 		if (this.editor) return $(this.editor.frame).getPosition();

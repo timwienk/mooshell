@@ -5,7 +5,7 @@ body { font-family: Helvetica, Arial; }
 
 /* main structure */
 #sidebar { float: left; width: 204px; }
-#content { margin-left: 232px; }
+#content { margin-left: 232px; overflow: hidden;}
 
 /* header */
 #header { height: 39px; }
@@ -137,33 +137,35 @@ body { font-family: Helvetica, Arial; }
 }
 
 /* editor */
-#content fieldset { margin-top: 8px; }
+#content fieldset.column { margin-top: 8px; float: left; width: 300px; display: block; }
 
-
-#content fieldset p { 
-	width: 49.5%; float: left; 
+#content .window { 
+	width: 298px;
+	height: 150px; 
 	position: relative;
 }
+
+#handler_vertical { float: left; height: 100px; width: 8px; margin-top: 8px;}
+.handler_horizontal { width: 100%; height: 8px;}
 
 #content textarea,
 #result iframe,
 body.editbox { 
 	font-family: "Inconsolata", "Monaco", Courier, monospace;
 	line-height:15px; font-size: 12px;
-	min-width: 190px; width: 98%; height: 150px;
+	min-width: 190px; width: 298px; height: 150px;
 }
-.fieldset_static iframe { height: 150px !important; }
 
 /* resizing sets display to inline, this overrides */
 #content textarea { display: block;}
 
 #content #id_code_js, 
-#result iframe { height: 250px; min-height: 150px; }
+#result iframe { height: 150px; min-height: 150px; }
 
 /* editor labels */
-.editor_label { 
+.window_label { 
 	display: block; width: 79px; height: 28px; line-height: 28px; 
-	z-index: 100; position: absolute; top: 0; right: 6px;
+	z-index: 100; position: absolute; top: 0; right: -2px;
 	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma; 
 	text-align: center;	font-size: 11px; font-weight: bold; 
 }
