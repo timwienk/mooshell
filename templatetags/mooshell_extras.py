@@ -17,12 +17,7 @@ def get_js_library_groups(shell=None):
 		else:
 			group.current = group.selected
 			if group.current:
-				currrent_group = group
-	print {
-		'groups': groups,
-		'current_group': current_group,
-		'shell': shell
-		}
+				current_group = group
 	return {
 		'groups': groups,
 		'current_group': current_group,
@@ -34,6 +29,7 @@ def get_js_libraries(group_name, shell=None):
 	" return a list of all possible libraries for a group "
 	current_lib = shell.js_lib if shell else None
 	libraries = JSLibrary.objects.filter(library_group__name=group_name)
+	lib = False
 	for lib in libraries:
 		if current_lib:
 			if lib == current_lib:

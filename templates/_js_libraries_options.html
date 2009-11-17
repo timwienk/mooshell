@@ -6,5 +6,5 @@
 </select>
 
 <ul id='js_dependency'>
-	{% get_js_dependencies current_lib shell %}
+	{% if current_lib %}{% get_js_dependencies current_lib shell %}{% endif %}
 </ul>
