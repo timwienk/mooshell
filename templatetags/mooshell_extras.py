@@ -30,7 +30,7 @@ def get_js_library_groups(shell=None):
 		}
 
 @register.inclusion_tag('_js_libraries_options.html')
-def get_js_libraries(group_name='Mootools', shell=None):
+def get_js_libraries(group_name, shell=None):
 	" return a list of all possible libraries for a group "
 	current_lib = shell.js_lib if shell else None
 	libraries = JSLibrary.objects.filter(library_group__name=group_name)
@@ -42,6 +42,10 @@ def get_js_libraries(group_name='Mootools', shell=None):
 			lib.current = lib.selected
 			if lib.current:
 				current_lib = lib
+
+	# if something went wrong ...
+	if lib and not current_lib :
+		current_lib = lib
 			
 	return { 
 		'libraries': libraries,
