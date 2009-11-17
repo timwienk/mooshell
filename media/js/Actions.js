@@ -50,7 +50,7 @@ var MooShellActions = new Class({
 			'onSuccess': function(json) {
 				if (!json.error) {
 					// reload page after successful save
-					window.location = json.pastie_url + (nopairs ? "?nopairs=save" : '');
+					window.location = json.pastie_url; 
 				} else {
 					alert('ERROR: ' + json.error)
 				}
@@ -64,7 +64,7 @@ var MooShellActions = new Class({
 			'url': this.options.exampleSaveUrl,
 			'onSuccess': function(json) {
 				// reload page after successful save
-				window.location = json.pastie_url + (nopairs ? "?nopairs=save" : '');
+				window.location = json.pastie_url; 
 			}
 		}).send(this.form);
 	},
