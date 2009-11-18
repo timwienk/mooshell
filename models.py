@@ -31,8 +31,8 @@ class JSLibraryWrap(models.Model):
 	how to wrap the code in specific library
 	"""
 	name = models.CharField(max_length=255)
-	code_start = models.CharField(max_length=255)
-	code_end = models.CharField(max_length=255)
+	code_start = models.TextField()
+	code_end = models.TextField()
 
 	def __unicode__(self):
 		return self.name
