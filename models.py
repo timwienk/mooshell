@@ -49,7 +49,7 @@ class JSLibrary(models.Model):
 	"""
 	Version of the library - Mootools 1.2.4, etc.
 	"""
-	library_group = models.ForeignKey(JSLibraryGroup)
+	library_group = models.ForeignKey(JSLibraryGroup, related_name="libs")
 	version = models.CharField(max_length=30, null=True, blank=True)
 	href = models.CharField('URL to the core library file', max_length=255, unique=True)
 	selected = models.BooleanField(blank=True, default=False)

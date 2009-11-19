@@ -1,7 +1,14 @@
 {% load mooshell_extras %}
-<select name='library_group' id='library_group'>
+<select name='js_lib' id='js_lib'>
 	{% for group in groups %}
-		<option value="{{ group.id }}"{% if group.current %} selected="selected"{% endif %}>{{ group.name }}</option>
+		<optgroup label="{{ group.name }}">
+			{% for lib in group.lib_list %}
+				<option value="{{ lib.id }}" {% if group.current %}{% if lib.current %}selected="selected"{% endif %}{% endif %}>{{ group.name }} {{ lib.version }}</option>
+			{% endfor %}
+		</optgroup>
 	{% endfor %}
 </select>
-{% get_js_libraries current_group shell %}
+
+<ul id='js_dependency'>
+	{% if current_lib %}{% get_js_dependencies current_lib shell %}{% endif %}
+</ul>

@@ -5,7 +5,7 @@
 	<script type='text/javascript' src='{{ shell.js_lib.href }}'></script>
 	{% for js in dependencies %}<script type="text/javascript" src="{{ js.url }}"></script>
 	{% endfor %}
-	<link rel="stylesheet" type="text/css" href="/mooshellmedia/css/normalize.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/normalize.css"/>
 	<style type='text/css'>
 		body {background: white; padding: 10px;  }
 		{{ shell.code_css|safe }}
