@@ -14,3 +14,6 @@ MOOTOOLS_DEPENDER = "lib/mootools-more/Source/Core/Depender.js"
 MOOSHELL_SLUG_LENGTH = 5
 
 MOOSHELL_LIBRARY_GROUP = "Mootools" # set to None if more than one used
+
+GOOGLE_ANALYTICS_ID = None #"UA-XXXXXX-XX"
+GOOGLE_VERIFICATION_META_TAG = None #'<meta name="google-site-verification" content="xxxxxxxxxxxxxxxxxxx" />'
