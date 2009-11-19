@@ -8,7 +8,7 @@
 
 	<title>{{ seo_title_head }}{{ title }}{{ title_separator }}{{ project_name }}{{ seo_title_tail }}</title>
 	{# google owner verification code #}
-	{{ GOOGLE_VERIFICATION_META_TAG|safe }}
+	{% if GOOGLE_VERIFICATION_META_TAG %}{{ GOOGLE_VERIFICATION_META_TAG|safe }}{% endif %}
 	<meta name="author" edit="Piotr Zalewa">
 	<meta name='copyright' content='share alike'/>
 
