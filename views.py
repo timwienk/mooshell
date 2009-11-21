@@ -183,7 +183,7 @@ def embedded(req, slug, version=0, revision=0, author=None):
 	" display embeddable version of the shell "
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
-	height = req.GET.get('height','100%');
+	height = req.GET.get('height', None);
 	skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN);
 	c = { 
 		'height': height,

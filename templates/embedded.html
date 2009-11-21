@@ -65,7 +65,8 @@
 		});
 		var height;
 		(function(){
-			height = {{ height }} - $('head').getSize().y - 20;
+			height = {% if height %}{{ height }}{% else %}window.getSize().y{% endif %} - $('head').getSize().y - 20;
+			console.log('{{ height }}', window.getSize().y, $('head').getSize().y, height);
 			console.log(height);
 			$$('.tCont').setStyle('height', height);
 			$('result_trigger').addEvent('click', loadResult);
