@@ -168,10 +168,12 @@ def pastie_display(req, slug, shell=None, dependencies = []):
 	if not slug:
 		" assign dependencies from request "
 	
+	skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
 	return render_to_response('pastie_show.html', {
 									'shell': shell,
 									'dependencies': dependencies,
 									'wrap': wrap,
+									'skin': skin
 							})
 	
 # it is bad for automate picking the latest revision 
@@ -181,16 +183,21 @@ def embedded(req, slug, version=0, revision=0, author=None):
 	" display embeddable version of the shell "
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
-	return render_to_response('embedded.html', {
-							'shell': shell,
-							'css_files': [
-									#reverse('mooshell_media', args=["css/embed_light.css"])
-									],
-							'js_libs': [
-									reverse('mooshell_media', args=[settings.MOOTOOLS_CORE]),
-									reverse('mooshell_media', args=[settings.MOOTOOLS_MORE]),
-									]
-							})
+	height = req.GET.get('height','100%');
+	skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN);
+	c = { 
+		'height': height,
+		'shell': shell,
+		'skin': skin,
+		'css_files': [
+				reverse('mooshell_css', args=[('').join(["embedded-",skin,".css"])])
+				],
+		'js_libs': [
+				reverse('mooshell_js', args=[settings.MOOTOOLS_CORE]),
+				reverse('mooshell_js', args=[settings.MOOTOOLS_MORE]),
+				]
+	}
+	return render_to_response('embedded.html', c)
 		
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.

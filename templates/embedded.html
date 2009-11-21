@@ -10,7 +10,6 @@
 	<!--[if lte IE 6]>
 		<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/ie-hacks.css" %}"/>
 	<![endif]-->
-	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/embedded.css" %}"/>
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
 	</script>
@@ -22,7 +21,7 @@
 			<ul id="triggers">
 				<li class="tRun"><a title="Run" href="#" id='run'>Run</a></li>
 	
-				<li class="tEdit"><a title="Edit" href="#">Edit</a></li>
+				<li class="tEdit"><a title="Edit" href="#" id='edit'>Edit</a></li>
 			</ul>			
 			
 			<ul id="actions">
@@ -44,12 +43,14 @@
 
 
 	<script type="text/javascript" charset="utf-8">
-		var shell_src = "{{ shell.get_show_url }}";
+		var show_src = "{{ shell.get_show_url }}?skin={{ skin }}";
 		
 		var loadResult = function () {
-			console.log('show result');
 			new Element('iframe', {
-				'src': shell_src
+				'src': show_src,
+				'styles': {
+					'height': height - 10
+				}
 			}).inject($('result'));
 			this.removeEvent('click',loadResult);
 			window.fireEvent('result_included');
@@ -59,12 +60,19 @@
 			$('result_trigger').removeEvent('click',loadResult);
 			$('run').removeEvent('click',loadResult);
 			$('run').addEvent('click', function() {
-				$('result').getFirst('iframe').src = shell_src;
+				$('result').getFirst('iframe').src = show_src;
 			})
 		});
+		var height;
 		(function(){
+			height = {{ height }} - $('head').getSize().y - 20;
+			console.log(height);
+			$$('.tCont').setStyle('height', height);
 			$('result_trigger').addEvent('click', loadResult);
 			$('run').addEvent('click', loadResult);
+			$('edit').addEvent('click', function() {
+				window.open('{{ shell.get_absolute_url }}?skin={{ skin }}','editor');
+			});
 			this.sections	= $$('#tabs .tCont');
 			this.actions	= $$('#actions a');
 			
