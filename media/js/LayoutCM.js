@@ -26,15 +26,12 @@ var Layout = {
 		
 		// instantiate sidebar
 		this.sidebar = new Sidebar({
-			DOM: 'sidebar',
-			onActive: function(){
-				var self = this;
-				// resize needed as accordion height may be changed and scrollbar may appear
-				// add delay to make accordion set it's height
-				return (function() {self.resize();}.delay(700));
-			}.bind(this)
+			DOM: 'sidebar'
 		});
 		window.addEvent('resize', this.resizeWithDelay.bind(this));
+		this.sidebar.addEvents({
+			'accordion_resized': this.resizeWithDelay.bind(this)
+		});
 		
 		// set editor labels
 		var result = document.id('result');
@@ -79,6 +76,9 @@ var Layout = {
 		this.editors.each( function(ed) {
 			ed.hide();
 		});
+		if (this.result) {
+			this.result.hide();
+		}
 		
 		var win_size = window.getSize();
 		
@@ -113,6 +113,7 @@ var Layout = {
 		}
 		
 		if (this.result) {
+			this.result.show();
 			var height = win_size.y - this.result.getPosition().y - 8;
 			this.result.getParent('.window').setStyles({
 				'width': width,
