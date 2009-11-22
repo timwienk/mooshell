@@ -183,12 +183,25 @@ def embedded(req, slug, version=0, revision=0, author=None):
 	" display embeddable version of the shell "
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
-	height = req.GET.get('height', None);
-	skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN);
+	height = req.GET.get('height', None)
+	skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
+	tabs_order = req.GET.get('tabs',"js,html,css,result")
+	tabs_order = tabs_order.split(',')
+	
+	tabs = []
+	for t in tabs_order:
+		tab = {	'type': t,
+						'title': settings.MOOSHELL_EMBEDDED_TITLES[t]
+					}
+		if t != "result":
+			tab['code'] = getattr(shell,'code_'+t)
+		tabs.append(tab)	
+															
 	c = { 
 		'height': height,
 		'shell': shell,
 		'skin': skin,
+		'tabs': tabs,
 		'css_files': [
 				reverse('mooshell_css', args=[('').join(["embedded-",skin,".css"])])
 				],
