@@ -8,9 +8,10 @@ MOOSHELL_DEFAULT_SKIN = 'light'
 
 MOOSHELL_STANDARD_LAYOUT = MOOSHELL_CROSS_LAYOUT
 MOOSHELL_EMBEDDED_TITLES = {"js": "JavaScript",
-														"html": "HTML",
-														"css": "CSS",
-														"result": "Result"}
+							"html": "HTML",
+							"css": "CSS",
+							"result": "Result"}
+MOSHELL_MEDIA_PATHS = ['mooshell']
 
 # LIBRARY SETTINGS
 MOOSHELL_LIBRARY_GROUP = "Mootools" 
