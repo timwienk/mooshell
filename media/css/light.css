@@ -16,7 +16,7 @@ body { background: #efefef; }
 /* header */
 #header { background: url(../img/sprites.png) repeat-x; }
 #branding { color: #ffffff; }
-#home { background: transparent url(../img/sprites.png) no-repeat -236px -101px;  }
+#home { background: transparent url(../img/sprites.png) no-repeat -227px -101px;  }
 
 /* sidebar */
 #sidebar .toggler {
