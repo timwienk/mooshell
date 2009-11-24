@@ -3,7 +3,6 @@ body {
 	font-size: .7em;
 	margin: 0;
 	padding: 0;
-	/*height: 100%;*/
 }
 
 body, ul, ol, li, p, pre, div, a {
@@ -25,11 +24,8 @@ a {
 	font-family: "Monaco", Helvetica, Arial, sans-serif;
 }
 
-#iwrapper {
+#wrapper {
 	overflow: hidden;
-	border-left: solid 1px #818588;
-	border-right: solid 1px #818588;
-	border-bottom: solid 1px #818588;
 }
 
 #head,
@@ -37,7 +33,8 @@ a {
 #actions li,
 #triggers li a,
 #actions li.active,
-#actions li.active a {
+#actions li.active a,
+#head h1 a {
 	background-image: url(../img/mooshell-frame.sprite.png);
 }
 
@@ -51,8 +48,19 @@ a {
 }
 
 	#head h1 {
-		display: none;
+		float: left;
+		height: 34px;
+		width: 76px;
+		margin: 0 0 0 10px;
 	}
+	
+		#head h1 a {
+			float: left;
+			height: 34px;
+			width: 76px;
+			background-position: 100% -81px;
+			text-indent: -9999em;
+		}
 
 #actions {
 	float: right;	
@@ -133,4 +141,7 @@ a {
 		display: block;
 	}
 
-#result iframe { width: 100%; border: 0px solid; }
+#result iframe {
+	width: 100%;
+	border: none;
+}

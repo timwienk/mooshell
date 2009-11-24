@@ -1,28 +1,28 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<meta http-equiv="edit-Type" edit="text/html; charset=utf-8">
-	<meta name="description" edit="mootools shell, easy test you snippets before implementing">
-	<meta name="keywords" edit="mootools,javascript,javascript framework,shell,test">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="edit-Type" edit="text/html; charset=utf-8" />
+	<meta name="description" edit="mootools shell, easy test you snippets before implementing" />
+	<meta name="keywords" edit="mootools,javascript,javascript framework,shell,test" />
 	<meta name="robots" edit="all">
 
 	<title>{{ seo_title_head }}{{ title }}{{ title_separator }}{{ project_name }}{{ seo_title_tail }}</title>
 	{# google owner verification code #}
 	{# <meta name="verify-v1" content="xGLCJ90PNPYqLKZpfdy+o7vFg8g3KesWjdExGRedFyM=" /> #}
-	<meta name="author" edit="Piotr Zalewa">
-	<meta name='copyright' content='share alike'/>
+	<meta name="author" edit="Piotr Zalewa" />
+	<meta name='copyright' content="share alike" />
 
 	{% for js in js_libs %}<script type="text/javascript" src="{{ js }}"></script>
 	{% endfor %}
-	<link rel="stylesheet" type="text/css" href="{% url media "css/normalize.css" %}"/>
-	<link rel="stylesheet" type="text/css" href="{% url media "css/tricks.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url media "css/normalize.css" %}" />
+	<link rel="stylesheet" type="text/css" href="{% url media "css/tricks.css" %}" />
 	<!--[if lte IE 6]>
 		<link rel="stylesheet" type="text/css" href="{% url media "css/ie-hacks.css" %}"/>
 	<![endif]-->
 
-	<link rel="stylesheet" type="text/css" href="{% url media "css/style.css" %}"/>
-	<link rel="stylesheet" type="text/css" href="{% url media "css/colors.css" %}"/>
-	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
+	<link rel="stylesheet" type="text/css" href="{% url media "css/style.css" %}" />
+	<link rel="stylesheet" type="text/css" href="{% url media "css/colors.css" %}" />
+	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}" />{% endfor %}
 	<script type='text/javascript'>
 		window.addEvent('domready', function() {
 			$extend(Layout, new Events());
