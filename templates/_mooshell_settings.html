@@ -1,5 +1,5 @@
 {% load mooshell_extras %}
-<h3 class='toggler'>Settings</h3>
+<h3 class='toggler' id='settings_toggler'>Settings</h3>
 <div class='element' id='shell_settings'>
 	<select name='js_wrap' id='js_wrap'>
 		<option value=''{% if shell %}{% if not shell.js_wrap %} selected='1'{% endif %}{% endif %}>no wrap</option>
