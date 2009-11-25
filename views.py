@@ -238,9 +238,10 @@ def show_part(req, slug, part, version=0, author=None):
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
-def ajax_json_echo(req):
+def ajax_json_echo(req, delay=True):
 	" echo GET and POST "
-	time.sleep(random.uniform(1,3))
+	if delay:
+		time.sleep(random.uniform(1,3))
 	c = {'get_response':{},'post_response':{}}
 	for key, value in req.GET.items():
 		c['get_response'].update({key: value})
@@ -249,8 +250,9 @@ def ajax_json_echo(req):
 	return HttpResponse(simplejson.dumps(c),mimetype='application/javascript')
 
 
-def ajax_html_echo(req):
-	time.sleep(random.uniform(1,3))
+def ajax_html_echo(req, delay=True):
+	if delay:
+		time.sleep(random.uniform(1,3))
 	t = req.POST.get('html','')
 	return HttpResponse(t)
 
