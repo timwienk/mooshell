@@ -5,6 +5,7 @@
 
 	{% for js in js_libs %}<script type="text/javascript" src="{{ js }}"></script>
 	{% endfor %}
+	<script type="text/javascript" src="{% url mooshell_media "js/lighter/lighter.js" %}"></script>
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/normalize.css" %}" />
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/tricks.css" %}" />
 	<!--[if lte IE 6]>
@@ -35,14 +36,23 @@
 			this.actions.each(function(action, index, actions){
 				action.addEvents({
 					click: function(e){
-						e.stop();
+						if (e) e.stop();
 						this.sections.removeClass('active');
 						this.sections[index].addClass('active');
 						actions.getParent().removeClass('active');
 						action.getParent().addClass('active');
+						
+						// destroy all previous lighters, and create a new one 
+						// from the currently selected (but only if it's not the Result tab)
+						$$('.standardLighter').destroy();
+						if (!this.sections[index].hasClass('result')){
+							this.sections[index].light();
+						}
 					}.bind(this)
 				});
 			}, this);
+			
+			this.actions[0].fireEvent('click');
 		});
 	</script>
 </head>
@@ -66,7 +76,7 @@
 			{% for tab in tabs %}
 				{% ifequal tab.type "result" %}<div class="tCont result{% if forloop.first %} active{% endif %}" id='result'></div>
 					{% if forloop.first %}<script type='text/javascript'>window.addEvent('load',function(){ loadResult(); });</script>{% endif %}
-				{% else %}<pre class="tCont {{ tab.type }}{% if forloop.first %} active{% endif %}">{{ tab.code }}</pre>{% endifequal %}
+				{% else %}<pre class="{{ tab.type }} tCont {% if forloop.first %} active{% endif %}">{{ tab.code }}</pre>{% endifequal %}
 			{% endfor %}
 		</div>
 	</div>

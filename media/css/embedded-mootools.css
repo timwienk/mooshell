@@ -1,0 +1,149 @@
+body {
+	font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+	font-size: .7em;
+	margin: 0;
+	padding: 0;
+}
+
+body, ul, ol, li, p, pre, div, a {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	text-decoration: none;
+	color: #1A1A1A;
+}
+
+a {
+	outline: none;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #F1F2F2;
+}
+
+.tCont {
+	font-size: 1em;
+	font-family: "Monaco", Helvetica, Arial, sans-serif;
+}
+
+#wrapper {
+	overflow: hidden;
+}
+
+#head,
+#triggers,
+#actions li,
+#triggers li a,
+#actions li.active,
+#actions li.active a,
+#head h1 a {
+	background-image: url(../img/mooshell-frame.sprite.png);
+}
+
+#head {
+	background-color: #AFB4B8;
+	background-position: 0 0;
+	background-repeat: repeat-x;
+	position: relative;
+	height: 34px;
+	overflow: hidden;
+	border-left: solid 1px #939A9E;
+	border-right: solid 1px #939A9E;
+}
+
+	#head h1 {
+		float: left;
+		height: 34px;
+		width: 87px;
+		margin: 0 0 0 10px;
+	}
+	
+		#head h1 a {
+			float: left;
+			height: 34px;
+			width: 87px;
+			background-position: 100% -81px;
+			text-indent: -9999em;
+		}
+
+#actions {
+	float: right;	
+}
+
+	#actions li {
+		float: left;
+		height: 34px;
+		background-position: 0 -41px;
+		background-repeat: no-repeat;
+	}
+	
+		#actions li a {
+			display: block;
+			height: 34px;
+			line-height: 3em;
+			padding: 0 14px;
+			
+		}
+		
+	#actions li.active {
+		background-position: 0 -173px;
+	}
+
+		#actions li.active a {
+			background-position: 100% -173px;
+
+		}
+
+#triggers {
+	float: right;
+	padding: 0 14px;
+	background-position: 0 -41px;
+}
+
+	#triggers li {
+		float: left;
+		height: 34px;
+		background-repeat: no-repeat;
+	}
+
+	#triggers li.tRun a {
+		background-position: 0 -80px;
+	}
+
+	#triggers li.tEdit a {
+		background-position: -28px -80px;
+	}
+
+	#triggers li.tRun a:hover {
+		background-position: 0 -130px;
+	}
+
+	#triggers li.tEdit a:hover {
+		background-position: -28px -130px;
+	}
+
+		#triggers li a {
+			display: block;
+			height: 34px;
+			text-indent: -9000em;
+			width: 28px;
+		}
+		
+#tabs {
+	background: #fff;
+	position: relative;
+}
+
+	#tabs .tCont {
+		padding: 10px;
+		margin: 0;
+		display: none;
+		overflow: auto;
+	}
+	
+	#tabs .active {
+		display: block;
+	}
+
+#result iframe {
+	width: 100%;
+	border: none;
+}
