@@ -29,9 +29,9 @@
 				resize_element_counter = 0;
 				return light.element.setStyle('height', height)
 			}
-			if (resize_element_counter++ < 20 ) (function(){
+			if (resize_element_counter++ < 200 ) (function(){
 				return resizeLighter(light);
-			}).delay(10);
+			}).delay(1);
 		};
 		Element.implement({
 			switchLighter: function(lighter_class) {
