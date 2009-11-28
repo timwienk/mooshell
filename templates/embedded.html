@@ -22,6 +22,18 @@
 	
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
+		var resize_element_counter = 0;
+		var resizeLighter = function( light ) {
+			// recursive function
+			if (light.element) {
+				resize_element_counter = 0;
+				return light.element.setStyle('height', height)
+			}
+			console.log(resize_element_counter)
+			if (resize_element_counter++ < 20 ) (function(){
+				return resizeLighter(light);
+			}).delay(10);
+		};
 		Element.implement({
 			switchLighter: function(lighter_class) {
 				lighter_class = lighter_class || 'standard';
@@ -30,15 +42,7 @@
 				$$('.'+lighter_class+'Lighter').destroy();
 				if (!this.hasClass('result')) {
 					var light = this.light({flame: lighter_class});
-					if (light.element) {
-						// set the height of the lighted element
-						light.element.setStyle('height', height)
-					} else {
-						// element is created with a slight delay (check in Lighter)
-						(function(){
-							light.element.setStyle('height', height)
-						}).delay(100);
-					}
+					resizeLighter(light);
 					return light;
 				}
 			}
