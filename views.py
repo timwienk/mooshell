@@ -26,7 +26,7 @@ from forms import PastieForm, ShellForm
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 5)
+@cache_page(60 * 30)
 def pastie_edit(req, slug=None, version=0, revision=None, author=None):
 	"""
 	display the edit shell page ( main display)
@@ -178,7 +178,7 @@ def pastie_display(req, slug, shell=None, dependencies = []):
 	
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 5)	
+@cache_page(60 * 30)	
 def embedded(req, slug, version=0, revision=0, author=None):
 	" display embeddable version of the shell "
 	user = get_object_or_404(User, username=author) if author else None
@@ -214,7 +214,7 @@ def embedded(req, slug, version=0, revision=0, author=None):
 		
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 5)
+@cache_page(60 * 30)
 def pastie_show(req, slug, version=0, author=None):
 	" render the shell only "
 	user = get_object_or_404(User, username=author) if author else None
@@ -224,14 +224,14 @@ def pastie_show(req, slug, version=0, author=None):
 
 # caching views added - however it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 5)
+@cache_page(60 * 30)
 def author_show_part(req, author, slug, part, version=0):
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 5)
+@cache_page(60 * 30)
 def show_part(req, slug, part, version=0, author=None):
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
@@ -273,7 +273,7 @@ def ajax_html_javascript_response(req):
 	return HttpResponse("<p>A sample paragraph</p><script type='text/javascript'>alert('sample alert');</script>")
 
 
-@cache_page(60 * 5)
+@cache_page(60 * 30)
 def serve_static(request, path, media='media', type=None):
 	if type: 
 		path = '/'.join([type, path])
@@ -286,7 +286,7 @@ def serve_static(request, path, media='media', type=None):
 		
 	raise Http404 
 
-@cache_page(60 * 5)
+@cache_page(60 * 30)
 def get_library_versions(request, group_id): 
 	libraries = JSLibrary.objects.filter(library_group__id=group_id)
 	c = {'libraries': [{'id': l.id, 'version': l.version, 'selected': l.selected, 'group_name': l.library_group.name} for l in libraries ]}
@@ -297,7 +297,7 @@ def get_library_versions(request, group_id):
 	return HttpResponse(simplejson.dumps(c),mimetype='application/javascript')
 
 
-@cache_page(60 * 5)
+@cache_page(60 * 30)
 def get_dependencies(request, lib_id): 
 	return HttpResponse(simplejson.dumps(get_dependencies_dict(lib_id)),mimetype='application/javascript')
 
