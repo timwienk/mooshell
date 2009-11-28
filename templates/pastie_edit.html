@@ -29,6 +29,7 @@
 			mediapath = "{% url mooshell_media "" %}",
 			codemirrorpath = "{% url codemirror "" %}",
 			mooshell;
+		Layout.skin = "{{ skin }}"
 		window.addEvent('domready', function() {
 			$extend(Layout, new Events());
 			mooshell = new MooShellActions({
@@ -60,7 +61,7 @@
 	</script>
 	{% block head %}{% endblock %}
 </head><body>
-	<form method='post' id='show-result' target='result' action='{% url pastie_display %}' >
+	<form method='post' id='show-result' target='result' action='{% url pastie_display %}?skin={{ skin }}' >
 		<div id='header'>
 			<div id='branding'>
 				<p id='name'><a href='/' id='home'>{{ project_name }} {{ project_status }}</a></p>

@@ -15,15 +15,6 @@ from django.views.decorators.cache import cache_page
 from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSLibraryWrap, JSDependency
 from forms import PastieForm, ShellForm
 
-#http://www.djangosnippets.org/snippets/1693/
-#if settings.DEBUG:
-#    def cache_page(delay):
-#        def rendered(view):
-#            def inner(request, *args, **kwargs):
-#                return view(request, *args, **kwargs)
-#            return inner
-#        return rendered
-
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
 @cache_page(60 * 30)
@@ -55,6 +46,8 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None):
 	
 	nopairs = req.GET.get('nopairs',False)
 	
+	skin = req.GET.get('skin', settings.MOOSHELL_DEFAULT_SKIN)
+	
 	c.update({
 			'pastieform':pastieform,
 			'shellform':shellform,
@@ -78,6 +71,7 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None):
 			'example_url': example_url,
 			'web_server': 'http://%s' % req.META['SERVER_NAME'],
 			'nopairs': nopairs,
+			'skin': skin,
 			'get_dependencies_url': reverse("_get_dependencies", args=["lib_id"]).replace('lib_id','{lib_id}'),
 			'get_library_versions_url': reverse("_get_library_versions", args=["group_id"]).replace('group_id','{group_id}'),
 			})
