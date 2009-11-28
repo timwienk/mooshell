@@ -1,1 +1,39 @@
-body { background: white; }
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: .9em;
+    padding: 0;
+    margin: 0;
+    background: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: #6B7B95;
+    outline: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #E79D35;
+}
+
+li {
+    margin: 0 0 2px;
+}
+
+#action-bar {
+    border-bottom: solid 1px #D4D4D4;
+    margin: 0 0 10px;
+    padding: 0 0 5px;
+    font-size: .9em;
+}
+
+#action-bar a {
+    color: #78BA91;
+    font-weight: bold;
+}
+
+#action-bar li {
+    display: inline;
+    padding: 0 10px 0 0;
+}​
