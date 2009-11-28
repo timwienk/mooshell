@@ -5,7 +5,7 @@
 
 	{% for js in js_libs %}<script type="text/javascript" src="{{ js }}"></script>
 	{% endfor %}
-	<script type="text/javascript" src="{% url mooshell_media "js/lighter/lighter.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_js "lighter/Lighter.js" %}"></script>
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/normalize.css" %}" />
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/tricks.css" %}" />
 	<!--[if lte IE 6]>
