@@ -22,6 +22,28 @@
 	
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
+		Element.implement({
+			switchLighter: function(lighter_class) {
+				lighter_class = lighter_class || 'standard';
+				// destroy all previous lighters, and create a new one 
+				// from the currently selected (but only if it's not the Result tab)
+				$$('.'+lighter_class+'Lighter').destroy();
+				if (!this.hasClass('result')) {
+					var light = this.light({flame: lighter_class});
+					if (light.element) {
+						// set the height of the lighted element
+						light.element.setStyle('height', height)
+					} else {
+						// element is created with a slight delay (check in Lighter)
+						(function(){
+							light.element.setStyle('height', height)
+						}).delay(100);
+					}
+					return light;
+				}
+			}
+		})
+		var height;
 		window.addEvent('load',function(){
 			height = {% if height %}{{ height }}{% else %}window.getSize().y{% endif %} - $('head').getSize().y - 20;
 			$$('.tCont').setStyle('height', height);
@@ -42,12 +64,7 @@
 						actions.getParent().removeClass('active');
 						action.getParent().addClass('active');
 						
-						// destroy all previous lighters, and create a new one 
-						// from the currently selected (but only if it's not the Result tab)
-						$$('.standardLighter').destroy();
-						if (!this.sections[index].hasClass('result')){
-							this.sections[index].light();
-						}
+						this.sections[index].switchLighter();
 					}.bind(this)
 				});
 			}, this);
