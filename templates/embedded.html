@@ -52,7 +52,7 @@
 				});
 			}, this);
 			
-			this.actions[0].fireEvent('click');
+			if (!this.sections[0].hasClass('result')) this.actions[0].fireEvent('click');
 		});
 	</script>
 </head>
