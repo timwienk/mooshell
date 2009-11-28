@@ -29,7 +29,6 @@
 				resize_element_counter = 0;
 				return light.element.setStyle('height', height)
 			}
-			console.log(resize_element_counter)
 			if (resize_element_counter++ < 20 ) (function(){
 				return resizeLighter(light);
 			}).delay(10);
