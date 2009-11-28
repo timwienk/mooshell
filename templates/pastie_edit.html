@@ -49,12 +49,14 @@
 			Layout.render();
 			{# var mooshellSettings = new MooShellSettings(); #}
 		});
+		{% comment %}
 		{% if not example_url %}
 			window.addEvent('load', function() {
 				Layout.sidebar.accordion
 					.display(Layout.sidebar.accordion.togglers.indexOf($("about_toggler")));
 			});
 		{% endif %}
+		{% endcomment %}
 	</script>
 	{% block head %}{% endblock %}
 </head><body>
