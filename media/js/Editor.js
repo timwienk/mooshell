@@ -7,7 +7,7 @@ $extend(Element.NativeEvents, {	paste: 2 });
 var MooShellEditor = new Class({
 	Extends: PostEditor,
 	options: {
-		tab: '  ',
+		tab: '  '
 	},
 	initialize: function(el,options) {
 		this.setOptions(options);
@@ -32,20 +32,17 @@ var MooShellEditor = new Class({
 	add_fullscreen_button: function() {
 		this.fullscreen = new Element('a', {
 			text: 'full screen',
-			'class': 'fullscreen',
-		})
-			.inject(this.element,'after')
-			.addEvents({
-				'click': function(e) { e.stop(); alert('full screen'); },
-				'mouseenter': function() { this.retrieve('fx').start(0.8); console.log('?')},
-				'mouseleave': function() { this.retrieve('fx').start(0.3);}
-			})
-		this.fullscreen.store(
-			'fx', 
-			new Fx.Tween(this.fullscreen, {property: 'opacity'}))
-
+			'class': 'fullscreen'
+		});
+		this.fullscreen.inject(this.element,'after');
+		this.fullscreen.addEvents({
+			'click': function(e) { e.stop(); alert('full screen'); },
+			'mouseenter': function() { this.retrieve('fx').start(0.8); },
+			'mouseleave': function() { this.retrieve('fx').start(0.3); }
+		});
+		this.fullscreen.store('fx', new Fx.Tween(this.fullscreen, {property: 'opacity'}));
 		this.fullscreen.retrieve('fx').set(0);
-	},
+	}
 });
 
 /*

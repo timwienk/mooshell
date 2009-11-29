@@ -22,7 +22,7 @@ var Sidebar = new Class({
 		}
 	},
 	resize: function () {
-		this.element.setStyle('min-height',window.getSize().y - this.element.getPosition().y - 8)
+		this.element.setStyle('min-height',window.getSize().y - this.element.getPosition().y - 8);
 	}
 });
 
@@ -96,5 +96,4 @@ var Layout = {
 	}
 }
 // add events to Layout object
-$extend(Layout, new Events())
-
+$extend(Layout, new Events());

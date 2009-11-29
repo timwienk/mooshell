@@ -36,9 +36,7 @@ var MooShellEditor = new Class({
 			if (!this.options.codeMirrorOptions.path) {
 				this.options.codeMirrorOptions.path = codemirrorpath + 'js/';
 			}
-			this.editor = CodeMirror.fromTextArea(
-				this.element, this.options.codeMirrorOptions
-			);
+			this.editor = CodeMirror.fromTextArea(this.element, this.options.codeMirrorOptions);
 			this.element.hide();
 		}
 		this.getWindow().addEvents({
@@ -63,7 +61,7 @@ var MooShellEditor = new Class({
 		return this.window;
 	},
 	getLabel: function() {
-		return this.getWindow().getElement('.window_label')
+		return this.getWindow().getElement('.window_label');
 	},
 	updateFromMirror: function() {
 		if (this.editor) this.element.set('value', this.editor.getCode());

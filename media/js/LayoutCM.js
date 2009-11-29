@@ -95,7 +95,7 @@ var Layout = {
 		// calculate width
 		var width = Math.floor((av_width - 8) / 2);
 		
-		fieldsets.each(function(fieldset) {fieldset.setStyle('width', width)});
+		fieldsets.each(function(fieldset) {fieldset.setStyle('width', width);});
 		
 		// set all editors width
 		this.editors.each( function(ed) {
