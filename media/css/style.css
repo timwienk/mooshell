@@ -36,6 +36,8 @@ body { font-family: Helvetica, Arial; }
 	
 }
 
+#sidebar input.share { width: 100%; }
+
 #sidebar .toggler { margin-bottom: 5px; }
 #sidebar .element { }
 #sidebar .toggler,

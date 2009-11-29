@@ -1,0 +1,21 @@
+{% if example_url %}
+	{% load mooshell_extras %}
+	<h3 class='toggler' id='share_toggler'>Share</h3>
+	<div class='element' id='share_links'>
+		<p>Link to this page</p>
+		<input id='share_link' type='text' class='share' value='{{ example_url }}'/>
+		<p>Embed on your page</p>
+		<input id='share_embedded' type='text' class='share' value="<iframe style='width: 100%; height: 300px' src='{{ example_url }}embedded/'></iframe>"/>
+		<p></p>
+	</div>
+	<script type='text/javascript'>
+		window.addEvent('domready', function() {
+			$('share_link').addEvent('click', function() {
+				this.select();
+			});
+			$('share_embedded').addEvent('click', function() {
+				this.select();
+			});
+		});
+	</script>
+{% endif %}
