@@ -17,6 +17,7 @@ a {
 	outline: none;
 	font-weight: bold;
 	text-shadow: 0 1px 0 #fff;
+	cursor: pointer;
 }
 
 .tCont {

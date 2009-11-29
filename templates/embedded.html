@@ -81,13 +81,13 @@
 		<div id="head">
 			<h1><a title="MooShell" href="http://mooshell.net/">MooShell</a></h1>
 			<ul id="triggers">
-				<li class="tRun"><a title="Run" href="#" id="run">Run</a></li>
-				<li class="tEdit"><a title="Edit" href="#" id="edit">Edit</a></li>
+				<li class="tRun"><a title="Run" id="run">Run</a></li>
+				<li class="tEdit"><a title="Edit" id="edit">Edit</a></li>
 			</ul>			
 			
 			<ul id="actions">
 				{% for tab in tabs %}
-					<li{% if forloop.first %} class='active'{% endif %}><a title="{{ tab.title }}" href='#' id="{{ tab.type }}_trigger">{{ tab.title }}</a></li>
+					<li{% if forloop.first %} class='active'{% endif %}><a title="{{ tab.title }}" id="{{ tab.type }}_trigger">{{ tab.title }}</a></li>
 				{% endfor %}
 			</ul>
 		</div>
