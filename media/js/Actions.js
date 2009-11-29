@@ -36,8 +36,8 @@ var MooShellActions = new Class({
 		this.form = document.id(this.options.formId);
 		
 		if (this.options.exampleURL) {
-			this.run(),
-			this.displayExampleURL()
+			this.run();
+			this.displayExampleURL();
 		}
 	},
 	// save and create new pastie
@@ -52,7 +52,7 @@ var MooShellActions = new Class({
 					// reload page after successful save
 					window.location = json.pastie_url; 
 				} else {
-					alert('ERROR: ' + json.error)
+					alert('ERROR: ' + json.error);
 				}
 			}
 		}).send(this.form);
@@ -82,7 +82,7 @@ var MooShellActions = new Class({
 		if (this.resultText) {
 			document.id(this.options.resultLabel).set('text', this.resultText);
 		}
-		if ($(this.options.saveAndReloadId)) $(this.options.saveAndReloadId).destroy()
+		if ($(this.options.saveAndReloadId)) $(this.options.saveAndReloadId).destroy();
  		this.fireEvent('clean');
 	},
 	// rename iframe label to present the current URL
@@ -114,7 +114,7 @@ var MooShellActions = new Class({
 				response.libraries.each( function(lib) {
 					new Element('option', {
 						value: lib.id,
-						text: "{group_name} {version}".substitute(lib),
+						text: "{group_name} {version}".substitute(lib)
 					}).inject($('js_lib'));
 					if (lib.selected) $('js_lib').set('value',lib.id);
 				});
@@ -145,6 +145,6 @@ var MooShellActions = new Class({
 					if (dep.selected) $('dep_'+dep.id).set('checked', true);
 				});
 			}
-		}).send()
+		}).send();
 	}
 });

@@ -20,15 +20,15 @@ var MooShellSettings = new Class({
 	changeDeps: function() {
 		new Request.JSON({
 			url: get_dependencies_url.substitute({
-						"lib_id": this.libEl.value
-					}), 
+				"lib_id": this.libEl.value
+			}), 
 			onSuccess: function(result) {
 				this.depEl.empty();
 				result.each( function(dep) {
 					new Element('li', {
 						'html': "<input type='checkbox' id='dep_{id}' name='dep_{id}'/><label for='dep_{id}'>{name}</label>".substitute(dep)
 					}).inject(this.depEl, 'top');
-				}, this)
+				}, this);
 			}.bind(this)
 		}).send();
 	}
