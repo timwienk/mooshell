@@ -45,7 +45,7 @@
 					// recursive function
 					if (light.element) {
 						resize_element_counter = 0;
-						return light.element.setStyle('height', height)
+						return light.element.setStyle('height', height);
 					}
 					if (resize_element_counter++ < 200 ) (function(){
 						return resizeLighter(light);
