@@ -22,19 +22,35 @@
 	
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
-		var resize_element_counter = 0;
-		var resizeLighter = function( light ) {
-			// recursive function
-			if (light.element) {
-				resize_element_counter = 0;
-				return light.element.setStyle('height', height)
-			}
-			if (resize_element_counter++ < 200 ) (function(){
-				return resizeLighter(light);
-			}).delay(1);
+		var height,
+			show_src = "{{ shell.get_show_url }}?skin={{ skin }}",
+			resize_element_counter = 0;
+		
+		// inject iframe and fire event	
+		var loadResult = function () {
+			new Element('iframe', {
+				'src': show_src,
+				'styles': {
+					'height': height - 10
+				}
+			}).inject($('result'));
+			this.removeEvent('click',loadResult);
+			window.fireEvent('result_included');
 		};
+		
+
 		Element.implement({
-			switchLighter: function(lighter_class) {
+			switchLighter: function(lighter_class) {		
+				var resizeLighter = function( light ) {
+					// recursive function
+					if (light.element) {
+						resize_element_counter = 0;
+						return light.element.setStyle('height', height)
+					}
+					if (resize_element_counter++ < 200 ) (function(){
+						return resizeLighter(light);
+					}).delay(1);
+				};
 				lighter_class = lighter_class || 'standard';
 				// destroy all previous lighters, and create a new one 
 				// from the currently selected (but only if it's not the Result tab)
@@ -45,34 +61,55 @@
 					return light;
 				}
 			}
-		})
-		var height;
-		window.addEvent('load',function(){
-			height = {% if height %}{{ height }}{% else %}window.getSize().y{% endif %} - $('head').getSize().y - 20;
-			$$('.tCont').setStyle('height', height);
-			$('result_trigger').addEvent('click', loadResult);
-			$('run').addEvent('click', loadResult);
-			$('edit').addEvent('click', function(){
-				window.open('{{ shell.get_absolute_url }}?skin={{ skin }}','editor');
-			});
-			this.sections	= $$('#tabs .tCont');
-			this.actions	= $$('#actions a');
-			
-			this.actions.each(function(action, index, actions){
-				action.addEvents({
-					click: function(e){
-						if (e) e.stop();
-						this.sections.removeClass('active');
-						this.sections[index].addClass('active');
-						actions.getParent().removeClass('active');
-						action.getParent().addClass('active');
-						
-						this.sections[index].switchLighter();
-					}.bind(this)
+		});
+		
+		this.switchTab = function(action, index) {
+			console.log(action,index);
+			this.sections.removeClass('active');
+			this.sections[index].addClass('active');
+			this.actions.getParent().removeClass('active');
+			action.getParent().addClass('active');
+			this.sections[index].switchLighter();
+		}
+		
+		window.addEvents({
+			load: function(){
+				height = {% if height %}{{ height }}{% else %}window.getSize().y{% endif %} - $('head').getSize().y - 20;
+				$$('.tCont').setStyle('height', height);
+				$('result_trigger').addEvent('click', loadResult);
+				$('run').addEvent('click', function() { 
+					if (!$('result').hasClass('active')) {
+						this.switchTab(
+							$('result_trigger'), 
+							this.sections.indexOf($('result'))
+						);
+					}
+				}.bind(window));
+				$('run').addEvent('click', loadResult);
+				$('edit').addEvent('click', function(){
+					window.open('{{ shell.get_absolute_url }}?skin={{ skin }}','editor');
 				});
-			}, this);
-			
-			if (!this.sections[0].hasClass('result')) this.actions[0].fireEvent('click');
+				this.sections	= $$('#tabs .tCont');
+				this.actions	= $$('#actions a');
+				
+				this.actions.each(function(action, index){
+					action.addEvents({
+						click: function(e){
+							if (e) e.stop();
+							this.switchTab(action, index);
+						}.bind(this)
+					});
+				}, this);
+				
+				if (!this.sections[0].hasClass('result')) this.actions[0].fireEvent('click');
+			},
+			result_included: function() {
+				$('result_trigger').removeEvent('click',loadResult);
+				$('run').removeEvent('click',loadResult);
+				$('run').addEvent('click', function() {
+					$('result').getFirst('iframe').src = show_src;
+				});
+			}
 		});
 	</script>
 </head>
@@ -100,29 +137,5 @@
 			{% endfor %}
 		</div>
 	</div>
-
-	<script type="text/javascript" charset="utf-8">
-		var show_src = "{{ shell.get_show_url }}?skin={{ skin }}";
-		
-		var loadResult = function () {
-			new Element('iframe', {
-				'src': show_src,
-				'styles': {
-					'height': height - 10
-				}
-			}).inject($('result'));
-			this.removeEvent('click',loadResult);
-			window.fireEvent('result_included');
-		};
-		
-		window.addEvent('result_included', function() {
-			$('result_trigger').removeEvent('click',loadResult);
-			$('run').removeEvent('click',loadResult);
-			$('run').addEvent('click', function() {
-				$('result').getFirst('iframe').src = show_src;
-			})
-		});
-		var height;
-	</script>
 </body>
 </html>
