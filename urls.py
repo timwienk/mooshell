@@ -44,8 +44,8 @@ urlpatterns = patterns('mooshell.views',
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/show_js/$','show_part', {'part': 'js'}, name='author_show_js_with_version'),
     # show
     url(r'^(?P<slug>\w+)/show/$','pastie_show', name='pastie_show'),
-    url(r'^(?P<author>\w+)/(?P<slug>\w+)/show/$','pastie_show', name='author_pastie_show'),
     url(r'^(?P<slug>\w+)/(?P<version>\d+)/show/$','pastie_show', name='pastie_show_with_version'),
+    url(r'^(?P<author>\w+)/(?P<slug>\w+)/show/$','pastie_show', name='author_pastie_show'),
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/show/$','pastie_show', name='author_pastie_show_with_version'),
     
 	# main action
