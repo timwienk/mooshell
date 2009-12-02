@@ -4,7 +4,7 @@
 body { font-family: Helvetica, Arial; }	
 
 /* main structure */
-#sidebar { float: left; width: 203px; }
+#sidebar { width: 203px; position: absolute; top: 40px; left: 0;}
 #content { margin-left: 227px; overflow: hidden;}
 
 /* header */
