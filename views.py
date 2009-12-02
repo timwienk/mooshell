@@ -29,11 +29,13 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None):
 		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 		
 		example_url = ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()])
+		embedded_url = ''.join(['http://',req.META['SERVER_NAME'], shell.get_embedded_url()])
 		#shell.version = shell.get_next_version()
 		shellform = ShellForm(instance=shell)
 		pastieform = PastieForm(instance=shell.pastie)
 		c.update({
 				'pastie': shell.pastie, 
+				'embedded_url': embedded_url,
 				'shell': shell
 				})
 	else:

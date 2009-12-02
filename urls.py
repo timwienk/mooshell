@@ -50,10 +50,12 @@ urlpatterns = patterns('mooshell.views',
     
 	# main action
     url(r'^(?P<slug>\w+)/$','pastie_edit', name='pastie'),
-    url(r'^(?P<slug>\w+)/(?P<version>\d+)$','pastie_edit', name='shell'),
+    url(r'^(?P<slug>\w+)/(?P<version>\d+)/$','pastie_edit', name='shell'),
+    url(r'^(?P<slug>\w+)/(?P<version>\d+)$','pastie_edit', name='shell_no_slash'),
     url(r'^(?P<slug>\w+)/(?P<version>\d+)/(?P<revision>\d+)$','pastie_edit', name='revision'),
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/$','pastie_edit', name='author_pastie'),
-    url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)$','pastie_edit', name='author_shell'),
+    url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/$','pastie_edit', name='author_shell'),
+    url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)$','pastie_edit', name='author_shell_no_slash'),
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/(?P<revision>\d+)$','pastie_edit', name='author_revision'),
     url(r'^$','pastie_edit', name='pastie'),
    )
