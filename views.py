@@ -17,8 +17,7 @@ from forms import PastieForm, ShellForm
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 30)
-def pastie_edit(req, slug=None, version=0, revision=None, author=None):
+def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None):
 	"""
 	display the edit shell page ( main display)
 	"""
@@ -48,7 +47,7 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None):
 	
 	nopairs = req.GET.get('nopairs',False)
 	
-	skin = req.GET.get('skin', settings.MOOSHELL_DEFAULT_SKIN)
+	if not skin: skin = settings.MOOSHELL_DEFAULT_SKIN
 	
 	c.update({
 			'pastieform':pastieform,
@@ -81,7 +80,7 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None):
 							context_instance=RequestContext(req))
 	
 
-def pastie_save(req, nosave=False):
+def pastie_save(req, nosave=False, skin=None):
 	"""
 	retrieve shell from the form, save or display
 	Fix dependency
@@ -111,7 +110,7 @@ def pastie_save(req, nosave=False):
 				dependencies.append(dep)
 			if nosave:
 				" return the pastie page only " 
-				return pastie_display(req, None, shell, dependencies)
+				return pastie_display(req, None, shell, dependencies, skin)
 			" add user to shell if anyone logged in "
 			if req.user.is_authenticated():
 				shell.author = req.user
@@ -153,7 +152,7 @@ def pastie_save(req, nosave=False):
 					mimetype='application/javascript'
 	)
 
-def pastie_display(req, slug, shell=None, dependencies = []):
+def pastie_display(req, slug, shell=None, dependencies = [], skin=None):
 	" render the shell only "
 	if not shell:
 		shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
@@ -164,7 +163,8 @@ def pastie_display(req, slug, shell=None, dependencies = []):
 	if not slug:
 		" assign dependencies from request "
 	
-	skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
+	if not skin: skin = settings.MOOSHELL_DEFAULT_SKIN
+	
 	return render_to_response('pastie_show.html', {
 									'shell': shell,
 									'dependencies': dependencies,
@@ -174,14 +174,13 @@ def pastie_display(req, slug, shell=None, dependencies = []):
 	
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 30)	
-def embedded(req, slug, version=0, revision=0, author=None):
+def embedded(req, slug, version=0, revision=0, author=None, tabs='js,html,css,result', skin='light'):
 	" display embeddable version of the shell "
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	height = req.GET.get('height', None)
-	skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
-	tabs_order = req.GET.get('tabs',"js,html,css,result")
+	#skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
+	tabs_order = tabs #req.GET.get('tabs',"js,html,css,result")
 	tabs_order = tabs_order.split(',')
 	
 	tabs = []
@@ -210,24 +209,21 @@ def embedded(req, slug, version=0, revision=0, author=None):
 		
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 30)
-def pastie_show(req, slug, version=0, author=None):
+def pastie_show(req, slug, version=0, author=None, skin=None):
 	" render the shell only "
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
-	return pastie_display(req, slug, shell, shell.js_dependency.all())
+	return pastie_display(req, slug, shell, shell.js_dependency.all(), skin)
 
 
 # caching views added - however it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 30)
 def author_show_part(req, author, slug, part, version=0):
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-@cache_page(60 * 30)
 def show_part(req, slug, part, version=0, author=None):
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
@@ -269,7 +265,6 @@ def ajax_html_javascript_response(req):
 	return HttpResponse("<p>A sample paragraph</p><script type='text/javascript'>alert('sample alert');</script>")
 
 
-@cache_page(60 * 30)
 def serve_static(request, path, media='media', type=None):
 	if type: 
 		path = '/'.join([type, path])
@@ -282,7 +277,6 @@ def serve_static(request, path, media='media', type=None):
 		
 	raise Http404 
 
-@cache_page(60 * 30)
 def get_library_versions(request, group_id): 
 	libraries = JSLibrary.objects.filter(library_group__id=group_id)
 	c = {'libraries': [{'id': l.id, 'version': l.version, 'selected': l.selected, 'group_name': l.library_group.name} for l in libraries ]}
@@ -293,7 +287,6 @@ def get_library_versions(request, group_id):
 	return HttpResponse(simplejson.dumps(c),mimetype='application/javascript')
 
 
-@cache_page(60 * 30)
 def get_dependencies(request, lib_id): 
 	return HttpResponse(simplejson.dumps(get_dependencies_dict(lib_id)),mimetype='application/javascript')
 

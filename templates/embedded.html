@@ -23,7 +23,7 @@
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
 		var height,
-			show_src = "{{ shell.get_show_url }}?skin={{ skin }}",
+			show_src = "{{ shell.get_show_url }}{{ skin }}/",
 			resize_element_counter = 0;
 		
 		// inject iframe and fire event	
@@ -86,7 +86,7 @@
 				}.bind(window));
 				$('run').addEvent('click', loadResult);
 				$('edit').addEvent('click', function(){
-					window.open('{{ shell.get_absolute_url }}?skin={{ skin }}','editor');
+					window.open('{{ shell.get_absolute_url }}{{ skin }}/','editor');
 				});
 				this.sections	= $$('#tabs .tCont');
 				this.actions	= $$('#actions a');
