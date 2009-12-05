@@ -136,9 +136,10 @@ def pastie_save(req, nosave=False, skin=None):
 					shell.js_dependency.add(dep)
 			
 				" return json with pastie url "
-				return HttpResponse(simplejson.dumps(
-						{'pastie_url': ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()])}
-						),mimetype='application/javascript'
+				return HttpResponse(simplejson.dumps({
+						'pastie_url': ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()]),
+						'pastie_url_relative': shell.get_absolute_url()
+						}),mimetype='application/javascript'
 					)
 			else: error = "Pastie form does not validate %s" % pastieform['slug'].errors
 		else: 

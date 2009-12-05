@@ -64,7 +64,7 @@ var MooShellActions = new Class({
 			'url': this.options.exampleSaveUrl,
 			'onSuccess': function(json) {
 				// reload page after successful save
-				window.location = json.pastie_url; 
+				window.location = json.pastie_url_relative; 
 			}
 		}).send(this.form);
 	},
