@@ -24,6 +24,15 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 	shell = None
 	c = {}
 	if slug:
+		if skin:
+			" important as {user}/{slug} is indistingushable from {slug}/{skin} "
+			try:
+				user = User.objects.get(username=slug)
+				author = slug
+				slug = skin
+				skin = None
+			except:
+				pass
 		user = get_object_or_404(User,username=author) if author else None
 		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 		
@@ -47,12 +56,18 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 	
 	nopairs = req.GET.get('nopairs',False)
 	
-	if not skin: skin = settings.MOOSHELL_DEFAULT_SKIN
+	if not skin: skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
+	
+	edit_title = False
+	# edit title only if author
+	#if not shell or (shell and req.user.is_authenticated and shell.pastie.author.id == req.user.id):
+	#	edit_title = True  
 	
 	c.update({
 			'pastieform':pastieform,
 			'shellform':shellform,
 			'shell': shell,
+			'edit_title': edit_title,
 			'css_files': [
 					reverse('mooshell_media', args=["css/light.css"])
 					],
@@ -137,7 +152,7 @@ def pastie_save(req, nosave=False, skin=None):
 			
 				" return json with pastie url "
 				return HttpResponse(simplejson.dumps({
-						'pastie_url': ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()]),
+						#'pastie_url': ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()]),
 						'pastie_url_relative': shell.get_absolute_url()
 						}),mimetype='application/javascript'
 					)
@@ -164,7 +179,7 @@ def pastie_display(req, slug, shell=None, dependencies = [], skin=None):
 	if not slug:
 		" assign dependencies from request "
 	
-	if not skin: skin = settings.MOOSHELL_DEFAULT_SKIN
+	if not skin: skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
 	
 	return render_to_response('pastie_show.html', {
 									'shell': shell,
@@ -175,10 +190,14 @@ def pastie_display(req, slug, shell=None, dependencies = [], skin=None):
 	
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-def embedded(req, slug, version=0, revision=0, author=None, tabs='js,html,css,result', skin='light'):
+def embedded(req, slug, version=0, revision=0, author=None, tabs=None, skin=None):
 	" display embeddable version of the shell "
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
+	
+	if not skin: skin = req.GET.get('skin', settings.MOOSHELL_DEFAULT_SKIN)
+	if not tabs: tabs = req.GET.get('tabs', 'js,html,css,result')
+	
 	height = req.GET.get('height', None)
 	#skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
 	tabs_order = tabs #req.GET.get('tabs',"js,html,css,result")

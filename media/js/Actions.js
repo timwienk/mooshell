@@ -50,7 +50,7 @@ var MooShellActions = new Class({
 			'onSuccess': function(json) {
 				if (!json.error) {
 					// reload page after successful save
-					window.location = json.pastie_url; 
+					window.location = json.pastie_url_relative; 
 				} else {
 					alert('ERROR: ' + json.error);
 				}

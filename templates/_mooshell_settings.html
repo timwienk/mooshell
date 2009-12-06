@@ -10,6 +10,18 @@
 	{% if default_library_group %}{% get_js_libraries default_library_group shell %}
 	{% else %}{% get_js_library_groups shell %}
 	{% endif %}
+	
+	{% comment %}
+	<p>
+		Title:<br/>
+		{{ user }}
+		{{ pastieform.title }}
+	</p>
+	<p>
+		Description:<br/>
+		{{ shellform.description }}
+	</p>
+	{% endcomment %}
 </div>
 
 <script type='application/javascript'>
