@@ -74,5 +74,14 @@ urlpatterns = patterns('mooshell.views',
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/(?P<skin>\w+)/$','pastie_edit'),
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/(?P<revision>\d+)/$','pastie_edit', name='author_revision'),
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/(?P<revision>\d+)/(?P<skin>\w+)/$','pastie_edit'),
+    
+    
+    url(r'^u/(?P<author>\w+)/(?P<slug>\w+)/$','pastie_edit', name='u_author_pastie'),
+    url(r'^u/(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/$','pastie_edit', name='u_author_shell'),
+    url(r'^u/(?P<author>\w+)/(?P<slug>\w+)/(?P<skin>\w+)/$','pastie_edit'),
+    url(r'^u/(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/(?P<skin>\w+)/$','pastie_edit'),
+    url(r'^u/(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/(?P<revision>\d+)/$','pastie_edit', name='u_author_revision'),
+    url(r'^u/(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/(?P<revision>\d+)/(?P<skin>\w+)/$','pastie_edit'),
+    
     url(r'^$','pastie_edit', name='pastie'),
    )
