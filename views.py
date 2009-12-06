@@ -233,6 +233,7 @@ def pastie_show(req, slug, version=0, author=None, skin=None):
 	" render the shell only "
 	user = get_object_or_404(User, username=author) if author else None
 	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
+	if not skin: skin = req.GET.get('skin', settings.MOOSHELL_DEFAULT_SKIN)
 	return pastie_display(req, slug, shell, shell.js_dependency.all(), skin)
 
 
