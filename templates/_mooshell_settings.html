@@ -1,4 +1,12 @@
 {% load mooshell_extras %}
+{% if edit_title %}
+<div class='text'><p>
+	Title:<br/>
+	{{ pastieform.title }}
+</p></div>
+{% else %}
+	{% if shell.pastie.title %}<h3 class='title'>{{ shell.pastie.title }}</h3>{% endif %}
+{% endif %}
 <h3 class='toggler' id='settings_toggler'>Settings</h3>
 <div class='element' id='shell_settings'>
 	<select name='js_wrap' id='js_wrap'>
@@ -11,17 +19,6 @@
 	{% else %}{% get_js_library_groups shell %}
 	{% endif %}
 	
-	{% comment %}
-	<p>
-		Title:<br/>
-		{{ user }}
-		{{ pastieform.title }}
-	</p>
-	<p>
-		Description:<br/>
-		{{ shellform.description }}
-	</p>
-	{% endcomment %}
 </div>
 
 <script type='application/javascript'>

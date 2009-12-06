@@ -23,6 +23,12 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 	"""
 	shell = None
 	c = {}
+	
+	try:
+		server = settings.MOOSHELL_FORCE_SERVER
+	except:
+		server = 'http://%s' % req.META['SERVER_NAME']
+		
 	if slug:
 		if skin:
 			" important as {user}/{slug} is indistingushable from {slug}/{skin} "
@@ -36,8 +42,8 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 		user = get_object_or_404(User,username=author) if author else None
 		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 		
-		example_url = ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()])
-		embedded_url = ''.join(['http://',req.META['SERVER_NAME'], shell.get_embedded_url()])
+		example_url = ''.join([server, shell.get_absolute_url()])
+		embedded_url = ''.join([server, shell.get_embedded_url()])
 		#shell.version = shell.get_next_version()
 		shellform = ShellForm(instance=shell)
 		pastieform = PastieForm(instance=shell.pastie)
@@ -60,9 +66,9 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 	
 	edit_title = False
 	# edit title only if author
-	#if not shell or (shell and req.user.is_authenticated and shell.pastie.author.id == req.user.id):
-	#	edit_title = True  
-	
+	if not shell: # or (shell and shell.pastie.author and req.user.is_authenticated() and shell.pastie.author.id == req.user.id):
+		edit_title = True  
+		
 	c.update({
 			'pastieform':pastieform,
 			'shellform':shellform,
@@ -85,7 +91,7 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 					],
 			'title': "Shell Editor",
 			'example_url': example_url,
-			'web_server': 'http://%s' % req.META['SERVER_NAME'],
+			'web_server': server,
 			'nopairs': nopairs,
 			'skin': skin,
 			'get_dependencies_url': reverse("_get_dependencies", args=["lib_id"]).replace('lib_id','{lib_id}'),
@@ -134,9 +140,14 @@ def pastie_save(req, nosave=False, skin=None):
 				" prepare pastie object from DB and POST "
 				pastie = pastieform.save(commit=False)
 				
+				#" set author if first save "
+				#if shell.author and shell.version == 0 and (not shell.revision or shell.revision == 0):
+				#	pastie.author = shell.author 
+					
 				" create slug from random string if needed"
 				if not pastie.slug:
 					pastie.set_slug()
+					
 
 				pastie.save()
 
@@ -290,7 +301,7 @@ def serve_static(request, path, media='media', type=None):
 	if type: 
 		path = '/'.join([type, path])
 		
-	for media_group in settings.MOSHELL_MEDIA_PATHS:
+	for media_group in settings.MOOSHELL_MEDIA_PATHS:
 		media_path = os.path.join(settings.FRAMEWORK_PATH, media_group, media)
 		file = os.path.join(media_path,path)
 		if os.path.exists(file) and os.path.isfile(file):

@@ -1,5 +1,11 @@
-<h3 id='about_toggler' class='toggler'>About</h3>
+<h3 id='about_toggler' class='toggler'>About shell</h3>
 <div class='element'>
+		
+	<p>
+		Description:<br/>
+		{{ shellform.description }}
+	</p>
+	{% comment %}
 	<p>
 		MooShell is an official <a href='http://mootools.net' target='_new'>MooTools</a> 
 		project. Please edit code in the boxes on the right, hit [Run] to see Result. [Save New] 
@@ -7,6 +13,7 @@
 		If you'd like to choose MooTools version, use <a onclick='Layout.sidebar.accordion.display(Layout.sidebar.accordion.togglers.indexOf($("settings_toggler")))'>Settings</a>
 		panel above.
 	</p>
+	{% endcomment %}
 </div>
 
 <h3 class='toggler'>Backend support</h3>

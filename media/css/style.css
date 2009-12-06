@@ -38,6 +38,8 @@ body { font-family: Helvetica, Arial; }
 
 #sidebar input[type='text'],
 #sidebar textarea { width: 100%; }
+#sidebar textarea { height: 120px; }
+#sidebar #id_title { font-weight: 1.1em; padding: 3px 5px; width: 173px;}
 
 #sidebar .toggler { margin-bottom: 5px; }
 #sidebar .element { }

@@ -32,6 +32,15 @@ body { background: #efefef; }
 #sidebar pre,
 #sidebar code { background: #FFFADB; }
 
+#sidebar input[type='text'],
+#sidebar textarea {
+	background: #fff !important;
+	border-top: 1px solid #959595 !important;
+	border-left: 1px solid #959595 !important;
+	border-bottom: 1px solid #ccc !important;
+	border-right: 1px solid #ccc !important;
+}
+
 /* actions */
 #actions a,
 #actions a.collapsedActions strong {	

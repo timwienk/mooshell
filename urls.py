@@ -19,7 +19,7 @@ urlpatterns = patterns('mooshell.views',
 	url(r'^_get_library_versions/(?P<group_id>.*)/$','get_library_versions', name='_get_library_versions'),
 	
 
-	# compatibility with old moshell/* urls DO NOT USE THEM
+	# compatibility with old mooshell/* urls DO NOT USE THEM
 	url(r'^mooshell/ajax_json_response/$','ajax_json_response', name='old_ajax_json_response'),
 	url(r'^mooshell/ajax_html_javascript_response/$','ajax_html_javascript_response', name='old_ajax_html_javascript_response'),
     url(r'^mooshell/(?P<slug>.*)/$','pastie_edit', name='old_pastie'),

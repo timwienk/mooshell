@@ -11,7 +11,7 @@ MOOSHELL_EMBEDDED_TITLES = {"js": "JavaScript",
 							"html": "HTML",
 							"css": "CSS",
 							"result": "Result"}
-MOSHELL_MEDIA_PATHS = ['mooshell']
+MOOSHELL_MEDIA_PATHS = ['mooshell']
 
 # LIBRARY SETTINGS
 MOOSHELL_LIBRARY_GROUP = "Mootools" 

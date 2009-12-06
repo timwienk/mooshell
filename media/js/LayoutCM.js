@@ -61,7 +61,7 @@ var Layout = {
 	},
 	cleanMirrors: function() {
 		this.editors.each( function(ed) {
-			ed.cleanMirror();
+			ed.clean();
 		});
 	},
 	resizeWithDelay: function() {
