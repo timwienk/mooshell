@@ -5,8 +5,8 @@
 	<script type='text/javascript' src='{{ shell.js_lib.href }}'></script>
 	{% for js in dependencies %}<script type="text/javascript" src="{{ js.url }}"></script>
 	{% endfor %}
-	<link rel="stylesheet" type="text/css" href="/css/normalize.css"/>
-	{% if skin %}<link rel="stylesheet" type="text/css" href="/css/result-{{ skin }}.css"/>{% endif %}
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "normalize.css" %}"/>
+	{% if skin %}<link rel="stylesheet" type="text/css" href="{{ skin_css }}"/>{% endif %}
 	<style type='text/css'>
 		body {background: white; padding: 10px;  }
 		{{ shell.code_css|safe }}

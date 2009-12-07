@@ -196,7 +196,8 @@ def pastie_display(req, slug, shell=None, dependencies = [], skin=None):
 									'shell': shell,
 									'dependencies': dependencies,
 									'wrap': wrap,
-									'skin': skin
+									'skin': skin,
+									'skin_css': reverse("mooshell_css", args=['result-%s.css' % skin])
 							})
 	
 # it is bad for automate picking the latest revision 
@@ -229,7 +230,7 @@ def embedded(req, slug, version=0, revision=0, author=None, tabs=None, skin=None
 		'skin': skin,
 		'tabs': tabs,
 		'css_files': [
-				reverse('mooshell_css', args=[('').join(["embedded-",skin,".css"])])
+				reverse('mooshell_css', args=["embedded-%s.css" % skin])
 				],
 		'js_libs': [
 				reverse('mooshell_js', args=[settings.MOOTOOLS_CORE]),
