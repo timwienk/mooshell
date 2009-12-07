@@ -13,4 +13,5 @@ def load_settings(request):
 			'default_library_group': settings.MOOSHELL_LIBRARY_GROUP,
 			'GOOGLE_ANALYTICS_ID': settings.GOOGLE_ANALYTICS_ID,
 			'GOOGLE_VERIFICATION_META_TAG': settings.GOOGLE_VERIFICATION_META_TAG,
+			'SHOW_LIB_OPTION': settings.MOOSHELL_SHOW_LIB_OPTION
 			}

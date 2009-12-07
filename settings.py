@@ -32,6 +32,7 @@ MOOTOOLS_MORE = "lib/mootools-1.2.4.2-more.js"
 MOOTOOLS_DEPENDER = "lib/mootools-more/Source/Core/Depender.js"
 
 MOOSHELL_LIBRARY_GROUP = "Mootools" # set to None if more than one used
+MOOSHELL_SHOW_LIB_OPTION = False
 
 # SHELL CONFIG
 MOOSHELL_SLUG_LENGTH = 5

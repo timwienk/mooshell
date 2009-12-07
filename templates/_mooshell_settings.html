@@ -22,10 +22,10 @@
 	{% else %}{% get_js_library_groups shell %}
 	{% endif %}
 	
-	<p>
+	{% if SHOW_LIB_OPTION %}<p>
 		Library tag attributes:<br/>
 		{{ shellform.js_lib_option }}
-	</p>
+	</p>{% endif %}
 </div>
 
 <script type='application/javascript'>
