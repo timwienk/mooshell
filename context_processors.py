@@ -12,5 +12,5 @@ def load_settings(request):
 			'WEB_SERVER': request.META['SERVER_NAME'],
 			'default_library_group': settings.MOOSHELL_LIBRARY_GROUP,
 			'GOOGLE_ANALYTICS_ID': settings.GOOGLE_ANALYTICS_ID,
-			'GOOGLE_VERIFICATION_META_TAG': settings.GOOGLE_VERIFICATION_META_TAG
+			'GOOGLE_VERIFICATION_META_TAG': settings.GOOGLE_VERIFICATION_META_TAG,
 			}

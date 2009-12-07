@@ -176,8 +176,10 @@ class Shell(models.Model):
 	proposed_example = models.BooleanField(default=False, blank=True)
 	# loaded library
 	js_lib = models.ForeignKey(JSLibrary)
+	js_lib_option = models.CharField(max_length=255, null=True, blank=True)
 	js_dependency = models.ManyToManyField(JSDependency, null=True, blank=True)
 	js_wrap = models.CharField(max_length=1, choices=WRAPCHOICE, default='d', null=True, blank=True)
+	body_tag = models.CharField(max_length=255, null=True, blank=True, default="<body>")
 
 	def __str__(self):
 		past = ''

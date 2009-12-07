@@ -2,7 +2,7 @@
 <html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="edit-Type" edit="text/html; charset=utf-8">
-	<script type='text/javascript' src='{{ shell.js_lib.href }}'></script>
+	<script type='text/javascript' src='{{ shell.js_lib.href }}' {{ shell.js_lib_option|safe }}></script>
 	{% for js in dependencies %}<script type="text/javascript" src="{{ js.url }}"></script>
 	{% endfor %}
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "normalize.css" %}"/>
@@ -17,7 +17,7 @@
 	{{ wrap.code_end|safe }}
 	</script>
 </head>
-<body>
+{{ shell.body_tag|default:"<body>"|safe }}
 	{{ shell.code_html|safe }}
 </body>
 </html>
