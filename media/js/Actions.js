@@ -36,7 +36,7 @@ var MooShellActions = new Class({
 		this.form = document.id(this.options.formId);
 		
 		if (this.options.exampleURL) {
-			this.run();
+		//	this.run();
 			this.displayExampleURL();
 		}
 	},
