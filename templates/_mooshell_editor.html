@@ -1,9 +1,7 @@
 {# it is quite unusual form structure - that's why render is not automatedd #}
-{% if pastieform.non_field_errors %}{{ pastieform.non_field_errors }}{% endif %}
 {% if shelltform.non_field_errors %}{{ shellform.non_field_errors }}{% endif %}
-{{ pastieform.slug }}
 {{ shellform.version }}
-
+<input type='hidden' id='id_slug' name='slug' value='{{ shell.pastie.slug }}'/>
 <fieldset class='column'>
 	<div class='window'>
 		{{ shellform.code_html }}

@@ -38,15 +38,9 @@
 				loadDependenciesURL: '{{ get_dependencies_url|safe }}',
 				loadLibraryVersionsURL: '{{ get_library_versions_url|safe }}'
 			});
-			new MooShellEditor.JS($('id_code_js'),{
-				{% if nopairs %}smartTypingPairs: false,{% endif %}
-			}); // add user defined parameters
-			new MooShellEditor.HTML($('id_code_html'), {
-				{% if nopairs %}smartTypingPairs: false,{% endif %}
-			}); // add user defined parameters
-			new MooShellEditor.CSS($('id_code_css'), {
-				{% if nopairs %}smartTypingPairs: false,{% endif %}
-			}); // add user defined parameters
+			new MooShellEditor.JS($('id_code_js')); // add user defined parameters
+			new MooShellEditor.HTML($('id_code_html')); // add user defined parameters
+			new MooShellEditor.CSS($('id_code_css')); // add user defined parameters
 			Layout.render();
 			{# var mooshellSettings = new MooShellSettings(); #}
 		});

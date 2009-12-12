@@ -46,26 +46,25 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 		embedded_url = ''.join([server, shell.get_embedded_url()])
 		#shell.version = shell.get_next_version()
 		shellform = ShellForm(instance=shell)
-		pastieform = PastieForm(instance=shell.pastie)
+		#pastieform = PastieForm(instance=shell.pastie)
 		c.update({
-				'pastie': shell.pastie, 
+		#		'pastie': shell.pastie, 
 				'embedded_url': embedded_url,
 				'shell': shell
 				})
 	else:
 		example_url = ''
-		pastieform = PastieForm()
+		#pastieform = PastieForm()
 		shellform = ShellForm()
 	
 	if settings.DEBUG: moo = settings.MOOTOOLS_DEV_CORE
 	else: moo = settings.MOOTOOLS_CORE
 	
-	nopairs = req.GET.get('nopairs',False)
-	
 	if not skin: skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
 	
+	# TODO: join some js files for less requests
 	c.update({
-			'pastieform':pastieform,
+		#	'pastieform':pastieform,
 			'shellform':shellform,
 			'shell': shell,
 			'css_files': [
@@ -86,7 +85,6 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 			'title': "Shell Editor",
 			'example_url': example_url,
 			'web_server': server,
-			'nopairs': nopairs,
 			'skin': skin,
 			'get_dependencies_url': reverse("_get_dependencies", args=["lib_id"]).replace('lib_id','{lib_id}'),
 			'get_library_versions_url': reverse("_get_library_versions", args=["group_id"]).replace('group_id','{group_id}'),
@@ -104,12 +102,17 @@ def pastie_save(req, nosave=False, skin=None):
 		slug = req.POST.get('slug', None)
 		if slug:
 			" UPDATE - get the instance if slug provided "
-			pastieinstance = get_object_or_404(Pastie,slug=slug)
-			pastieform = PastieForm(req.POST, instance=pastieinstance)
+			pastie = get_object_or_404(Pastie,slug=slug)
+			#pastieform = PastieForm(req.POST, instance=pastieinstance)
 		else:	
 			" CREATE "
-			pastieform = PastieForm(req.POST)
-			
+			pastie = Pastie()
+			" create slug from random string if needed"
+			pastie.set_slug()
+			# if requ.user.is_authenticated()
+			#	pastie.author = req.user 
+			pastie.save()
+
 		shellform = ShellForm(req.POST)
 			
 		if shellform.is_valid():
@@ -125,50 +128,39 @@ def pastie_save(req, nosave=False, skin=None):
 				dependencies.append(dep)
 			if nosave:
 				" return the pastie page only " 
+				# no need to connect with pastie
 				return pastie_display(req, None, shell, dependencies, skin)
+
 			" add user to shell if anyone logged in "
 			if req.user.is_authenticated():
 				shell.author = req.user
 			
-			if pastieform.is_valid():
-				" prepare pastie object from DB and POST "
-				pastie = pastieform.save(commit=False)
-				
-				#" set author if first save "
-				#if shell.author and shell.version == 0 and (not shell.revision or shell.revision == 0):
-				#	pastie.author = shell.author 
-					
-				" create slug from random string if needed"
-				if not pastie.slug:
-					pastie.set_slug()
-					
+			" Connect shell with pastie "
+			shell.pastie = pastie
 
-				pastie.save()
-
-				" Connect shell with pastie "
-				shell.pastie = pastie
-				if slug:
-					shell.set_next_version()
-					
-				shell.save()
+			if slug:
+				shell.set_next_version()
 				
-				for dep in dependencies:
-					shell.js_dependency.add(dep)
+			shell.save()
 			
-				" return json with pastie url "
-				return HttpResponse(simplejson.dumps({
-						#'pastie_url': ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()]),
-						'pastie_url_relative': shell.get_absolute_url()
-						}),mimetype='application/javascript'
-					)
-			else: error = "Pastie form does not validate %s" % pastieform['slug'].errors
+			for dep in dependencies:
+				shell.js_dependency.add(dep)
+		
+			" return json with pastie url "
+			return HttpResponse(simplejson.dumps({
+					#'pastie_url': ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()]),
+					'pastie_url_relative': shell.get_absolute_url()
+					}),mimetype='application/javascript'
+				)
 		else: 
 			error = "Shell form does not validate"
 			for s in shellform:
 				if hasattr(s, 'errors') and s.errors:
 					error = error + str(s.__dict__) 
-	else: error = 'Please use POST request'
+	else: 
+		error = 'Please use POST request'
 	
+	# Report errors
 	return HttpResponse(simplejson.dumps({'error':error}),
 					mimetype='application/javascript'
 	)
