@@ -23,7 +23,7 @@ admin.site.register(JSDependency, JSDependencyAdmin)
 
 
 class PastieAdmin(admin.ModelAdmin):	
-	prepopulated_fields = { 'slug': ['title'] }
+	pass
 admin.site.register(Pastie, PastieAdmin)
 
 

@@ -108,14 +108,9 @@ class Pastie(models.Model):
 	"""
 	default metadata
 	"""
-	# slug - created automatically in the pastie_save view
-	title = models.CharField(max_length=255, null=True, blank=True)
 	slug = models.CharField(max_length=255, unique=True, blank=True)
-	# authoring
-	#author = models.ForeignKey(User, null=True, blank=True) 
-	#private = models.BooleanField(default=False, blank=True)
-	# filled automatically
 	created_at = models.DateTimeField(default=datetime.now)
+	#author = models.ForeignKey(User, null=True, blank=True)
 	
 	def set_slug(self):
 		from random import choice
@@ -157,6 +152,7 @@ class Shell(models.Model):
 	private = models.BooleanField(default=False, blank=True)
 
 	# meta
+	title = models.CharField(max_length=255, null=True, blank=True)
 	description = models.TextField(null=True, blank=True)
 	
 	# STATISTICS (a bit)

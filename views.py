@@ -64,16 +64,10 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 	
 	if not skin: skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
 	
-	edit_title = False
-	# edit title only if author
-	if not shell: # or (shell and shell.pastie.author and req.user.is_authenticated() and shell.pastie.author.id == req.user.id):
-		edit_title = True  
-		
 	c.update({
 			'pastieform':pastieform,
 			'shellform':shellform,
 			'shell': shell,
-			'edit_title': edit_title,
 			'css_files': [
 					reverse('mooshell_media', args=["css/light.css"])
 					],
