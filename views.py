@@ -109,8 +109,8 @@ def pastie_save(req, nosave=False, skin=None):
 			pastie = Pastie()
 			" create slug from random string if needed"
 			pastie.set_slug()
-			# if requ.user.is_authenticated()
-			#	pastie.author = req.user 
+			if req.user.is_authenticated():
+				pastie.author = req.user 
 			pastie.save()
 
 		shellform = ShellForm(req.POST)

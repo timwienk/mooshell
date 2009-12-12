@@ -110,7 +110,7 @@ class Pastie(models.Model):
 	"""
 	slug = models.CharField(max_length=255, unique=True, blank=True)
 	created_at = models.DateTimeField(default=datetime.now)
-	#author = models.ForeignKey(User, null=True, blank=True)
+	author = models.ForeignKey(User, null=True, blank=True)
 	
 	def set_slug(self):
 		from random import choice
