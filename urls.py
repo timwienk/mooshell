@@ -62,6 +62,7 @@ urlpatterns = patterns('mooshell.views',
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/show/(?P<skin>\w+)/$','pastie_show', name='author_pastie_show_with_version_and_skin'),
     
 	# main action
+	url(r'^make_favourite/$','make_favourite', name='make_favourite'),
     url(r'^(?P<slug>\w+)/$','pastie_edit', name='pastie'),
     url(r'^(?P<slug>\w+)/(?P<version>\d+)/$','pastie_edit', name='shell'),
     url(r'^(?P<slug>\w+)/(?P<skin>\w+)/$','pastie_edit'),

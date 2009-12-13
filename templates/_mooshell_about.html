@@ -9,6 +9,10 @@
 		Description:<br/>
 		{{ shellform.description }}
 	</p>
+	{% if is_author %}<p>
+		{% if shell.is_favourite %}<span id='is_favourite'>favourite shell</span>
+		{% else %}<a id='mark_favourite' onClick='mooshell.makeFavourite({{ shell.id }})'>make favourite</a>{% endif %}
+	</p>{% endif %}
 	<p>
 		Body Tag:<br/>
 		{{ shellform.body_tag }}

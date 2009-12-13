@@ -17,7 +17,7 @@ from forms import PastieForm, ShellForm
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None):
+def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=None):
 	"""
 	display the edit shell page ( main display)
 	"""
@@ -39,16 +39,20 @@ def pastie_edit(req, slug=None, version=0, revision=None, author=None, skin=None
 				skin = None
 			except:
 				pass
-		user = get_object_or_404(User,username=author) if author else None
-		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
+		pastie = get_object_or_404(Pastie,slug=slug)
+		if pastie.favourite and version == None:
+			shell = pastie.favourite
+		else:
+			if version == None: 
+				version=0
+			user = get_object_or_404(User,username=author) if author else None
+			shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 		
 		example_url = ''.join([server, shell.get_absolute_url()])
 		embedded_url = ''.join([server, shell.get_embedded_url()])
-		#shell.version = shell.get_next_version()
 		shellform = ShellForm(instance=shell)
-		#pastieform = PastieForm(instance=shell.pastie)
 		c.update({
-		#		'pastie': shell.pastie, 
+				'is_author': (pastie.author and req.user.is_authenticated and pastie.author_id == req.user.id),
 				'embedded_url': embedded_url,
 				'shell': shell
 				})
@@ -138,8 +142,11 @@ def pastie_save(req, nosave=False, skin=None):
 			" Connect shell with pastie "
 			shell.pastie = pastie
 
+			print "updating:",shell.version
 			if slug:
 				shell.set_next_version()
+			print "updated:",shell.version
+			print shell.get_absolute_url()
 				
 			shell.save()
 			
@@ -188,10 +195,16 @@ def pastie_display(req, slug, shell=None, dependencies = [], skin=None):
 	
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-def embedded(req, slug, version=0, revision=0, author=None, tabs=None, skin=None):
+def embedded(req, slug, version=None, revision=0, author=None, tabs=None, skin=None):
 	" display embeddable version of the shell "
-	user = get_object_or_404(User, username=author) if author else None
-	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
+	pastie = get_object_or_404(Pastie,slug=slug)
+	if pastie.favourite and version == None:
+		shell = pastie.favourite
+	else:
+		if version == None: 
+			version=0
+		user = get_object_or_404(User,username=author) if author else None
+		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	
 	if not skin: skin = req.GET.get('skin', settings.MOOSHELL_DEFAULT_SKIN)
 	if not tabs: tabs = req.GET.get('tabs', 'js,html,css,result')
@@ -227,25 +240,36 @@ def embedded(req, slug, version=0, revision=0, author=None, tabs=None, skin=None
 		
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-def pastie_show(req, slug, version=0, author=None, skin=None):
+def pastie_show(req, slug, version=None, author=None, skin=None):
 	" render the shell only "
-	user = get_object_or_404(User, username=author) if author else None
-	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
+	pastie = get_object_or_404(Pastie,slug=slug)
+	if pastie.favourite and version == None:
+		shell = pastie.favourite
+	else:
+		if version == None: 
+			version=0
+		user = get_object_or_404(User,username=author) if author else None
+		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	if not skin: skin = req.GET.get('skin', settings.MOOSHELL_DEFAULT_SKIN)
 	return pastie_display(req, slug, shell, shell.js_dependency.all(), skin)
 
 
-# caching views added - however it is bad for automate picking the latest revision 
-# consider better caching for that function.
+#TODO: remove if not used
 def author_show_part(req, author, slug, part, version=0):
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
-def show_part(req, slug, part, version=0, author=None):
-	user = get_object_or_404(User, username=author) if author else None
-	shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
+def show_part(req, slug, part, version=None, author=None):
+	pastie = get_object_or_404(Pastie,slug=slug)
+	if pastie.favourite and version == None:
+		shell = pastie.favourite
+	else:
+		if version == None: 
+			version=0
+		user = get_object_or_404(User,username=author) if author else None
+		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	return render_to_response('show_part.html', 
 								{'content': getattr(shell, 'code_'+part)})
 
@@ -312,3 +336,11 @@ def get_dependencies(request, lib_id):
 def get_dependencies_dict(lib_id):
 	dependencies = JSDependency.objects.filter(active=True,library__id=lib_id)
 	return [{'id': d.id, 'name': d.name, 'selected': d.selected} for d in dependencies ]
+
+def make_favourite(req):
+	shell_id = req.POST.get('shell_id')
+	shell = Shell.objects.get(id=shell_id)
+	shell.pastie.favourite = shell
+	shell.pastie.save()
+	return HttpResponse(simplejson.dumps({'message':'saved as favourite'}),
+						mimetype="application/javaSCRIPT")

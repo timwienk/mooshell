@@ -111,6 +111,7 @@ class Pastie(models.Model):
 	slug = models.CharField(max_length=255, unique=True, blank=True)
 	created_at = models.DateTimeField(default=datetime.now)
 	author = models.ForeignKey(User, null=True, blank=True)
+	favourite = models.ForeignKey('Shell', null=True, blank=True, related_name='favs')
 	
 	def set_slug(self):
 		from random import choice
@@ -177,17 +178,21 @@ class Shell(models.Model):
 	js_wrap = models.CharField(max_length=1, choices=WRAPCHOICE, default='d', null=True, blank=True)
 	body_tag = models.CharField(max_length=255, null=True, blank=True, default="<body>")
 
+	def is_favourite(self):
+		return (self.version == 0 and not self.pastie.favourite) or (self.pastie.favourite and self.pastie.favourite_id == self.id)	
+
 	def __str__(self):
-		past = ''
+		past = ': '
 		if self.code_js: 
-			past +=  ': ' + self.code_js[:20]
+			past += self.code_js[:20]
 		elif self.code_html:
-			past += ': ' + self.code_html[:20]
+			past += self.code_html[:20]
 		elif self.code_css:
-			past += ': ' + self.code_css[:20]
-			
-		return self.pastie.slug + '-' + str(self.version) + past 
+			past += self.code_css[:20]
+		pre = self.title if self.title + ' - ' else ''
+		return pre + self.pastie.slug + '-' + str(self.version) + past 
         
+
 	@models.permalink
 	def get_absolute_url(self):
 		if self.author:
@@ -198,7 +203,7 @@ class Shell(models.Model):
 			rev = ''
 
 		if not self.revision or self.revision == 0:
-			if not self.version or self.version == 0:
+			if self.is_favourite():
 				rev += 'pastie'
 				args.append(self.pastie.slug)
 			else:
@@ -219,7 +224,7 @@ class Shell(models.Model):
 			rev = ''
 		rev += 'embedded'
 		if not self.revision or self.revision == 0:
-			if not self.version or self.version == 0:
+			if self.is_favourite():
 				args.append(self.pastie.slug)
 			else:
 				rev += '_with_version'
@@ -239,7 +244,7 @@ class Shell(models.Model):
 			rev = ''
 		rev += 'pastie_show'
 		if not self.revision or self.revision == 0:
-			if not self.version or self.version == 0:
+			if self.is_favourite():
 				args.append(self.pastie.slug)
 			else:
 				rev += '_with_version'
@@ -264,6 +269,7 @@ class Shell(models.Model):
 
         
     
+# I think it wasn't called as print was there before
 	
 def increase_version_on_save(instance, **kwargs):
 	if kwargs.get('raw',False): return
@@ -274,7 +280,6 @@ def increase_version_on_save(instance, **kwargs):
 			version = list(shells)[0].version + 1
 		except:
 			version = 0
-		print version
 		instance.version = version
 		instance.save()
 pre_save.connect(increase_version_on_save, sender=Shell)

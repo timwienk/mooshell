@@ -40,6 +40,19 @@ var MooShellActions = new Class({
 			this.displayExampleURL();
 		}
 	},
+	// mark shell as favourite
+	makeFavourite: function(shell_id) {
+		new Request.JSON({
+			'url': makefavouritepath,
+			'data': {shell_id: shell_id},
+			'onSuccess': function(response) {
+				// reload page after successful save
+				var p = $('mark_favourite').getParent('p').empty();
+				p.appendText(response.message)
+			}
+		}).send();
+	
+	},
 	// save and create new pastie
 	saveAsNew: function() {
 		Layout.updateFromMirror();
