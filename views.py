@@ -142,11 +142,8 @@ def pastie_save(req, nosave=False, skin=None):
 			" Connect shell with pastie "
 			shell.pastie = pastie
 
-			print "updating:",shell.version
 			if slug:
 				shell.set_next_version()
-			print "updated:",shell.version
-			print shell.get_absolute_url()
 				
 			shell.save()
 			
