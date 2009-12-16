@@ -11,12 +11,14 @@ from django.utils import simplejson
 from django.template import Template,RequestContext
 from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 
 from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSLibraryWrap, JSDependency
 from forms import PastieForm, ShellForm
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
+@vary_on_cookie
 def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=None):
 	"""
 	display the edit shell page ( main display)
@@ -111,11 +113,12 @@ def pastie_save(req, nosave=False, skin=None):
 		else:	
 			" CREATE "
 			pastie = Pastie()
-			" create slug from random string if needed"
-			pastie.set_slug()
-			if req.user.is_authenticated():
-				pastie.author = req.user 
-			pastie.save()
+			if not nosave:
+				" create slug from random string if needed"
+				pastie.set_slug()
+				if req.user.is_authenticated():
+					pastie.author = req.user 
+				pastie.save()
 
 		shellform = ShellForm(req.POST)
 			
@@ -123,6 +126,9 @@ def pastie_save(req, nosave=False, skin=None):
 			
 			" Instantiate shell data from the form "
 			shell = shellform.save(commit=False)
+
+			" Connect shell with pastie "
+			shell.pastie = pastie
 			
 			# add js_dependency
 			dependency_ids = [int(dep[1]) for dep in req.POST.items() if dep[0].startswith('js_dependency')]
@@ -138,9 +144,6 @@ def pastie_save(req, nosave=False, skin=None):
 			" add user to shell if anyone logged in "
 			if req.user.is_authenticated():
 				shell.author = req.user
-			
-			" Connect shell with pastie "
-			shell.pastie = pastie
 
 			if slug:
 				shell.set_next_version()
@@ -337,7 +340,9 @@ def get_dependencies_dict(lib_id):
 def make_favourite(req):
 	shell_id = req.POST.get('shell_id')
 	shell = Shell.objects.get(id=shell_id)
-	shell.pastie.favourite = shell
-	shell.pastie.save()
-	return HttpResponse(simplejson.dumps({'message':'saved as favourite'}),
-						mimetype="application/javaSCRIPT")
+	if req.user.is_authenticated() and req.user.id == shell.pastie.author.id:
+		shell.pastie.favourite = shell
+		shell.pastie.save()
+		return HttpResponse(simplejson.dumps({'message':'saved as favourite'}),
+							mimetype="application/javascript")
+	raise Http404 
