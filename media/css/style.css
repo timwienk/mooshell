@@ -13,8 +13,8 @@ body {
 	left: 0;
 }
 #content {
-	margin-left: 227px;
-	overflow: hidden;
+	margin: 14px 15px 0 232px;
+	position: relative;
 }
 
 /* header */
@@ -236,35 +236,58 @@ body {
 
 /* editor */
 #content fieldset.column {
-	float: left;
 	display: block;
-	width: 300px;
-	margin-top: 8px;
+	height: 100%;
+	width: 50%;
 }
 
 #content .window {
-	width: 298px;
-	height: 150px;
-	position: relative;
+	width: 100%;
 }
+	#content .top {
+		height: 25%;
+		position: absolute;
+		top: -6px;
+	}
+	#content .bottom {
+		height: 75%;
+		position: absolute;
+		bottom: -6px;
+	}
+	#content .right {
+		position: absolute;
+		right: -5px;
+	}
+	#content .left {
+		position: absolute;
+		left: -5px;
+	}
 
 #handler_vertical {
-	float: left;
+	display: none;
 	width: 8px;
-	height: 100px;
-	margin-top: 8px;
+	height: 100%;
+	padding: 5px 0;
+	position: absolute;
+	top: -5px;
+	left: 0;
 }
 .handler_horizontal {
+	display: none;
 	width: 100%;
 	height: 8px;
+	padding: 0 1px;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 #content textarea,
 #result iframe,
 body.editbox {
 	min-width: 100px;
-	width: 298px;
-	height: 150px;
+	width: 100%;
+	height: 100%;
 	line-height:15px;
 	font-family: "Inconsolata", "Monaco", Courier, monospace;
 	font-size: 12px;
@@ -301,4 +324,10 @@ body.editbox {
 	bottom: 6px;
 	right: 14px;
 	cursor: pointer;
+}
+
+/* we want editors to fill up all the space available */
+.CodeMirror-wrapping {
+	width: 100%;
+	height: 100%;
 }

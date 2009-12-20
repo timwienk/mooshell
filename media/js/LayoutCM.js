@@ -67,63 +67,39 @@ var Layout = {
 	resizeWithDelay: function() {
 		this.resize();
 		// sometimes size is counted with scrollbars (especially in webkit)
-		this.resize.delay(3, this);
+		//this.resize.delay(3, this);
 		// after scrollbars are removed - resize again to the right size
-		this.resize.delay(10, this);
+		//this.resize.delay(10, this);
 	},
 	resize: function(e) {
 
-		this.editors.each( function(ed) {
-			ed.hide();
-		});
-		if (this.result) {
-			this.result.hide();
-		}
+//		this.editors.each( function(ed) {
+//			ed.hide();
+//		});
+//		if (this.result) {
+//			this.result.hide();
+//		}
 
 		var win_size = window.getSize();
 
-		var fieldsets = $('content').getChildren('.column');
-		var fieldset_top = fieldsets[0].getPosition().y + fieldsets[0].getStyle('margin-top').toInt();
-		var av_height = win_size.y - fieldset_top;
-		var av_width = win_size.x - $('content').getStyle('margin-left').toInt() - 8;
+		var content = document.id('content');
+		var fieldsets = content.getChildren('.column');
+		var windows = content.getElements('.window');
 
-		$('content').setStyle('width', av_width);
+		var av_height = win_size.y -
+						fieldsets[0].getPosition().y +
+						windows[0].getStyle('top').toInt() +
+						windows[1].getStyle('bottom').toInt();
 
-		// set handler size
-		$('handler_vertical').setStyle('height',av_height);
+		content.setStyle('height', av_height);
 
-		// calculate width
-		var width = Math.floor((av_width - 12) / 2);
+//		this.editors.each( function(ed) {
+//			ed.show();
+//		});
+//		if (this.result) {
+//			this.result.show();
+//		}
 
-		fieldsets.each(function(fieldset) {fieldset.setStyle('width', width);});
-
-		// set all editors width
-		this.editors.each( function(ed) {
-			ed.setWidth(width);
-		});
-
-
-		this.editors.each( function(ed) {
-			ed.show();
-		});
-
-		if (this.editors.js) {
-			var js = this.editors.js;
-			js.setHeight(win_size.y - js.getWindow().getPosition().y - 9);
-		}
-
-		if (this.result) {
-			this.result.show();
-			var height = win_size.y - this.result.getPosition().y - 8;
-			this.result.getParent('.window').setStyles({
-				'width': width,
-				'height': height
-			});
-			this.result.setStyles({
-				'width': width,
-				'height': height
-			});
-		}
 		/*
 		// there is a need to do some IE fixes
 		var ie_offset = (Browser.Engine.trident) ? 2 : 0;
