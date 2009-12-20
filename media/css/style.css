@@ -264,19 +264,19 @@ body {
 	}
 
 #handler_vertical {
-	display: none;
 	width: 8px;
 	height: 100%;
 	padding: 5px 0;
+	cursor: col-resize;
 	position: absolute;
 	top: -5px;
 	left: 0;
 }
 .handler_horizontal {
-	display: none;
 	width: 100%;
 	height: 8px;
 	padding: 0 1px;
+	cursor: row-resize;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -330,4 +330,15 @@ body.editbox {
 .CodeMirror-wrapping {
 	width: 100%;
 	height: 100%;
+}
+
+/* shim to cover iframes when dragging */
+.shim {
+	display: none;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
