@@ -50,6 +50,12 @@ var Layout = {
 
 		this.fireEvent('ready');
 	},
+	findLayoutElements: function() {
+		// look up some elements, and cache the findings
+		this.content = document.id('content');
+		this.columns = this.content.getChildren('.column');
+		this.windows = this.content.getElements('.window');
+	},
 	registerEditor: function( editor ) {
 		this.editors[editor.options.name] = editor;
 		this.resize();
@@ -73,18 +79,17 @@ var Layout = {
 //			this.result.hide();
 //		}
 
+		if (!this.content) {
+			this.findLayoutElements();
+		}
+
 		var win_size = window.getSize();
-
-		var content = document.id('content');
-		var fieldsets = content.getChildren('.column');
-		var windows = content.getElements('.window');
-
 		var av_height = win_size.y -
-						fieldsets[0].getPosition().y +
-						windows[0].getStyle('top').toInt() +
-						windows[1].getStyle('bottom').toInt();
+						this.columns[0].getPosition().y +
+						this.windows[0].getStyle('top').toInt() +
+						this.windows[1].getStyle('bottom').toInt();
 
-		content.setStyle('height', av_height);
+		this.content.setStyle('height', av_height);
 
 //		this.editors.each( function(ed) {
 //			ed.show();
