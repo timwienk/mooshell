@@ -21,12 +21,6 @@ body {
 	color: #36f;
 }
 
-#content textarea,
-#result iframe {
-	border: 1px solid #bbb;
-	background: #ffffff;
-}
-
 /* header */
 #header {
 	background: url(../img/sprites.png) repeat-x;
@@ -96,8 +90,11 @@ body {
 
 /* editors */
 #content textarea,
-#content fieldset iframe {
+#content iframe {
 	background: #fff !important;
+	border-width: 0 !important;
+}
+#content .window {
 	border-top: 1px solid #959595 !important;
 	border-left: 1px solid #959595 !important;
 	border-bottom: 1px solid #ccc !important;

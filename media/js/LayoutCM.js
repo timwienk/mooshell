@@ -93,7 +93,7 @@ var Layout = {
 		$('handler_vertical').setStyle('height',av_height);
 
 		// calculate width
-		var width = Math.floor((av_width - 8) / 2);
+		var width = Math.floor((av_width - 12) / 2);
 
 		fieldsets.each(function(fieldset) {fieldset.setStyle('width', width);});
 
@@ -109,7 +109,7 @@ var Layout = {
 
 		if (this.editors.js) {
 			var js = this.editors.js;
-			js.setHeight(win_size.y - js.getWindow().getPosition().y - 8);
+			js.setHeight(win_size.y - js.getWindow().getPosition().y - 9);
 		}
 
 		if (this.result) {
@@ -120,8 +120,8 @@ var Layout = {
 				'height': height
 			});
 			this.result.setStyles({
-				'width': width-2,
-				'height': height-2
+				'width': width,
+				'height': height
 			});
 		}
 		/*

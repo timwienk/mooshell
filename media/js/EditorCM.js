@@ -89,11 +89,11 @@ var MooShellEditor = new Class({
 	},
 	setWidth: function(width) {
 		this.getWindow().setStyle('width',width);
-		this.setStyle('width', width-2);
+		this.setStyle('width', width);
 	},
 	setHeight: function(height) {
 		this.getWindow().setStyle('height',height);
-		this.setStyle('height', height-2);
+		this.setStyle('height', height);
 	},
 	getPosition: function() {
 		if (this.editor) return $(this.editor.frame).getPosition();
