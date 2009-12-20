@@ -2,7 +2,7 @@
 
 /* generic tools */
 body {
-	font-family: Helvetica, Arial;
+	font-family: Helvetica, Arial, sans-serif;
 }
 
 /* main structure */
@@ -48,7 +48,7 @@ body {
 #sidebar code {
 	padding: 0 2px;
 	background: #fffadb;
-	font-family: "Inconsolata", "Monaco", "Andale Mono", "Courier New", Courier, sans-serif;
+	font-family: "Inconsolata", "Monaco", "Andale Mono", "Courier New", Courier, monospace;
 	font-size: .9em;
 }
 
@@ -67,7 +67,7 @@ body {
 	height: 28px;
 	padding: 0 10px;
 	line-height: 28px;
-	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma;
+	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma, sans-serif;
 	font-size: 11px;
 	font-weight: bold;
 	text-shadow: 0 1px 0 #fff;
@@ -113,7 +113,7 @@ body {
 	#sidebar #share_links label {
 		display: block;
 		padding: 0 0 2px;
-		font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma;
+		font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma, sans-serif;
 		font-size: 11px;
 		font-weight: bold;
 	}
@@ -142,7 +142,7 @@ body {
 	padding-left: 30px;
 	background-repeat: no-repeat;
 	line-height: 27px;
-	font-family: "Lucida Grande", "Lucida Sans", "Luxi Sans", Sans, Tahoma;
+	font-family: "Lucida Grande", "Lucida Sans", "Luxi Sans", Sans, Tahoma, sans-serif;
 	font-weight: bold;
 	font-size: 11px;
 }
@@ -285,7 +285,7 @@ body.editbox {
 	position: absolute;
 	top: 0;
 	right: -2px;
-	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma;
+	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma, sans-serif;
 	text-align: center;
 	font-size: 11px;
 	font-weight: bold;
