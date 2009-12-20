@@ -28,9 +28,9 @@ var Layout = {
 		this.sidebar = new Sidebar({
 			DOM: 'sidebar'
 		});
-		window.addEvent('resize', this.resizeWithDelay.bind(this));
+		window.addEvent('resize', this.resize.bind(this));
 		this.sidebar.addEvents({
-			'accordion_resized': this.resizeWithDelay.bind(this)
+			'accordion_resized': this.resize.bind(this)
 		});
 
 		// set editor labels
@@ -46,7 +46,7 @@ var Layout = {
 		actions.getElement('a.collapsedActions').addClass('firstChild');
 		actions.getElements('a.collapsedActions:last-child').addClass('lastChild');
 
-		this.resizeWithDelay();
+		this.resize();
 
 		this.fireEvent('ready');
 	},
@@ -63,13 +63,6 @@ var Layout = {
 		this.editors.each( function(ed) {
 			ed.clean();
 		});
-	},
-	resizeWithDelay: function() {
-		this.resize();
-		// sometimes size is counted with scrollbars (especially in webkit)
-		//this.resize.delay(3, this);
-		// after scrollbars are removed - resize again to the right size
-		//this.resize.delay(10, this);
 	},
 	resize: function(e) {
 
