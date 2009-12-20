@@ -1,5 +1,5 @@
 /*
- Class: MooshellEditor 
+ Class: MooshellEditor
  Editor using CodeMirror
  http://marijn.haverbeke.nl/codemirror/index.html
  */
@@ -22,17 +22,17 @@ var MooShellEditor = new Class({
 		//if (Browser.Engine.trident) options.useCodeMirror = false;
 		this.element = $(el);
 		this.element.hide();
-		if (this.occlude()) return this.occluded; 
+		if (this.occlude()) return this.occluded;
 		this.setOptions(options);
-		
+
 		this.editorLabelFX = new Fx.Tween(this.getLabel(), {property: 'opacity'});
-		
+
 		if (this.options.useCodeMirror) {
 			if (!this.options.codeMirrorOptions.stylesheet && this.options.stylesheet) {
 				this.options.codeMirrorOptions.stylesheet = this.options.stylesheet.map( function(path) {
 					return mediapath + path;
 				});
-			} 
+			}
 			if (!this.options.codeMirrorOptions.path) {
 				this.options.codeMirrorOptions.path = codemirrorpath + 'js/';
 			}
@@ -49,7 +49,7 @@ var MooShellEditor = new Class({
 				//this.fullscreen.retrieve('fx').start(0);
 			}.bind(this)
 		});
-		Layout.registerEditor(this);	
+		Layout.registerEditor(this);
 	},
 	getEditor: function() {
 		return this.editor || this.element;
@@ -57,7 +57,7 @@ var MooShellEditor = new Class({
 	getWindow: function() {
 		if (!this.window) {
 			this.window = this.element.getParent('.window');
-		} 
+		}
 		return this.window;
 	},
 	getLabel: function() {
@@ -112,7 +112,7 @@ MooShellEditor.JS = new Class({
 		useCodeMirror: true,
 		flexibleHeight: true,
 		stylesheet: [
-			"css/codemirror/style.css", 
+			"css/codemirror/style.css",
 			"css/codemirror/jscolors.css"
 		],
 		codeMirrorOptions: {
@@ -137,7 +137,7 @@ MooShellEditor.CSS = new Class({
 		name: 'css',
 		useCodeMirror: true,
 		stylesheet: [
-			"css/codemirror/style.css", 
+			"css/codemirror/style.css",
 			"css/codemirror/csscolors.css"
 		],
 		codeMirrorOptions: {
@@ -161,7 +161,7 @@ MooShellEditor.HTML = new Class({
 		name: 'html',
 		useCodeMirror: true,
 		stylesheet: [
-			"css/codemirror/style.css", 
+			"css/codemirror/style.css",
 			"css/codemirror/xmlcolors.css"
 		],
 		codeMirrorOptions: {
