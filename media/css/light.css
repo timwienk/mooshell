@@ -81,7 +81,7 @@ body {
 
 /* editor labels */
 .window_label {
-	background: transparent url(../img/sprites.png) no-repeat -255px -50px;
+	background: transparent url(../img/sprites.png) no-repeat -254px -51px;
 }
 /* fullscreen */
 .fullscreen {
