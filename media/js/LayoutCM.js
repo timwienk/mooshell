@@ -106,6 +106,54 @@ var Layout = {
 				'onComplete': function() { this.shims.hide(); }.bind(this)
 			});
 		}, this);
+
+		// Save window sizes to cookie onUnload.
+		window.addEvent('unload', function() {
+			var sizes = {
+				'w': [],
+				'h': []
+			};
+			this.columns.each(function(col, i) {
+				var width = col.getStyle('width');
+				sizes.w[i] = width.contains('%') ? width : null;
+			});
+			this.windows.each(function(win, i) {
+				var height = win.getStyle('height');
+				sizes.h[i] = height.contains('%') ? height : null;
+			});
+			Cookie.write('window_sizes', JSON.encode(sizes), {'domain': location.host});
+		}.bind(this));
+
+		// Read window sizes from cookie.
+		this.setWindowSizes();
+	},
+	setWindowSizes: function(sizes) {
+		// sizes === undefined --> read from cookie
+		// sizes == null/false --> reset sizes + delete cookie
+		// sizes == true       --> use sizes
+		if (typeof sizes === 'undefined') {
+			var sizes = Cookie.read('window_sizes');
+			if (sizes) {
+				sizes = JSON.decode(sizes);
+			}
+		}
+		if (sizes) {
+			if ($type(sizes.w) === 'array') {
+				sizes.w.each(function(width, i) {
+					this.columns[i].setStyle('width', width);
+				}, this);
+			}
+			if ($type(sizes.h) == 'array') {
+				sizes.h.each(function(height, i) {
+					this.windows[i].setStyle('height', height);
+				}, this);
+			}
+		} else {
+			this.columns.setStyle('width', null);
+			this.windows.setStyle('height', null);
+			Cookie.dispose('window_sizes', {'domain': location.host});
+		}
+		this.resize();
 	},
 	resize: function(e) {
 
