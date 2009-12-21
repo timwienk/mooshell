@@ -1,27 +1,42 @@
 /* colors for mooShell functionality only */
 
-body { background: #efefef; }	
+body {
+	background: #efefef;
+}
 
-#sidebar { color: #444; background-color: #fff; }
+#sidebar {
+	background-color: #fff;
+	color: #444;
+}
 
-#sidebar #branding { color: #444; }	
+#sidebar #branding {
+	color: #444;
+}
 
-#sidebar #branding #home { color: #444; }
+#sidebar #branding #home {
+	color: #444;
+}
 
-#sidebar a { color: #36f; }
-
-#content textarea,
-#result iframe { background: white; border: 1px solid #bbb; }
+#sidebar a {
+	color: #36f;
+}
 
 /* header */
-#header { background: url(../img/sprites.png) repeat-x; }
-#branding { color: #ffffff; }
-#home { background: transparent url(../img/sprites.png) no-repeat -227px -101px;  }
+#header {
+	background: url(../img/sprites.png) repeat-x;
+}
+#branding {
+	color: #ffffff;
+}
+#home {
+	background: transparent url(../img/sprites.png) no-repeat -227px -101px;
+}
 
 /* sidebar */
 #sidebar .toggler {
 	background: transparent url(../img/sprites.png) no-repeat 0 -288px;
-	color: #333; text-shadow: 0 1px 0 #fff;
+	text-shadow: 0 1px 0 #fff;
+	color: #333;
 }
 #sidebar .toggler.active {
 	background-position: 0 -323px;
@@ -30,7 +45,9 @@ body { background: #efefef; }
 	background-position: 0 -323px;
 }
 #sidebar pre,
-#sidebar code { background: #FFFADB; }
+#sidebar code {
+	background: #fffadb;
+}
 
 #sidebar input[type='text'],
 #sidebar textarea {
@@ -43,18 +60,19 @@ body { background: #efefef; }
 
 /* actions */
 #actions a,
-#actions a.collapsedActions strong {	
+#actions a.collapsedActions strong {
 	background-image: url(../img/sprites.png);
 }
 #actions a span {
-	text-shadow: 0 -1px 0 #000; color: #ffffff;  
 	background: url(../img/sprites.png);
+	text-shadow: 0 -1px 0 #000;
+	color: #ffffff;
 }
 
 
 /* select link */
 
-#select_link { 
+#select_link {
 	border: 0px solid red;
 	background: transparent url(../img/sprites.png) no-repeat 0 -254px;
 	color: #fdfdfd;
@@ -63,7 +81,7 @@ body { background: #efefef; }
 
 /* editor labels */
 .window_label {
-	background: transparent url(../img/sprites.png) no-repeat -255px -50px;
+	background: transparent url(../img/sprites.png) no-repeat -254px -51px;
 }
 /* fullscreen */
 .fullscreen {
@@ -72,8 +90,11 @@ body { background: #efefef; }
 
 /* editors */
 #content textarea,
-#content fieldset iframe {
+#content iframe {
 	background: #fff !important;
+	border-width: 0 !important;
+}
+#content .window {
 	border-top: 1px solid #959595 !important;
 	border-left: 1px solid #959595 !important;
 	border-bottom: 1px solid #ccc !important;

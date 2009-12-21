@@ -1,84 +1,136 @@
 /* generic styles for mooShell functionality only */
 
 /* generic tools */
-body { font-family: Helvetica, Arial; }	
+body {
+	font-family: Helvetica, Arial, sans-serif;
+}
 
 /* main structure */
-#sidebar { width: 203px; position: absolute; top: 40px; left: 0;}
-#content { margin-left: 227px; overflow: hidden;}
+#sidebar {
+	width: 203px;
+	position: absolute;
+	top: 40px;
+	left: 0;
+}
+#content {
+	margin: 14px 15px 0 232px;
+	position: relative;
+}
 
 /* header */
-#header { height: 39px; }
-#branding { float: left; padding: 0 10px; font-size: 10px; width: 212px; }
-#home { text-indent: -9999px; display: block; width: 116px; height: 39px; }
+#header {
+	height: 39px;
+}
+#branding {
+	float: left;
+	width: 212px;
+	padding: 0 10px;
+	font-size: 10px;
+}
+#home {
+	display: block;
+	width: 116px;
+	height: 39px;
+	text-indent: -9999px;
+}
 
 /* sidebar */
-#sidebar { font-size: 11px; padding: 8px 8px 0 8px; }
-#sidebar p { margin-top: 3px;  line-height: 135%; padding: 0 0 3px;}
+#sidebar {
+	padding: 8px 8px 0 8px;
+	font-size: 11px;
+}
+#sidebar p {
+	margin-top: 3px;
+	padding: 0 0 3px;
+	line-height: 135%;
+}
 #sidebar pre,
-#sidebar code { 
+#sidebar code {
 	padding: 0 2px;
-	background: #FFFADB; 
-	font-family: "Inconsolata", "Monaco", "Andale Mono", "Courier New", Courier, sans-serif;
+	background: #fffadb;
+	font-family: "Inconsolata", "Monaco", "Andale Mono", "Courier New", Courier, monospace;
 	font-size: .9em;
 }
 
 #sidebar .element,
-#sidebar .text { padding: 0px 10px 0px; margin-bottom: 5px; }
-
-#sidebar .element strong {
-   font-weight: bold;
+#sidebar .text {
+	margin-bottom: 5px;
+	padding: 0px 10px 0px;
 }
 
-#sidebar h3 { 
-	padding: 0 10px; 
-	height: 28px; line-height: 28px;
-	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma; 
-	font-size: 11px; font-weight: bold;
+#sidebar .element strong {
+	font-weight: bold;
+}
+
+#sidebar h3 {
+	clear: both;
+	height: 28px;
+	padding: 0 10px;
+	line-height: 28px;
+	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
 	text-shadow: 0 1px 0 #fff;
-	clear: both; 
-	
 }
 
 #sidebar input[type='text'],
-#sidebar textarea { padding: 3px 5px; width: 173px; }
-#sidebar textarea { height: 120px; }
-#sidebar #id_title { font-weight: 1.1em; }
-
-#sidebar .toggler { margin-bottom: 5px; }
-#sidebar .element { }
-#sidebar .toggler,
-#sidebar a { cursor: pointer; }
-
-#sidebar select { margin: 3px 0; width: 100%; }
-#shell_settings li { margin: 5px 0; }
-#shell_settings li input { margin-right: 3px; }
-
-#sidebar #share_links {
-   margin: 0 0 10px;
+#sidebar textarea {
+	width: 173px;
+	padding: 3px 5px;
+}
+#sidebar textarea {
+	height: 120px;
+}
+#sidebar #id_title {
+	font-weight: 1.1em;
 }
 
-   #sidebar #share_links label {
-      display: block;
-      padding: 0 0 2px;
-      font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma; 
-   	font-size: 11px;
-   	font-weight: bold;
-   }
+#sidebar .toggler {
+	margin-bottom: 5px;
+}
+#sidebar .element {
+}
+#sidebar .toggler,
+#sidebar a {
+	cursor: pointer;
+}
 
-   #sidebar #share_links p {
-      margin: 0 0 7px;
-   }
-   
-   #sidebar #share_links .share {
-      padding: 3px 0;
-      text-indent: 3px;
-      color: #626262;
-   }
-   
+#sidebar select {
+	width: 100%;
+	margin: 3px 0;
+}
+#shell_settings li {
+	margin: 5px 0;
+}
+#shell_settings li input {
+	margin-right: 3px;
+}
+
+#sidebar #share_links {
+	margin: 0 0 10px;
+}
+
+	#sidebar #share_links label {
+		display: block;
+		padding: 0 0 2px;
+		font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma, sans-serif;
+		font-size: 11px;
+		font-weight: bold;
+	}
+
+	#sidebar #share_links p {
+		margin: 0 0 7px;
+	}
+
+	#sidebar #share_links .share {
+		padding: 3px 0;
+		text-indent: 3px;
+		color: #626262;
+	}
+
 /* actions */
 #actions a {
-	display: block; 
+	display: block;
 	float: left;
 	height: 27px;
 	margin-top: 6px;
@@ -86,120 +138,207 @@ body { font-family: Helvetica, Arial; }
 	cursor: pointer;
 }
 #actions a span {
-	font-family: "Lucida Grande", "Lucida Sans", "Luxi Sans", Sans, Tahoma; 
-	font-weight: bold; 
-	line-height: 27px; 
-	padding-left: 30px; 
-	font-size: 11px; 
 	display: block;
+	padding-left: 30px;
 	background-repeat: no-repeat;
+	line-height: 27px;
+	font-family: "Lucida Grande", "Lucida Sans", "Luxi Sans", Sans, Tahoma, sans-serif;
+	font-weight: bold;
+	font-size: 11px;
 }
 
-#actions #run { width: 70px; margin-right: 6px; background-position: 0px -154px; }
-#actions #run:hover { background-position: 0px -187px; }
-#actions #run:active { background-position: 0px -220px; }
-#actions #run span { background-position: 0px -44px; }
+#actions #run {
+	width: 70px;
+	margin-right: 6px;
+	background-position: 0px -154px;
+}
+	#actions #run:hover {
+		background-position: 0px -187px;
+	}
+	#actions #run:active {
+		background-position: 0px -220px;
+	}
 
+#actions #run span {
+	background-position: 0px -44px;
+}
+#actions #update span {
+	background-position: 0px -70px;
+}
+#actions #savenew span {
+	background-position: 0px -96px;
+}
+#actions #clean span {
+	background-position: 0px -123px;
+}
 
-#actions #update span { background-position: 0px -70px; }
-#actions #savenew span { background-position: 0px -96px; }
-#actions #clean span { background-position: 0px -123px; }
-
-#actions a.collapsedActions span {	
+#actions a.collapsedActions span {
 	padding-right: 12px;
 }
 
-	#actions a.collapsedActions strong {	
-		display: block; 
+	#actions a.collapsedActions strong {
+		display: block;
 		background-position: 100% -357px;
 		background-repeat: no-repeat;
 	}
 
 	body #actions a.lastChild strong {
-		 background-image: none;
+		background-image: none;
 	}
 
 #actions a {
-	background-position: -158px -154px;	
+	background-position: -158px -154px;
 }
 
-	#actions a:hover {	
+	#actions a:hover {
 		background-position: -158px -187px;
 	}
-	
+
 	#actions a:active {
-		 background-position: -158px -220px;
+		background-position: -158px -220px;
 	}
 
-#actions a.firstChild {	
+#actions a.firstChild {
 	background-position: -76px -154px;
 }
 
-	#actions a.firstChild:hover {	
+	#actions a.firstChild:hover {
 		background-position: -76px -187px;
 	}
 
 	#actions a.firstChild:active {
-		 background-position: -76px -220px;
+		background-position: -76px -220px;
 	}
 
 #actions a.lastChild {
-	background-position: 100% -154px;	
+	background-position: 100% -154px;
 }
 
-	#actions a.lastChild:hover {	
+	#actions a.lastChild:hover {
 		background-position: 100% -187px;
 	}
 
 	#actions a.lastChild:active {
-		 background-position: 100% -220px;
+		background-position: 100% -220px;
 	}
 
 /* select link */
 
-#select_link { 
-	float: right; 
+#select_link {
+	float: right;
 	width: 229px;
 	height: 27px;
 	margin: 6px 10px 0;
 	font-size: 13px;
-	padding-left: 15px; 
+	padding-left: 15px;
 	line-height: 27px;
 }
 
 /* editor */
-#content fieldset.column { margin-top: 8px; float: left; width: 300px; display: block; }
-
-#content .window { 
-	width: 298px;
-	height: 152px; 
-	position: relative;
+#content fieldset.column {
+	display: block;
+	height: 100%;
+	width: 50%;
 }
 
-#handler_vertical { float: left; height: 100px; width: 8px; margin-top: 8px;}
-.handler_horizontal { width: 100%; height: 8px;}
+#content .window {
+	width: 100%;
+}
+	#content .top {
+		height: 25%;
+		position: absolute;
+		top: -6px;
+	}
+	#content .bottom {
+		height: 75%;
+		position: absolute;
+		bottom: -6px;
+	}
+	#content .right {
+		position: absolute;
+		right: -5px;
+	}
+	#content .left {
+		position: absolute;
+		left: -5px;
+	}
+
+#handler_vertical {
+	width: 8px;
+	height: 100%;
+	padding: 5px 0;
+	cursor: col-resize;
+	position: absolute;
+	top: -5px;
+	left: 0;
+}
+.handler_horizontal {
+	width: 100%;
+	height: 8px;
+	padding: 0 1px;
+	cursor: row-resize;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
 
 #content textarea,
 #result iframe,
-body.editbox { 
+body.editbox {
+	min-width: 100px;
+	width: 100%;
+	height: 100%;
+	line-height:15px;
 	font-family: "Inconsolata", "Monaco", Courier, monospace;
-	line-height:15px; font-size: 12px;
-	min-width: 100px; width: 298px; height: 150px;
+	font-size: 12px;
 }
 
 /* resizing sets display to inline, this overrides */
-#content textarea { display: block;}
+#content textarea {
+	display: block;
+}
 
 /* editor labels */
-.window_label { 
-	display: block; width: 79px; height: 28px; line-height: 28px; 
-	z-index: 100; position: absolute; top: 0; right: -2px;
-	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma; 
-	text-align: center;	font-size: 11px; font-weight: bold; 
+.window_label {
+	display: block;
+	width: 79px;
+	height: 28px;
+	line-height: 28px;
+	z-index: 100;
+	position: absolute;
+	top: 0;
+	right: -2px;
+	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", Sans, Tahoma, sans-serif;
+	text-align: center;
+	font-size: 11px;
+	font-weight: bold;
 }
 /* fullscreen */
-.fullscreen { 
-	display: block; width: 31px; height: 31px; text-indent: -9999px;
-	z-index: 100; position: absolute; bottom: 6px; right: 14px;
+.fullscreen {
+	display: block;
+	width: 31px;
+	height: 31px;
+	text-indent: -9999px;
+	z-index: 100;
+	position: absolute;
+	bottom: 6px;
+	right: 14px;
 	cursor: pointer;
+}
+
+/* we want editors to fill up all the space available */
+.CodeMirror-wrapping {
+	width: 100%;
+	height: 100%;
+}
+
+/* shim to cover iframes when dragging */
+.shim {
+	display: none;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
 }

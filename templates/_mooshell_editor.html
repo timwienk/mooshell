@@ -1,29 +1,31 @@
-{# it is quite unusual form structure - that's why render is not automatedd #}
+{# it is quite unusual form structure - that's why render is not automated #}
 {% if shelltform.non_field_errors %}{{ shellform.non_field_errors }}{% endif %}
 {{ shellform.version }}
 <input type='hidden' id='id_slug' name='slug' value='{{ shell.pastie.slug }}'/>
-<fieldset class='column'>
-	<div class='window'>
+<fieldset class='column left'>
+	<div class='window top'>
 		{{ shellform.code_html }}
 		<span class='window_label'>HTML</span>
 	</div>
 	<div class='handler handler_horizontal'></div>
-	<div class='window'>
+	<div class='window bottom'>
 		{{ shellform.code_js }}
 		<span class='window_label'>JavaScript</span>
 	</div>
+	<div class="shim"></div>
 </fieldset>
 
 <div class='handler' id='handler_vertical'></div>
 
-<fieldset class='column'>
-	<div class='window'>
+<fieldset class='column right'>
+	<div class='window top'>
 		{{ shellform.code_css }}
 		<span class='window_label'>CSS</span>
 	</div>
 	<div class='handler handler_horizontal'></div>
-	<div id='result' class='window'>
+	<div id='result' class='window bottom'>
 		<iframe name='result'{% if shell %} src="{{ shell.get_show_url }}{{ skin }}/"{% endif %}></iframe>
 		<span class='window_label'>Result</span>
 	</div>
+	<div class="shim"></div>
 </fieldset>
