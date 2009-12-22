@@ -24,7 +24,7 @@
 	</div>
 	<div class='handler handler_horizontal'></div>
 	<div id='result' class='window bottom'>
-		<iframe name='result'{% if shell %} src="{{ shell.get_show_url }}{{ skin }}/"{% endif %}></iframe>
+		<iframe name='result' frameBorder='0'{% if shell %} src="{{ shell.get_show_url }}{{ skin }}/"{% endif %}></iframe>
 		<span class='window_label'>Result</span>
 	</div>
 	<div class="shim"></div>

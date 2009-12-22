@@ -96,6 +96,12 @@ class JSDependency(models.Model):
 		verbose_name_plural = "JS Dependencies"
 		ordering = ["-ord"]
 
+
+#class JSExternal(models.Model):
+#	url = models.CharField('URL to the library file', max_length=255)
+#	name = models.CharField('Name', max_length=255)
+#	shell = models.ForeignKey('Shell')
+
 	
 WRAPCHOICE = (
     ('', 'none'),

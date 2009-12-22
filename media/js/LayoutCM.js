@@ -48,7 +48,9 @@ var Layout = {
 
 		this.resize();
 
-		this.createDragInstances();
+		if (!Browser.Engine.trident4) {
+			this.createDragInstances();
+		}
 
 		this.fireEvent('ready');
 	},
