@@ -59,7 +59,7 @@
 	<form method='post' id='show-result' target='result' action='{% url pastie_display %}{{ skin }}/' >
 		<div id='header'>
 			<div id='branding'>
-				<p id='name'><a href='/' id='home'>{{ project_name }} {{ project_status }}</a></p>
+				<p id='name'><a href='{% url pastie %}' id='home'>{{ project_name }} {{ project_status }}</a></p>
 			</div>
 			{% include "_mooshell_actions.html" %}
 		</div>

@@ -25,7 +25,7 @@ var MooShellEditor = new Class({
 		if (this.occlude()) return this.occluded;
 		this.setOptions(options);
 
-		this.editorLabelFX = new Fx.Tween(this.getLabel(), {property: 'opacity'});
+		this.editorLabelFX = new Fx.Tween(this.getLabel(), {property: 'opacity', link: 'cancel'});
 
 		if (this.options.useCodeMirror) {
 			if (!this.options.codeMirrorOptions.stylesheet && this.options.stylesheet) {
