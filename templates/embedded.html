@@ -23,7 +23,7 @@
 	{% for css in css_files %}<link rel="stylesheet" type="text/css" href="{{ css }}"/>{% endfor %}
 	<script type='text/javascript'>
 		var height,
-			show_src = "{{ shell.get_show_url }}{{ skin }}/",
+			show_src = "{{ FORCE_SHOW_SERVER }}{{ shell.get_show_url }}{{ skin }}/",
 			resize_element_counter = 0;
 		
 		// inject iframe and fire event	

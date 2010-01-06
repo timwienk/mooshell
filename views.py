@@ -74,7 +74,7 @@ def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=N
 			'shellform':shellform,
 			'shell': shell,
 			'css_files': [
-					reverse('mooshell_media', args=["css/light.css"])
+					reverse('mooshell_css', args=["light.css"])
 					],
 			'js_libs': [
 					reverse('mooshell_js', args=[moo]),
@@ -223,7 +223,7 @@ def embedded(req, slug, version=None, revision=0, author=None, tabs=None, skin=N
 			tab['code'] = getattr(shell,'code_'+t)
 		tabs.append(tab)	
 															
-	c = { 
+	context = { 
 		'height': height,
 		'shell': shell,
 		'skin': skin,
@@ -236,7 +236,9 @@ def embedded(req, slug, version=None, revision=0, author=None, tabs=None, skin=N
 				reverse('mooshell_js', args=[settings.MOOTOOLS_MORE]),
 				]
 	}
-	return render_to_response('embedded.html', c)
+	return render_to_response(	'embedded.html', 
+								context, 
+								context_instance=RequestContext(req))
 		
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.

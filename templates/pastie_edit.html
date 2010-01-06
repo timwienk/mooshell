@@ -56,7 +56,7 @@
 	</script>
 	{% block head %}{% endblock %}
 </head><body>
-	<form method='post' id='show-result' target='result' action='{% url pastie_display %}{{ skin }}/' >
+	<form method='post' id='show-result' target='result' action='{{ FORCE_SHOW_SERVER }}{% url pastie_display %}{{ skin }}/' >
 		<div id='header'>
 			<div id='branding'>
 				<p id='name'><a href='{% url pastie %}' id='home'>{{ project_name }} {{ project_status }}</a></p>
