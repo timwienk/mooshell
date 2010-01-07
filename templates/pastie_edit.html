@@ -12,8 +12,8 @@
 	<meta name="author" edit="Piotr Zalewa">
 	<meta name='copyright' content='share alike'/>
 
-	{% for js in js_libs %}<script type="text/javascript" src="{{ js }}"></script>
-	{% endfor %}
+	{% for js in js_libs %}<script type="text/javascript" src="{{ js }}"></script>{% endfor %}
+	{{ SPECIAL_HEAD_CODE|safe }}
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "normalize.css" %}"/>
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "tricks.css" %}"/>
 	<!--[if lte IE 6]>
@@ -81,7 +81,7 @@
 			{% include "_mooshell_editor.html" %}	
 		</div>
 	<form>
-	{% if not DEBUG %}
+	{% if not DEBUG and GOOGLE_ANALYTICS_ID %}
 		<script type="text/javascript">
 			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
