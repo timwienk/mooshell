@@ -355,7 +355,9 @@ def api_get_users_pasties(req, author, limit=50):
 	user = get_object_or_404(User, username=author)
 	pasties = Pastie.objects\
 					.filter(author__username=author)\
-					.exclude(favourite__title__isnull=True)[:limit]
+					.exclude(favourite__title__isnull=True)\
+					.exclude(favourite__title="")\
+					[:limit]
 	
 	try:
 		server = settings.MOOSHELL_FORCE_SERVER
