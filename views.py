@@ -15,6 +15,9 @@ from django.views.decorators.vary import vary_on_cookie
 
 from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSLibraryWrap, JSDependency
 from forms import PastieForm, ShellForm
+from base.views import serve_static as base_serve_static
+from base.utils import log_to_file, separate_log
+
 
 # it is bad for automate picking the latest revision 
 # consider better caching for that function.
@@ -312,16 +315,7 @@ def ajax_html_javascript_response(req):
 
 
 def serve_static(request, path, media='media', type=None):
-	if type: 
-		path = '/'.join([type, path])
-		
-	for media_group in settings.MOOSHELL_MEDIA_PATHS:
-		media_path = os.path.join(settings.FRAMEWORK_PATH, media_group, media)
-		file = os.path.join(media_path,path)
-		if os.path.exists(file) and os.path.isfile(file):
-			return static.serve( request, path, media_path)
-		
-	raise Http404 
+	return base_serve_static(request, path, media, type)
 
 def get_library_versions(request, group_id): 
 	libraries = JSLibrary.objects.filter(library_group__id=group_id)
@@ -352,12 +346,26 @@ def make_favourite(req):
 
 
 def api_get_users_pasties(req, author, limit=50):
+	separate_log()
 	user = get_object_or_404(User, username=author)
+	pasties = Pastie.objects\
+					.filter(author__username=author)\
+					[:limit]
+	log_to_file("%s\tpasties no: %i" % (user.username, len(pasties)), req)
+
+	pasties = Pastie.objects\
+					.filter(author__username=author)\
+					.exclude(favourite__title__isnull=True)\
+					[:limit]
+	log_to_file("%s\tpasties no: %i" % (user.username, len(pasties)), req)
+
 	pasties = Pastie.objects\
 					.filter(author__username=author)\
 					.exclude(favourite__title__isnull=True)\
 					.exclude(favourite__title="")\
 					[:limit]
+
+	log_to_file("%s\tpasties no: %i" % (user.username, len(pasties)), req)
 	
 	try:
 		server = settings.MOOSHELL_FORCE_SERVER
