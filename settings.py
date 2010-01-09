@@ -17,13 +17,16 @@ MOOSHELL_MEDIA_PATHS = ['mooshell']
 MOOSHELL_LIBRARY_GROUP = "Mootools" 
 
 # SEO SETTINGS
-MOOSHELL_SEO_TITLE_TAIL = " | to test your JavaScript code"
+MOOSHELL_SEO_TITLE_TAIL = " | Edit your code"
 MOOSHELL_SEO_TITLE_HEAD = ""
 
 MOOSHELL_TITLE_SEPARATOR = " | "
 
 MOOSHELL_PROJECT_NAME = "MooShell"
 MOOSHELL_PROJECT_STATUS = "(local)"
+
+MOOSHELL_NEW_TITLE = 'Create Shell'
+MOOSHELL_VIEW_TITLE = 'Edit Shell'
 
 # LIBS
 MOOTOOLS_CORE = "lib/mootools-1.2.4-core-yc.js"

@@ -33,6 +33,8 @@ def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=N
 		server = settings.MOOSHELL_FORCE_SERVER
 	except:
 		server = 'http://%s' % req.META['SERVER_NAME']
+
+	title = settings.MOOSHELL_NEW_TITLE
 		
 	if slug:
 		if skin:
@@ -61,6 +63,7 @@ def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=N
 				'embedded_url': embedded_url,
 				'shell': shell
 				})
+		title = shell.title if shell.title else settings.MOOSHELL_VIEW_TITLE
 	else:
 		example_url = ''
 		#pastieform = PastieForm()
@@ -70,6 +73,7 @@ def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=N
 	else: moo = settings.MOOTOOLS_CORE
 	
 	if not skin: skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
+
 	
 	# TODO: join some js files for less requests
 	c.update({
@@ -91,7 +95,7 @@ def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=N
 					reverse("mooshell_js", args=["EditorCM.js"]),
 					reverse("mooshell_js", args=["Settings.js"]),
 					],
-			'title': "Shell Editor",
+			'title': title,
 			'example_url': example_url,
 			'web_server': server,
 			'skin': skin,
