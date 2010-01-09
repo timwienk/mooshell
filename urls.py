@@ -51,6 +51,11 @@ urlpatterns = patterns('mooshell.views',
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/show_html/$','show_part', {'part': 'html'}, name='author_show_html_with_version'),
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/show_css/$','show_part', {'part': 'css'}, name='author_show_css_with_version'),
     url(r'^(?P<author>\w+)/(?P<slug>\w+)/(?P<version>\d+)/show_js/$','show_part', {'part': 'js'}, name='author_show_js_with_version'),
+
+	# API
+	url(r'^api/user_shells/(?P<author>\w+)/$','api_get_users_pasties'),
+
+
     # show
     url(r'^(?P<slug>\w+)/show/$','pastie_show', name='pastie_show'),
     url(r'^(?P<slug>\w+)/show/(?P<skin>\w+)/$','pastie_show', name='pastie_show_with_skin'),

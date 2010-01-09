@@ -1,0 +1,9 @@
+{% with pastie.favourite as shell %}{ 
+	"title": "{{ shell.title }}",
+	"author": "{{ shell.author.username }}",
+	"description": "{{ shell.description }}",
+	"url": "{{ server }}{{ shell.get_absolute_url }}",
+	"version": {{ shell.version }},
+	"created": "{{ shell.created_at|date:"Y-m-d H:i:s" }}",
+	"framework": "{{ shell.js_lib.library_group.name }}"
+}{% endwith %}

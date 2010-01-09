@@ -1,0 +1,1 @@
+[{% for pastie in pasties %}{% include "api/pastie.json" %}{% if not forloop.last %},{% endif %}{% endfor %}]

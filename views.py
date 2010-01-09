@@ -307,7 +307,8 @@ def ajax_json_response(req):
 
 
 def ajax_html_javascript_response(req):
-	return HttpResponse("<p>A sample paragraph</p><script type='text/javascript'>alert('sample alert');</script>")
+	return HttpResponse("""<p>A sample paragraph</p>
+<script type='text/javascript'>alert('sample alert');</script>""")
 
 
 def serve_static(request, path, media='media', type=None):
@@ -348,3 +349,20 @@ def make_favourite(req):
 		return HttpResponse(simplejson.dumps({'message':'saved as favourite'}),
 							mimetype="application/javascript")
 	raise Http404 
+
+
+def api_get_users_pasties(req, author, limit=50):
+	user = get_object_or_404(User, username=author)
+	pasties = Pastie.objects\
+					.filter(author__username=author)\
+					.exclude(favourite__title__isnull=True)[:limit]
+	
+	try:
+		server = settings.MOOSHELL_FORCE_SERVER
+	except:
+		server = 'http://%s' % req.META['SERVER_NAME']
+
+	return render_to_response('api/pasties.json', 
+								{'pasties': pasties, 'server': server},
+								mimetype="application/javascript"
+							)

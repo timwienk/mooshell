@@ -5,6 +5,8 @@ from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.conf import settings   
 
+from managers import JSDependencyManager
+
 def next_week():
 	return datetime.now() + timedelta(days=7)
 
@@ -68,10 +70,6 @@ class JSLibrary(models.Model):
 
 
 
-class JSDependencyManager(models.Manager):
-	def get_active(self):
-		return self.get_query_set().filter(active=True)
-
 class JSDependency(models.Model):
 	"""
 	Additional library file - MooTools more, Scriptaculous, etc.
@@ -131,7 +129,6 @@ class Pastie(models.Model):
 			except: 
 				check_slug = False
 
-	
 	def __unicode__(self):
 		return self.slug
 	
@@ -289,6 +286,15 @@ def increase_version_on_save(instance, **kwargs):
 		instance.version = version
 		instance.save()
 pre_save.connect(increase_version_on_save, sender=Shell)
+
+def make_first_version_favourite(instance, **kwargs):
+	if kwargs.get('raw',False): return
+	if not kwargs.get('created'): return
+	if instance.version == 0:
+		instance.pastie.favourite = instance
+post_save.connect(make_first_version_favourite, sender=Shell)
+			
+	
 
 	
 class Example(models.Model):
