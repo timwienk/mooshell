@@ -1,0 +1,97 @@
+{% load mooshell_extras %}
+<h3 class='toggler{% if shell.external_resources.all %} filled{%endif %}' id='resources_toggler'>Resources</h3>
+<div class='element' id='resources_element'>
+	<input type='text' id='external_resource' value=''>
+	<button id='add_external_resource'>add</button>
+	<ul id='external_resources_list'>
+	<input type='hidden' value='' id='external_resources_id' name='add_external_resources'/>
+	<script type='text/javascript'>var resources = [];</script>
+	{% for res in shell.external_resources.all %}
+		<li id='external_resource_{{ res.id }}'>
+			<span class='filename' title="{{ res.url }}">{{ res.filename }}</span>
+			<a onclick='remove_resource({{ res.id }})'>x</a>
+		</li>
+		<script type='text/javascript'>resources.push({{ res.id }})</script>
+	{% endfor %}
+	</ul>
+</div>
+
+<script type='text/javascript'>
+	var update_resource_input = function(value) {
+		if (value) {
+			if (resources.contains(value)) {
+				return false;
+			}
+			resources.push(value);
+		}
+		$('external_resources_id').set('value', resources.join(','));
+		return true;
+	}
+	var remove_resource = function(value) {
+		if (resources.contains(value)) {
+			resources.erase(value)
+		}
+		update_resource_input();
+		$('external_resource_'+value).destroy();
+	}
+	var submit_external_resource = function(e) {
+		e.stop();
+		// save url, after success update current list of resources and clean up the input
+		var url = $('external_resource').value
+		if (url && url != $('external_resource').retrieve('default_value')) {
+			new Request.JSON({
+				url: add_external_resource_url,
+				method: 'post',
+				data: {url: url},
+				onSuccess: function(response) {
+					// push resource id to the list
+					if (update_resource_input(response.id)) {
+						// create external resource DOM element
+						var lib = new Element('li', {
+							'text': response.filename
+						}).inject($('external_resources_list'));
+					} else {
+						// this resource was already included in the list
+					}
+					$('external_resource').value = '';
+					set_default_input_value.bind($('external_resource'))();
+				}
+			}).send();
+		}
+	};
+	var change_default_input_value = function(show) {
+		// set or remove the default value from input
+		if (show && !this.value) {
+			this.set('value', this.retrieve('default_value'));
+			this.addClass('default');
+		} else if (!show && this.value == this.retrieve('default_value')) {
+			this.set('value', '');
+			this.removeClass('default');
+		}
+	};
+	var set_default_input_value = function() {
+		change_default_input_value.bind(this)(true);
+	};
+	var remove_default_input_value = function() {
+		change_default_input_value.bind(this)(false);
+	};
+	window.addEvent('load', function() {
+
+		var inp = $('external_resource'),
+			default_text = 'JavaScript/CSS URL',
+			add_external_resource_url = "{% url add_external_resource %}"
+		
+		inp.store('default_value', default_text);
+		if (!inp.value) {
+			inp.set('value', default_text);
+		}
+
+		update_resource_input();
+		inp.addEvents({
+			'change': set_default_input_value,
+			'blur': set_default_input_value,
+			'focus': remove_default_input_value
+		});
+		$('add_external_resource').addEvent('click', submit_external_resource);
+	});
+</script>
