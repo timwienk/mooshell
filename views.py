@@ -148,7 +148,10 @@ def pastie_save(req, nosave=False, skin=None):
 			external_resources = []
 			ext_ids = req.POST.get('add_external_resources', '').split(',')
 			for ext_id in ext_ids:
-				external_resources.append(ExternalResource.objects.get(id=int(ext_id)))
+				try:
+					external_resources.append(ExternalResource.objects.get(id=int(ext_id)))
+				except:
+					pass
 
 			if nosave:
 				" return the pastie page only " 
