@@ -17,6 +17,8 @@
 </div>
 
 <script type='text/javascript'>
+	var default_text = 'JavaScript/CSS URL',
+		add_external_resource_url = "{% url add_external_resource %}"
 	var update_resource_input = function(value) {
 		if (value) {
 			if (resources.contains(value)) {
@@ -47,9 +49,23 @@
 					// push resource id to the list
 					if (update_resource_input(response.id)) {
 						// create external resource DOM element
-						var lib = new Element('li', {
-							'text': response.filename
+						var li = new Element('li', {
+							'id': 'external_resource_' + response.id
 						}).inject($('external_resources_list'));
+						new Element('span', {
+							'text': response.filename,
+							'title': response.url,
+						}).inject(li);
+						new Element('a', {
+							'text': 'x',
+							'rel': response.id,
+							'events': {
+								'click': function(e) {
+									e.stop();
+									remove_resource(this.get('rel').toInt());
+								}
+							}
+						}).inject(li)
 					} else {
 						// this resource was already included in the list
 					}
@@ -77,9 +93,7 @@
 	};
 	window.addEvent('load', function() {
 
-		var inp = $('external_resource'),
-			default_text = 'JavaScript/CSS URL',
-			add_external_resource_url = "{% url add_external_resource %}"
+		var inp = $('external_resource');
 		
 		inp.store('default_value', default_text);
 		if (!inp.value) {
