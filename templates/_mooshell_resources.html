@@ -8,8 +8,7 @@
 	<script type='text/javascript'>var resources = [];</script>
 	{% for res in shell.external_resources.all %}
 		<li id='external_resource_{{ res.id }}'>
-			<span class='filename' title="{{ res.url }}">{{ res.filename }}</span>
-			<a onclick='remove_resource({{ res.id }})'>x</a>
+			<span class='filename' title="{{ res.url }}">{{ res.filename }}</span><a onclick='remove_resource({{ res.id }})'>x</a>
 		</li>
 		<script type='text/javascript'>resources.push({{ res.id }})</script>
 	{% endfor %}
@@ -40,7 +39,7 @@
 		e.stop();
 		// save url, after success update current list of resources and clean up the input
 		var url = $('external_resource').value
-		if (url && url != $('external_resource').retrieve('default_value')) {
+		if (url && url != $('external_resource').retrieve('default_value') && $('external_resource').value.length > 7) {
 			new Request.JSON({
 				url: add_external_resource_url,
 				method: 'post',
@@ -69,8 +68,12 @@
 					} else {
 						// this resource was already included in the list
 					}
-					$('external_resource').value = '';
-					set_default_input_value.bind($('external_resource'))();
+					var inp = $('external_resource');
+					inp.value = '';
+					if (e.target('tag') != 'input') { 
+						console.log(this, this.get('tag'))
+						set_default_input_value.bind($('external_resource'))();
+					}
 				}
 			}).send();
 		}
@@ -104,7 +107,13 @@
 		inp.addEvents({
 			'change': set_default_input_value,
 			'blur': set_default_input_value,
-			'focus': remove_default_input_value
+			'focus': remove_default_input_value,
+			'keydown': function(e) {
+				if (e.key == 'enter') {
+					submit_external_resource.bind(this)(e);
+				}
+			},
+			'submit': submit_external_resource
 		});
 		$('add_external_resource').addEvent('click', submit_external_resource);
 	});
