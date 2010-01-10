@@ -342,3 +342,17 @@ body.editbox {
 	top: 0;
 	left: 0;
 }
+
+/* place resource button next to input */
+#sidebar #external_resource { 
+	padding-right: 0px; 
+	width: 126px;
+}
+/* style the external resources list */
+#sidebar #external_resources_list { margin-top: 5px; }
+#sidebar #external_resources_list li { 
+	margin-top: 5px; 
+	padding-left: 5px;
+}
+#sidebar #external_resources_list li .filename { margin-right: 5px; }
+
