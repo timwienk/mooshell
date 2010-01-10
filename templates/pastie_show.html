@@ -5,6 +5,15 @@
 	<script type='text/javascript' src='{{ shell.js_lib.href }}'{% if shell.js_lib_option %} {{ shell.js_lib_option|safe }}{% endif %}></script>
 	{% for js in dependencies %}<script type="text/javascript" src="{{ js.url }}"></script>
 	{% endfor %}
+	{% for res in resources %}
+		{% ifequal res.extension ".css" %}
+			<link rel="stylesheet" type="text/css" href="{{ res.url|safe }}"/>
+		{% endifequal %}
+		{% ifequal res.extension ".js" %}
+			<script type='text/javascript' src="{{ res.url|safe }}"></script>
+		{% endifequal %}
+	{% endfor %}
+		
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "normalize.css" %}"/>
 	{% if skin %}<link rel="stylesheet" type="text/css" href="{{ skin_css }}"/>{% endif %}
 	<style type='text/css'>

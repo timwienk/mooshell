@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from models import JSLibraryGroup, JSLibraryWrap, JSLibrary, JSDependency, Pastie, Shell
+from models import JSLibraryGroup, JSLibraryWrap, JSLibrary, JSDependency, Pastie, Shell, ExternalResource
 
 class JSLibraryGroupAdmin(admin.ModelAdmin):	
 	pass
@@ -30,3 +30,9 @@ admin.site.register(Pastie, PastieAdmin)
 class ShellAdmin(admin.ModelAdmin):
 	search_fields = ['pastie__slug', 'author__username', 'description', 'code_css', 'code_html', 'code_js'] 
 admin.site.register(Shell, ShellAdmin)
+
+
+class ExternalResourceAdmin(admin.ModelAdmin):	
+	pass
+admin.site.register(ExternalResource, ExternalResourceAdmin)
+

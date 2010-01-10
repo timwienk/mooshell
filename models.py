@@ -1,4 +1,5 @@
 from datetime import date, timedelta, datetime
+import os
 
 from django.db import models
 from django.db.models.signals import pre_save, post_save
@@ -95,12 +96,39 @@ class JSDependency(models.Model):
 		ordering = ["-ord"]
 
 
-#class JSExternal(models.Model):
-#	url = models.CharField('URL to the library file', max_length=255)
-#	name = models.CharField('Name', max_length=255)
-#	shell = models.ForeignKey('Shell')
+class ExternalResource(models.Model):
+	url = models.CharField('URL to the resource file', max_length=255, unique=True)
 
+	class Admin:
+		pass
+
+	def __unicode__(self):
+		return self.filename
+
+	def __str__(self):
+		return self.filename
+
+	@property
+	def filename(self):
+		if not hasattr(self, '_filename'):
+			self._filename = ExternalResource.get_filename(self.url)
+		return self._filename
 	
+	@property
+	def extension(self):
+		if not hasattr(self, '_extension'):
+			self._extension = ExternalResource.get_extension(self.url)
+		return self._extension
+
+	@staticmethod
+	def get_filename(url):
+		return url.split('/')[-1]
+
+	@staticmethod
+	def get_extension(url):
+		return os.path.splitext(ExternalResource.get_filename(url))[1]
+	
+
 WRAPCHOICE = (
     ('', 'none'),
     ('d', 'onDomready'),
@@ -179,6 +207,7 @@ class Shell(models.Model):
 	js_lib_option = models.CharField(max_length=255, null=True, blank=True)
 	js_dependency = models.ManyToManyField(JSDependency, null=True, blank=True)
 	js_wrap = models.CharField(max_length=1, choices=WRAPCHOICE, default='d', null=True, blank=True)
+	external_resources = models.ManyToManyField(ExternalResource, null=True, blank=True)
 	body_tag = models.CharField(max_length=255, null=True, blank=True, default="<body>")
 
 	def is_favourite(self):

@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
 
-from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSLibraryWrap, JSDependency
+from models import Pastie, Shell, JSLibraryGroup, JSLibrary, JSLibraryWrap, JSDependency, ExternalResource
 from forms import PastieForm, ShellForm
 from base.views import serve_static as base_serve_static
 from base.utils import log_to_file, separate_log
@@ -137,16 +137,23 @@ def pastie_save(req, nosave=False, skin=None):
 			" Connect shell with pastie "
 			shell.pastie = pastie
 			
-			# add js_dependency
+			# get javascript dependencies 
 			dependency_ids = [int(dep[1]) for dep in req.POST.items() if dep[0].startswith('js_dependency')]
 			dependencies = []
 			for dep_id in dependency_ids:
 				dep = JSDependency.objects.get(id=dep_id)
 				dependencies.append(dep)
+
+			# append external resources
+			external_resources = []
+			ext_ids = req.POST.get('add_external_resources', '').split(',')
+			for ext_id in ext_ids:
+				external_resources.append(ExternalResource.objects.get(id=int(ext_id)))
+
 			if nosave:
 				" return the pastie page only " 
 				# no need to connect with pastie
-				return pastie_display(req, None, shell, dependencies, skin)
+				return pastie_display(req, None, shell, dependencies=dependencies, resources=external_resources, skin=skin)
 
 			" add user to shell if anyone logged in "
 			if req.user.is_authenticated():
@@ -156,10 +163,15 @@ def pastie_save(req, nosave=False, skin=None):
 				shell.set_next_version()
 				
 			shell.save()
-			
+
+			# add saved dependencies			
 			for dep in dependencies:
 				shell.js_dependency.add(dep)
 		
+			# add saved external resources
+			for ext in external_resources:
+				shell.external_resources.add(ext)
+
 			" return json with pastie url "
 			return HttpResponse(simplejson.dumps({
 					#'pastie_url': ''.join(['http://',req.META['SERVER_NAME'], shell.get_absolute_url()]),
@@ -179,12 +191,13 @@ def pastie_save(req, nosave=False, skin=None):
 					mimetype='application/javascript'
 	)
 
-def pastie_display(req, slug, shell=None, dependencies = [], skin=None):
+def pastie_display(req, slug, shell=None, dependencies=[], resources=[], skin=None):
 	" render the shell only "
 	if not shell:
 		shell = get_object_or_404(Shell,pastie__slug=slug,version=version)
 		" prepare dependencies if needed "
 		dependencies = shell.js_dependency.all()
+		resources = shell.external_resources.all()
 		
 	wrap = getattr(shell.js_lib, 'wrap_'+shell.js_wrap, None) if shell.js_wrap else None
 	if not slug:
@@ -195,6 +208,7 @@ def pastie_display(req, slug, shell=None, dependencies = [], skin=None):
 	return render_to_response('pastie_show.html', {
 									'shell': shell,
 									'dependencies': dependencies,
+									'resources': resources,
 									'wrap': wrap,
 									'skin': skin,
 									'skin_css': reverse("mooshell_css", args=['result-%s.css' % skin])
@@ -260,7 +274,7 @@ def pastie_show(req, slug, version=None, author=None, skin=None):
 		user = get_object_or_404(User,username=author) if author else None
 		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	if not skin: skin = req.GET.get('skin', settings.MOOSHELL_DEFAULT_SKIN)
-	return pastie_display(req, slug, shell, shell.js_dependency.all(), skin)
+	return pastie_display(req, slug, shell, dependencies=shell.js_dependency.all(), resources=shell.external_resources.all(), skin=skin)
 
 
 #TODO: remove if not used
@@ -380,3 +394,21 @@ def api_get_users_pasties(req, author, limit=50):
 								{'pasties': pasties, 'server': server},
 								mimetype="application/javascript"
 							)
+
+def add_external_resource(req):
+	url = req.POST.get('url')
+	try:
+		# check if url already in models
+		resource = ExternalResource.objects.get(url=url)
+		log_to_file('resource %s chosen' % resource.filename)
+	except:
+		# else create resource
+		resource = ExternalResource(url=url)
+		resource.save()
+		log_to_file('resource %s created' % resource.filename)
+	return HttpResponse(simplejson.dumps({
+			'id': resource.id,
+			'url': resource.url,
+			'filename': resource.filename,
+			'extension': resource.extension
+		}),	mimetype="application/javascript")
