@@ -95,7 +95,7 @@
 	var remove_default_input_value = function() {
 		change_default_input_value.bind(this)(false);
 	};
-	window.addEvent('load', function() {
+	window.addEvent('domready', function() {
 
 		var inp = $('external_resource');
 		
@@ -103,7 +103,7 @@
 		if (!inp.value) {
 			inp.set('value', default_text);
 		}
-
+		console.log(resources);
 		update_resource_input();
 		inp.addEvents({
 			'change': set_default_input_value,
