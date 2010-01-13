@@ -1,10 +1,12 @@
 {% load mooshell_extras %}
-<h3 class='toggler{% if shell.external_resources.all %} filled{%endif %}' id='resources_toggler'>Resources <em>(3)</em></h3>
+{% with shell.external_resources.all|length as resources_length %}
+<h3 class='toggler{% if shell.external_resources.all %} filled{%endif %}' id='resources_toggler'>Resources{% if resources_length %} <em>({{ resources_length }})</em>{% endif %}</h3>
+{% endwith %}
 <div class='element' id='resources_element'>
 	<div class="elementBody">
 		<div class="ebCont">
 			<input type='text' id='external_resource' value='' />
-			<button id='add_external_resource'>add</button>
+			<button id='add_external_resource'>+</button>
 		
 			<input type='hidden' value='' id='external_resources_id' name='add_external_resources' />
 			<ul id='external_resources_list'>

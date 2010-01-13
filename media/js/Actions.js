@@ -49,7 +49,8 @@ var MooShellActions = new Class({
 				// reload page after successful save
 				// var p = $('mark_favourite').getParent('p').empty();
 				// p.appendText(response.message);
-				$('mark_favourite').addClass('isFavourite');
+				$('mark_favourite').addClass('isFavourite')
+					.getElements('span')[0].set('text', 'Base');
 			}
 		}).send();
 	

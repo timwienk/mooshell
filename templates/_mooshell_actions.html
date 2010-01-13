@@ -7,7 +7,7 @@
 	
 	{% if is_author %}
 		{% if shell.is_favourite %}
-			<a class="collapsedActions" id="is_favourite"><strong><span>Set as base</span></strong></a>
+			<a class="collapsedActions" id="is_favourite"><strong><span>Base</span></strong></a>
 		{% else %}
 			<a class="collapsedActions" id="mark_favourite" onClick='mooshell.makeFavourite({{ shell.id }})'><strong><span>Set as base</span></strong></a>
 		{% endif %}

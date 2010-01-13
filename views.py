@@ -215,6 +215,7 @@ def pastie_display(req, slug, shell=None, dependencies=[], resources=[], skin=No
 									'shell': shell,
 									'dependencies': dependencies,
 									'resources': resources,
+									'resources_length': len(resources),
 									'wrap': wrap,
 									'skin': skin,
 									'skin_css': reverse("mooshell_css", args=['result-%s.css' % skin])
