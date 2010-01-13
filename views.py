@@ -156,7 +156,10 @@ def pastie_save(req, nosave=False, skin=None):
 			if nosave:
 				" return the pastie page only " 
 				# no need to connect with pastie
-				return pastie_display(req, None, shell, dependencies=dependencies, resources=external_resources, skin=skin)
+				return pastie_display(req, None, shell, 
+										dependencies=dependencies, 
+										resources=external_resources, 
+										skin=skin)
 
 			" add user to shell if anyone logged in "
 			if req.user.is_authenticated():
@@ -231,27 +234,37 @@ def embedded(req, slug, version=None, revision=0, author=None, tabs=None, skin=N
 		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	
 	if not skin: skin = req.GET.get('skin', settings.MOOSHELL_DEFAULT_SKIN)
-	if not tabs: tabs = req.GET.get('tabs', 'js,html,css,result')
+	if not tabs: tabs = req.GET.get('tabs', 'js,resources,html,css,result')
 	
+	try:
+		server = settings.MOOSHELL_FORCE_SERVER
+	except:
+		server = 'http://%s' % req.META['SERVER_NAME']
+
 	height = req.GET.get('height', None)
 	#skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
 	tabs_order = tabs #req.GET.get('tabs',"js,html,css,result")
 	tabs_order = tabs_order.split(',')
 	
+	if not shell.external_resources.all() and "resources" in tabs_order:
+		tabs_order.remove("resources")
+
 	tabs = []
 	for t in tabs_order:
 		tab = {	'type': t,
 						'title': settings.MOOSHELL_EMBEDDED_TITLES[t]
 					}
-		if t != "result":
+		if not t in ["result", "resources"]:
 			tab['code'] = getattr(shell,'code_'+t)
 		tabs.append(tab)	
 															
 	context = { 
 		'height': height,
+		'server': server,
 		'shell': shell,
 		'skin': skin,
 		'tabs': tabs,
+		'code_tabs': ['js', 'css', 'html'],
 		'css_files': [
 				reverse('mooshell_css', args=["embedded-%s.css" % skin])
 				],
