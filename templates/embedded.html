@@ -139,7 +139,7 @@
 						<li><a href='{{ resource.url|safe }}' title="{{ resource.url }}">{{ resource.filename }}</a></li>
 					{% endfor %}</ol>
 				</div>{% endifequal %}
-				{% if tab.type in code_tabs %}<pre class="{{ tab.type }} tCont {% if forloop.first %} active{% endif %}">{{ tab.code }}</pre>{% endif %}
+				{% if tab.code  %}<pre class="{{ tab.type }} tCont {% if forloop.first %} active{% endif %}">{{ tab.code }}</pre>{% endif %}
 			{% endfor %}
 		</div>
 	</div>
