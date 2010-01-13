@@ -55,7 +55,7 @@
 				// destroy all previous lighters, and create a new one 
 				// from the currently selected (but only if it's not the Result tab)
 				$$('.'+lighter_class+'Lighter').destroy();
-				if (!this.hasClass('result')) {
+				if (this.get('tag') == 'pre') {
 					var light = this.light({flame: lighter_class});
 					resizeLighter(light);
 					return light;
@@ -115,7 +115,7 @@
 <body>
 	<div id="wrapper">
 		<div id="head">
-			<h1><a title="MooShell" href="http://mooshell.net/">MooShell</a></h1>
+			<h1><a title="{{ project_name }}" href="{{ server }}">{{ project_name }}</a></h1>
 			<ul id="triggers">
 				<li class="tRun"><a title="Run" id="run">Run</a></li>
 				<li class="tEdit"><a title="Edit" id="edit">Edit</a></li>
@@ -132,7 +132,14 @@
 			{% for tab in tabs %}
 				{% ifequal tab.type "result" %}<div class="tCont result{% if forloop.first %} active{% endif %}" id='result'></div>
 					{% if forloop.first %}<script type='text/javascript'>window.addEvent('load',function(){ loadResult(); });</script>{% endif %}
-				{% else %}<pre class="{{ tab.type }} tCont {% if forloop.first %} active{% endif %}">{{ tab.code }}</pre>{% endifequal %}
+				{% endifequal %}
+				{% ifequal tab.type "resources" %}<div class="resources tCont{% if forloop.first %} active{% endif %}" id="resources">
+					<h3>Following resources are loaded into result:</h3>
+					<ol>{% for resource in shell.external_resources.all %}
+						<li><a href='{{ resource.url|safe }}' title="{{ resource.url }}">{{ resource.filename }}</a></li>
+					{% endfor %}</ol>
+				</div>{% endifequal %}
+				{% if tab.type in code_tabs %}<pre class="{{ tab.type }} tCont {% if forloop.first %} active{% endif %}">{{ tab.code }}</pre>{% endif %}
 			{% endfor %}
 		</div>
 	</div>

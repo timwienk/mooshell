@@ -11,66 +11,64 @@
 	<meta name="author" edit="Piotr Zalewa">
 	<meta name='copyright' content='share alike'/>
 
-	<script type="text/javascript" src="{% url mooshell_media "js/lib/mootools-1.2.4-core-yc.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/lib/mootools-1.2.4.1-more.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/lib/posteditor-clientcide-trunk-2.1.0.js" %}"></script>	
+	<script type="text/javascript" src="{% url mooshell_js "lib/mootools-1.2.4-core-yc.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_js "lib/mootools-1.2.4.1-more.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_js "lib/posteditor-clientcide-trunk-2.1.0.js" %}"></script>	
 	<script type="text/javascript" src="{% url codemirror "js/codemirror.js" %}"></script>
 	<script type="text/javascript" src="{% url codemirror "js/mirrorframe.js" %}"></script>
 
-	<script type="text/javascript" src="{% url mooshell_media "js/Sidebar.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/LayoutCM.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/Actions.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/EditorCM.js" %}"></script>
-	<script type="text/javascript" src="{% url mooshell_media "js/Settings.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_js "Sidebar.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_js "LayoutCM.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_js "Actions.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_js "EditorCM.js" %}"></script>
+	<script type="text/javascript" src="{% url mooshell_js "Settings.js" %}"></script>
 
-	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/normalize.css" %}"/>
-	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/tricks.css" %}"/>	
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "normalize.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "tricks.css" %}"/>	
 	<!--[if lte IE 6]>
-		<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/ie-hacks.css" %}"/>
+		<link rel="stylesheet" type="text/css" href="{% url mooshell_css "ie-hacks.css" %}"/>
 	<![endif]-->
-	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/style.css" %}"/>	
-	<link rel="stylesheet" type="text/css" href="{% url mooshell_media "css/light.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "style.css" %}"/>	
+	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "light.css" %}"/>
 
 	<script type='text/javascript'>
-		var no_pairs = false;		
-		var mediapath = "{% url mooshell_media "" %}";
-		var codemirrorpath = "{% url codemirror "" %}";
-		var get_dependencies_url = '{{ get_dependencies_url|safe }}';
+		var csspath = "/css/",
+			jspath = "/js/",
+			imgpath = "/img/",
+			mediapath = "/mooshellmedia/",
+			codemirrorpath = "/codemirror/",
+			makefavouritepath = "/make_favourite/",
+			mooshell;
+		Layout.skin = "light"
 		window.addEvent('load', function() {
 			$extend(Layout, new Events());
-			var mooshell = new MooShellActions({
+			mooshell = new MooShellActions({
 				exampleURL: "{{ example_url }}",
-				exampleSaveUrl: '{% url pastie_save %}'
-			}).run();
-			new MooShellEditor.JS($('id_code_js'),{
-				{% if nopairs %}smartTypingPairs: false,{% endif %}
-			}); // add user defined parameters
-			new MooShellEditor.HTML($('id_code_html'), {
-				{% if nopairs %}smartTypingPairs: false,{% endif %}
-			}); // add user defined parameters
-			new MooShellEditor.CSS($('id_code_css'), {
-				{% if nopairs %}smartTypingPairs: false,{% endif %}
-			}); // add user defined parameters
-			Layout.start();
-			{# var mooshellSettings = new MooShellSettings(); #}
+				exampleSaveUrl: '{% url pastie_save %}',
+				loadDependenciesURL: '_get_dependencies/{lib_id}',
+				loadLibraryVersionsURL: '/_get_library_versions/{group_id}/'
+			});
+			new MooShellEditor.JS($('id_code_js')); // add user defined parameters
+			new MooShellEditor.HTML($('id_code_html')); // add user defined parameters
+			new MooShellEditor.CSS($('id_code_css')); // add user defined parameters
+			Layout.render();
+			$('show-result').submit();
 		});
-
 	</script>
 </head>
 <body>
-	
-	<form method='post' id='show-result' target='result' action='/_display/' >
+	<form method='post' id='show-result' target='result' action='{{ FORCE_SHOW_SERVER }}{% url pastie_display %}light/' >
 		<div id='header'>
 			<div id='branding'>
-				<p id='name'><a href='/' id='home'>MooShell (alpha - 404)</a></p>
+				<p id='name'><a href='{% url pastie %}' id='home'>{{ project_name }} {{ project_status }}</a></p>
 			</div>
 			<div id='actions'>
 				<a id='run'><span>Run</span></a>
-				<a id="savenew"><span>Save New</span></a> 
-				<a id='clean'><span>Clean</span></a>
+				<a class="collapsedActions" id="savenew"><strong><span>Save New</span></strong></a> 
+				<a class="collapsedActions" id='clean'><strong><span>Clean</span></strong></a>
 			</div>
+
 		</div>
-		
 		<div id='sidebar'>
 			<h3>Error 404</h3>
 			<div class='text'>
@@ -80,41 +78,28 @@
 				</p>
 			</div>
 			{% include "_mooshell_latest.html" %}
-			{% include "_mooshell_about.html" %}
 			{% include "_mooshell_examples.html" %}
 			{% include "_mooshell_options.html" %}
+			{% include "_mooshell_credits.html" %}
 			<h3>License</h3>
-
 			<div class='text'>
-			{% comment %}
-				<p>All code is published under MIT-style license unless specified otherwise.</p>
-			{% endcomment %}
 				<p>All code belongs to the poster and no license is enforced</p>
+				<p>We are not responsible or liable for any loss or damage of any kind during the usage of provided code.</p>
 			</div>
 		</div>
 		<input type='hidden' name='js_lib' value='2'/>
 		<input type='hidden' name='js_wrap' value='d'/>
-		
 		<div id="content">		
 			<input type="hidden" name="slug" id="id_slug" />
 			<input type="hidden" name="version" id="id_version" />
-			<fieldset class='fieldset_static'>
-				<p class='optional'>
+			<fieldset class='column left'>
+				<div class='window top'>
 					<textarea id="id_code_html" rows="10" cols="40" name="code_html"><h1>Error 404.</h1>
 <p id='error'>I'm sorry, but this example does not exist.</p></textarea>
-					<span class='editor_label'>HTML</span>
-				</p>
-				<p class='optional'>
-					<textarea id="id_code_css" rows="10" cols="40" name="code_css">#error { 
-  padding: 4px; 
-  border: 1px solid #f90; 
-  background: #ff9; 
-}</textarea>
-					<span class='editor_label'>CSS</span>
-				</p>
-			</fieldset>
-			<fieldset class=''>
-				<p class='optional'>
+					<span class='window_label'>HTML</span>
+				</div>
+				<div class='handler handler_horizontal'></div>
+				<div class='window bottom'>
 					<textarea id="id_code_js" rows="10" cols="40" name="code_js">var err = new Fx.Tween('error', {
   link: 'chain',
   property: 'opacity',
@@ -123,25 +108,27 @@
 (function() { 
   err.start(0.5).start(1);
 }).periodical(1000);</textarea>
-					<span class='editor_label'>JavaScript</span>
-				</p>
-				<p id='result'>
-					<iframe name='result'></iframe>
-					<span class='editor_label'>Result</span>
-				</p>
+					<span class='window_label'>JavaScript</span>
+				</div>
+				<div class="shim"></div>
 			</fieldset>
-		</form>	
-	</div>
-	
-	
-	<script type="text/javascript">
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script type="text/javascript">
-		try {
-			var pageTracker = _gat._getTracker("UA-366077-12");
-			pageTracker._trackPageview();
-		} catch(err) {}
-	</script>
+			<div class='handler' id='handler_vertical'></div>
+			<fieldset class='column right'>
+				<div class='window top'>
+					<textarea id="id_code_css" rows="10" cols="40" name="code_css">#error { 
+  padding: 4px; 
+  border: 1px solid #f90; 
+  background: #ff9; 
+}</textarea>
+					<span class='window_label'>CSS</span>
+				</div>
+				<div class='handler handler_horizontal'></div>
+				<div id='result' class='window bottom'>
+					<iframe name='result' frameBorder='0'></iframe>
+					<span class='window_label'>Result</span>
+				</div>
+				<div class="shim"></div>
+			</fieldset>
+		</div>
+	</form>
 </body></html>
