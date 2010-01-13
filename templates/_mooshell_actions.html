@@ -1,7 +1,15 @@
-<div id='actions'>
-	<a id='run'><span>Run</span></a>
+<div id="actions">
+	<a id="run"><span>Run</span></a>
+	
 	{% if shell %}<a class="collapsedActions" id="update"><strong><span>Update</span></strong></a>{% endif %}	
 	<a class="collapsedActions" id="savenew"><strong><span>Save New</span></strong></a> 
-	<a class="collapsedActions" id='clean'><strong><span>Clean</span></strong></a>
+	<a class="collapsedActions" id="clean"><strong><span>Clean</span></strong></a>
+	
+	{% if is_author %}
+		{% if shell.is_favourite %}
+			<a class="collapsedActions" id="is_favourite"><strong><span>Set as base</span></strong></a>
+		{% else %}
+			<a class="collapsedActions" id="mark_favourite" onClick='mooshell.makeFavourite({{ shell.id }})'><strong><span>Set as base</span></strong></a>
+		{% endif %}
+	{% endif %}	
 </div>
-

@@ -4,20 +4,29 @@
 {% endif %}
 <h3 class='toggler' id='settings_toggler'>Settings</h3>
 <div class='element' id='shell_settings'>
-	<select name='js_wrap' id='js_wrap'>
-		<option value=''{% if shell %}{% if not shell.js_wrap %} selected='1'{% endif %}{% endif %}>no wrap</option>
-		<option value='d'{% ifequal shell.js_wrap "d" %} selected='1'{% endifequal %}>onDomReady</option>
-		<option value='l'{% ifequal shell.js_wrap "l" %} selected='1'{% endifequal %}{% if not shell %} selected='1'{% endif %}>onLoad</option>
-	</select>
+	<div class="elementBody">
+		<div class="ebCont">
 	
-	{% if default_library_group %}{% get_js_libraries default_library_group shell %}
-	{% else %}{% get_js_library_groups shell %}
-	{% endif %}
+			<select name='js_wrap' id='js_wrap'>
+				<option value=''{% if shell %}{% if not shell.js_wrap %} selected='1'{% endif %}{% endif %}>no wrap</option>
+				<option value='d'{% ifequal shell.js_wrap "d" %} selected='1'{% endifequal %}>onDomReady</option>
+				<option value='l'{% ifequal shell.js_wrap "l" %} selected='1'{% endifequal %}{% if not shell %} selected='1'{% endif %}>onLoad</option>
+			</select>
 	
-	{% if SHOW_LIB_OPTION %}<p>
-		Library tag attributes:<br/>
-		{{ shellform.js_lib_option }}
-	</p>{% endif %}
+			{% if default_library_group %}{% get_js_libraries default_library_group shell %}
+			{% else %}{% get_js_library_groups shell %}
+			{% endif %}
+	
+			{% if SHOW_LIB_OPTION %}
+				<p>
+					<label>
+						Library tag attributes
+						{{ shellform.js_lib_option }}
+					</label>
+				</p>
+			{% endif %}
+		</div>
+	</div>
 </div>
 
 <script type='text/javascript'>

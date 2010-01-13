@@ -23,7 +23,7 @@ var Sidebar = new Class({
 			});
 			*/
 			this.element.getFirst('.toggler').addClass('active');
-			this.accordion = new Fx.Accordion('#' + this.options.DOM + ' .toggler', '#' + this.options.DOM + ' .element');
+			this.accordion = new Fx.Accordion('#' + this.options.DOM + ' .toggler', '#' + this.options.DOM + ' .elementBody');
 			this.accordion.addEvent('active', function(toggler, element) {
 				toggler.addClass('active').getSiblings('.toggler').removeClass('active');				
 				this.fireEvent('accordion_activated');

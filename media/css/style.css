@@ -171,6 +171,10 @@ body {
 #actions #clean span {
 	background-position: 0px -123px;
 }
+/*#actions #is_favourite span,
+#actions #make_favourite span {
+   background-position: 0px -123px;
+}*/
 
 #actions a.collapsedActions span {
 	padding-right: 12px;

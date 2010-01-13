@@ -1,18 +1,23 @@
 {% load mooshell_extras %}
-<h3 class='toggler{% if shell.external_resources.all %} filled{%endif %}' id='resources_toggler'>Resources</h3>
+<h3 class='toggler{% if shell.external_resources.all %} filled{%endif %}' id='resources_toggler'>Resources <em>(3)</em></h3>
 <div class='element' id='resources_element'>
-	<input type='text' id='external_resource' value=''>
-	<button id='add_external_resource'>add</button>
-	<ul id='external_resources_list'>
-	<input type='hidden' value='' id='external_resources_id' name='add_external_resources'/>
-	<script type='text/javascript'>var resources = [];</script>
-	{% for res in shell.external_resources.all %}
-		<li id='external_resource_{{ res.id }}'>
-			<span class='filename' title="{{ res.url }}">{{ res.filename }}</span><a onclick='remove_resource({{ res.id }})'>x</a>
-		</li>
-		<script type='text/javascript'>resources.push({{ res.id }})</script>
-	{% endfor %}
-	</ul>
+	<div class="elementBody">
+		<div class="ebCont">
+			<input type='text' id='external_resource' value='' />
+			<button id='add_external_resource'>add</button>
+		
+			<input type='hidden' value='' id='external_resources_id' name='add_external_resources' />
+			<ul id='external_resources_list'>
+			<script type='text/javascript'>var resources = [];</script>
+			{% for res in shell.external_resources.all %}
+				<li id='external_resource_{{ res.id }}'>
+					<span class='filename' title="{{ res.url }}">{{ res.filename }}</span><a onclick='remove_resource({{ res.id }})'>x</a>
+				</li>
+				<script type='text/javascript'>resources.push({{ res.id }})</script>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
 </div>
 
 <script type='text/javascript'>
@@ -57,7 +62,7 @@
 							'class': 'filename'
 						}).inject(li);
 						new Element('a', {
-							'text': 'x',
+							'text': 'Remove',
 							'rel': response.id,
 							'events': {
 								'click': function(e) {

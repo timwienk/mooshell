@@ -47,8 +47,9 @@ var MooShellActions = new Class({
 			'data': {shell_id: shell_id},
 			'onSuccess': function(response) {
 				// reload page after successful save
-				var p = $('mark_favourite').getParent('p').empty();
-				p.appendText(response.message)
+				// var p = $('mark_favourite').getParent('p').empty();
+				// p.appendText(response.message);
+				$('mark_favourite').addClass('isFavourite');
 			}
 		}).send();
 	

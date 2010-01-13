@@ -1,52 +1,62 @@
 <h3 id='about_toggler' class='toggler'>About shell</h3>
 <div class='element'>
-			
-	<p>
-		Title:<br/>
-		{{ shellform.title }}
-	</p>
-	<p>
-		Description:<br/>
-		{{ shellform.description }}
-	</p>
-	{% if is_author %}<p>
-		{% if shell.is_favourite %}<span id='is_favourite'>favourite shell</span>
-		{% else %}<a id='mark_favourite' onClick='mooshell.makeFavourite({{ shell.id }})'>make favourite</a>{% endif %}
-	</p>{% endif %}
-	<p>
-		Body Tag:<br/>
-		{{ shellform.body_tag }}
-	</p>
-	{% comment %}
-	<p>
-		MooShell is an official <a title="Go to MooTools.net" href="http://mootools.net" target="_new">MooTools</a> 
-		project. Please edit code in the boxes on the right, hit <strong>Run</strong> to see Result. <strong>Save New</strong> 
-		to save a new <strong>Shell</strong>, Update to create a new version of existing one.
-		If you'd like to choose MooTools version, use <a onclick='Layout.sidebar.accordion.display(Layout.sidebar.accordion.togglers.indexOf($("settings_toggler")))' href="#">Settings</a>
-		panel above.
-	</p>
-	{% endcomment %}
+	<div class="elementBody">
+		<div class="ebCont">		
+			<p>
+				<label>
+					Title
+					{{ shellform.title }}
+				</label>
+			</p>
+			<p>
+				<label>				
+					Description
+					{{ shellform.description }}
+				</label>
+			</p>
+			<p>
+				<label>				
+					Body Tag
+					{{ shellform.body_tag }}
+				</label>
+			</p>
+			{% comment %}
+			<p>
+				MooShell is an official <a title="Go to MooTools.net" href="http://mootools.net" target="_new">MooTools</a> 
+				project. Please edit code in the boxes on the right, hit <strong>Run</strong> to see Result. <strong>Save New</strong> 
+				to save a new <strong>Shell</strong>, Update to create a new version of existing one.
+				If you'd like to choose MooTools version, use <a onclick='Layout.sidebar.accordion.display(Layout.sidebar.accordion.togglers.indexOf($("settings_toggler")))' href="#">Settings</a>
+				panel above.
+			</p>
+			{% endcomment %}
+		</div>	
+	</div>	
 </div>
 
 <h3 class='toggler'>Backend support</h3>
 <div class='element'>
-	<p>To make Ajax calls possible there are two back-end views written.
-		<code>{% url ajax_json_echo %}</code> for JSON and 
-		<code>{% url ajax_html_echo %}</code> for HTML. They both wait 2 seconds 
-		before answering to simulate web latency. HTML one may contain the 
-		JavaScript, it will be run if Request.HTML used.
-	</p>
-	<p>
-		To use them just make an Ajax request using above URLs. 
-		JSON will return everything from POST and GET in the form 
-		of: 
-	</p>
-	<pre>{ 
-'post_response': {}, 
-'get_response': {} 
+	<div class="elementBody">
+		<div class="ebCont">
+		
+			<p>To make Ajax calls possible there are two back-end views written.
+				<code>{% url ajax_json_echo %}</code> for JSON and 
+				<code>{% url ajax_html_echo %}</code> for HTML. They both wait 2 seconds 
+				before answering to simulate web latency. HTML one may contain the 
+				JavaScript, it will be run if Request.HTML used.
+			</p>
+			<p>
+				To use them just make an Ajax request using above URLs. 
+				JSON will return everything from POST and GET in the form 
+				of: 
+			</p>
+<pre>{ 
+  'post_response': {}, 
+  'get_response': {} 
 }</pre>
-	<p>
-		HTML will return the HTML code provided in POST <code>'html'</code> key. Please do follow
-		<a onclick='Layout.sidebar.accordion.display(Layout.sidebar.accordion.togglers.indexOf($("examples_toggler")))' href="#">examples</a>.
-	</p>
+			<p>
+				HTML will return the HTML code provided in POST <code>'html'</code> key. Please do follow
+				<a onclick='Layout.sidebar.accordion.display(Layout.sidebar.accordion.togglers.indexOf($("examples_toggler")))' href="#">examples</a>.
+			</p>
+		</div>
+	</div>
 </div>
