@@ -354,7 +354,16 @@ def serve_static(request, path, media='media', type=None):
 
 def get_library_versions(request, group_id): 
 	libraries = JSLibrary.objects.filter(library_group__id=group_id)
-	c = {'libraries': [{'id': l.id, 'version': l.version, 'selected': l.selected, 'group_name': l.library_group.name} for l in libraries ]}
+	c = {'libraries': [
+			{
+				'id': l.id, 
+				'version': l.version, 
+				'selected': l.selected, 
+				'group_name': l.library_group.name,
+				'active': l.active
+			} for l in libraries 
+		]
+	}
 	selected = [l for l in libraries if l.selected]
 	if selected:
 		selected = selected[0]

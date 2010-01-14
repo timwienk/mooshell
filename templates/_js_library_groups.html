@@ -3,7 +3,7 @@
 	{% for group in groups %}
 		<optgroup label="{{ group.name }}">
 			{% for lib in group.lib_list %}
-				<option value="{{ lib.id }}" {% if group.current %}{% if lib.current %}selected="selected"{% endif %}{% endif %}>{{ group.name }} {{ lib.version }}</option>
+				{% if lib.active or lib.current %}<option value="{{ lib.id }}" {% if group.current %}{% if lib.current %}selected="selected"{% endif %}{% endif %}>{{ group.name }} {{ lib.version }}</option>{% endif %}
 			{% endfor %}
 		</optgroup>
 	{% endfor %}

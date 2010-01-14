@@ -6,7 +6,7 @@ from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.conf import settings   
 
-from managers import JSDependencyManager
+from managers import JSDependencyManager, JSLibraryManager
 
 def next_week():
 	return datetime.now() + timedelta(days=7)
@@ -58,6 +58,9 @@ class JSLibrary(models.Model):
 	selected = models.BooleanField(blank=True, default=False)
 	wrap_d = models.ForeignKey(JSLibraryWrap, related_name='lib_for_domready')
 	wrap_l = models.ForeignKey(JSLibraryWrap, related_name='lib_for_load')
+	active = models.BooleanField(default=True, blank=True)
+
+	objects = JSLibraryManager()
 
 	def __unicode__(self):
 		return ' '.join((self.library_group.name, self.version)) 
