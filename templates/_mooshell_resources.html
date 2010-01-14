@@ -79,7 +79,6 @@
 					var inp = $('external_resource');
 					inp.value = '';
 					if (e.target('tag') != 'input') { 
-						console.log(this, this.get('tag'))
 						set_default_input_value.bind($('external_resource'))();
 					}
 				}
@@ -110,7 +109,6 @@
 		if (!inp.value) {
 			inp.set('value', default_text);
 		}
-		console.log(resources);
 		update_resource_input();
 		inp.addEvents({
 			'change': set_default_input_value,
