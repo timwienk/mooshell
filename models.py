@@ -19,6 +19,7 @@ class JSLibraryGroup(models.Model):
 	"""
 	name = models.CharField('Name', max_length=100, unique=True)
 	description = models.TextField(blank=True, null=True)
+	# TODO: check if selected is used at all
 	selected = models.BooleanField(blank=True, default=False)
 
 	def __unicode__(self):
@@ -96,6 +97,7 @@ class JSDependency(models.Model):
 	
 	class Meta:
 		verbose_name_plural = "JS Dependencies"
+		# highest number on top
 		ordering = ["-ord"]
 
 

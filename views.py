@@ -384,6 +384,7 @@ def make_favourite(req):
 	if req.user.is_authenticated() and req.user.id == shell.pastie.author.id:
 		shell.pastie.favourite = shell
 		shell.pastie.save()
+		# TODO: clear the cache of the shell
 		return HttpResponse(simplejson.dumps({'message':'saved as favourite'}),
 							mimetype="application/javascript")
 	raise Http404 
