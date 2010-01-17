@@ -13,7 +13,7 @@
 			<script type='text/javascript'>var resources = [];</script>
 			{% for res in shell.external_resources.all %}
 				<li id='external_resource_{{ res.id }}'>
-					<span class='filename' title="{{ res.url }}">{{ res.filename }}</span><a onclick='remove_resource({{ res.id }})'>x</a>
+					<span class='filename' title="{{ res.url }}">{{ res.filename }}</span><a onclick='remove_resource({{ res.id }})'>Remove</a>
 				</li>
 				<script type='text/javascript'>resources.push({{ res.id }})</script>
 			{% endfor %}
