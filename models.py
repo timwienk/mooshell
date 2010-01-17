@@ -6,7 +6,7 @@ from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.conf import settings   
 
-from managers import JSDependencyManager, JSLibraryManager
+from managers import JSDependencyManager, JSLibraryManager, ShellManager
 
 def next_week():
 	return datetime.now() + timedelta(days=7)
@@ -131,7 +131,7 @@ class ExternalResource(models.Model):
 
 	@staticmethod
 	def get_extension(url):
-		return os.path.splitext(ExternalResource.get_filename(url))[1]
+		return os.path.splitext(ExternalResource.get_filename(url))[1][1:]
 	
 
 WRAPCHOICE = (
@@ -149,7 +149,7 @@ class Pastie(models.Model):
 	created_at = models.DateTimeField(default=datetime.now)
 	author = models.ForeignKey(User, null=True, blank=True)
 	favourite = models.ForeignKey('Shell', null=True, blank=True, related_name='favs')
-	
+
 	def set_slug(self):
 		from random import choice
 		allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
@@ -175,6 +175,11 @@ class Pastie(models.Model):
 	class Meta:
 		verbose_name_plural = "Pasties"
 
+def make_slug_on_create(instance, **kwargs):
+	if kwargs.get('raw',False): return
+	if not instance.id and not instance.slug:
+		instance.set_slug() 
+pre_save.connect(make_slug_on_create, sender=Pastie)
 
 class Shell(models.Model):
 	"""
@@ -215,19 +220,23 @@ class Shell(models.Model):
 	external_resources = models.ManyToManyField(ExternalResource, null=True, blank=True)
 	body_tag = models.CharField(max_length=255, null=True, blank=True, default="<body>")
 
+	objects = ShellManager()	
+
 	def is_favourite(self):
 		return (self.version == 0 and not self.pastie.favourite) or (self.pastie.favourite and self.pastie.favourite_id == self.id)	
 
 	def __str__(self):
-		past = ': '
+		past = ''
+		if self.id != self.pastie.favourite.id:
+			past += '-%i' % self.version
 		if self.code_js: 
-			past += self.code_js[:20]
+			past += ': %s' % self.code_js[:20]
 		elif self.code_html:
-			past += self.code_html[:20]
+			past += ': %s' % self.code_html[:20]
 		elif self.code_css:
-			past += self.code_css[:20]
-		pre = self.title if self.title + ' - ' else ''
-		return pre + self.pastie.slug + '-' + str(self.version) + past 
+			past += ': %s' % self.code_css[:20]
+		pre = self.title + ' - ' if self.title else ''
+		return pre + self.pastie.slug + past 
         
 
 	@models.permalink
@@ -300,6 +309,7 @@ class Shell(models.Model):
 	
 	class Meta:
 		ordering = ["-version", "revision"]
+		unique_together = ['pastie', 'version']
 	
 	class Admin:
 		pass
@@ -310,15 +320,14 @@ class Shell(models.Model):
 	
 def increase_version_on_save(instance, **kwargs):
 	if kwargs.get('raw',False): return
-	if kwargs.get('created'):
+	if not instance.id:
 		# check if any shell exists for the pastie
 		try:
-			shells = Shell.objects.select(pastie_id=instance.pastie_id).orderBy('-version')
+			shells = Shell.objects.filter(pastie__id=instance.pastie.id).order_by('-version')
 			version = list(shells)[0].version + 1
 		except:
 			version = 0
 		instance.version = version
-		instance.save()
 pre_save.connect(increase_version_on_save, sender=Shell)
 
 def make_first_version_favourite(instance, **kwargs):
@@ -326,6 +335,7 @@ def make_first_version_favourite(instance, **kwargs):
 	if not kwargs.get('created'): return
 	if instance.version == 0:
 		instance.pastie.favourite = instance
+		instance.pastie.save()
 post_save.connect(make_first_version_favourite, sender=Shell)
 			
 	

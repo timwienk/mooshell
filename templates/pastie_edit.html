@@ -1,17 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<meta http-equiv="edit-Type" edit="text/html; charset=utf-8">
-	<meta name="description" edit="mootools shell, easy test you snippets before implementing">
-	<meta name="keywords" edit="mootools,javascript,javascript framework,shell,test">
+{% include "_doctype_and_top_head.html" %}
+	<meta name="description" edit="{{ SEO_DESCRIPTION }}">
+	<meta name="keywords" edit="{{ SEO_KEYWORDS }}">
 	<meta name="robots" edit="all">
 
 	<title>{{ seo_title_head }}{{ title }}{{ title_separator }}{{ project_name }}{{ seo_title_tail }}</title>
-	{# google owner verification code #}
 	{% if GOOGLE_VERIFICATION_META_TAG %}{{ GOOGLE_VERIFICATION_META_TAG|safe }}{% endif %}
 	<meta name="author" edit="Piotr Zalewa">
 	<meta name='copyright' content='share alike'/>
-
 	{% for js in js_libs %}<script type="text/javascript" src="{{ js }}"></script>{% endfor %}
 	{{ SPECIAL_HEAD_CODE|safe }}
 	<link rel="stylesheet" type="text/css" href="{% url mooshell_css "normalize.css" %}"/>

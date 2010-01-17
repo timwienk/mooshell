@@ -19,7 +19,6 @@ from base.views import serve_static as base_serve_static
 from base.utils import log_to_file, separate_log
 
 
-# it is bad for automate picking the latest revision 
 # consider better caching for that function.
 @vary_on_cookie
 def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=None):
@@ -46,12 +45,10 @@ def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=N
 				skin = None
 			except:
 				pass
-		pastie = get_object_or_404(Pastie,slug=slug)
-		if pastie.favourite and version == None:
+		pastie = get_object_or_404(Pastie, slug=slug)
+		if version == None:
 			shell = pastie.favourite
 		else:
-			if version == None: 
-				version=0
 			user = get_object_or_404(User,username=author) if author else None
 			shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 		
@@ -60,8 +57,7 @@ def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=N
 		shellform = ShellForm(instance=shell)
 		c.update({
 				'is_author': (pastie.author and req.user.is_authenticated and pastie.author_id == req.user.id),
-				'embedded_url': embedded_url,
-				'shell': shell
+				'embedded_url': embedded_url
 				})
 		title = shell.title if shell.title else settings.MOOSHELL_VIEW_TITLE
 	else:
@@ -76,32 +72,31 @@ def pastie_edit(req, slug=None, version=None, revision=None, author=None, skin=N
 
 	
 	# TODO: join some js files for less requests
+	js_libs = [
+		reverse('mooshell_js', args=[moo]),
+		reverse('mooshell_js', args=[settings.MOOTOOLS_MORE]),
+		reverse('codemirror', args=['js/codemirror.js']),
+		reverse('codemirror', args=['js/mirrorframe.js']),
+		reverse("mooshell_js", args=["Sidebar.js"]),
+		reverse('mooshell_js', args=['LayoutCM.js']),
+		reverse("mooshell_js", args=["Actions.js"]),
+		reverse("mooshell_js", args=["EditorCM.js"]),
+		reverse("mooshell_js", args=["Settings.js"]),
+	]
 	c.update({
-		#	'pastieform':pastieform,
-			'shellform':shellform,
-			'shell': shell,
-			'css_files': [
-					reverse('mooshell_css', args=["light.css"])
-					],
-			'js_libs': [
-					reverse('mooshell_js', args=[moo]),
-					reverse('mooshell_js', args=[settings.MOOTOOLS_MORE]),
-					#reverse('mooshell_media', args=['js/lib/posteditor-clientcide-trunk-2.1.0.js']),
-					reverse('codemirror', args=['js/codemirror.js']),
-					reverse('codemirror', args=['js/mirrorframe.js']),
-					reverse("mooshell_js", args=["Sidebar.js"]),
-					reverse('mooshell_js', args=['LayoutCM.js']),
-					reverse("mooshell_js", args=["Actions.js"]),
-					reverse("mooshell_js", args=["EditorCM.js"]),
-					reverse("mooshell_js", args=["Settings.js"]),
-					],
-			'title': title,
-			'example_url': example_url,
-			'web_server': server,
-			'skin': skin,
-			'get_dependencies_url': reverse("_get_dependencies", args=["lib_id"]).replace('lib_id','{lib_id}'),
-			'get_library_versions_url': reverse("_get_library_versions", args=["group_id"]).replace('group_id','{group_id}'),
-			})
+		'shellform':shellform,
+		'shell': shell,
+		'css_files': [reverse('mooshell_css', args=["%s.css" % skin])],
+		'js_libs': js_libs,
+		'title': title,
+		'example_url': example_url,
+		'web_server': server,
+		'skin': skin,
+		'get_dependencies_url': reverse("_get_dependencies", 
+								args=["lib_id"]).replace('lib_id','{lib_id}'),
+		'get_library_versions_url': reverse("_get_library_versions", 
+								args=["group_id"]).replace('group_id','{group_id}'),
+	})
 	return render_to_response('pastie_edit.html',c,
 							context_instance=RequestContext(req))
 	
@@ -121,8 +116,6 @@ def pastie_save(req, nosave=False, skin=None):
 			" CREATE "
 			pastie = Pastie()
 			if not nosave:
-				" create slug from random string if needed"
-				pastie.set_slug()
 				if req.user.is_authenticated():
 					pastie.author = req.user 
 				pastie.save()
@@ -165,8 +158,9 @@ def pastie_save(req, nosave=False, skin=None):
 			if req.user.is_authenticated():
 				shell.author = req.user
 
-			if slug:
-				shell.set_next_version()
+			# version is set automatically
+			#if slug:
+			#	shell.set_next_version()
 				
 			shell.save()
 
@@ -221,16 +215,13 @@ def pastie_display(req, slug, shell=None, dependencies=[], resources=[], skin=No
 									'skin_css': reverse("mooshell_css", args=['result-%s.css' % skin])
 							})
 	
-# it is bad for automate picking the latest revision 
 # consider better caching for that function.
 def embedded(req, slug, version=None, revision=0, author=None, tabs=None, skin=None):
 	" display embeddable version of the shell "
 	pastie = get_object_or_404(Pastie,slug=slug)
-	if pastie.favourite and version == None:
+	if version == None:
 		shell = pastie.favourite
 	else:
-		if version == None: 
-			version=0
 		user = get_object_or_404(User,username=author) if author else None
 		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	
@@ -243,7 +234,6 @@ def embedded(req, slug, version=None, revision=0, author=None, tabs=None, skin=N
 		server = 'http://%s' % req.META['SERVER_NAME']
 
 	height = req.GET.get('height', None)
-	#skin = req.GET.get('skin',settings.MOOSHELL_DEFAULT_SKIN)
 	tabs_order = tabs #req.GET.get('tabs',"js,html,css,result")
 	tabs_order = tabs_order.split(',')
 	
@@ -278,7 +268,6 @@ def embedded(req, slug, version=None, revision=0, author=None, tabs=None, skin=N
 								context, 
 								context_instance=RequestContext(req))
 		
-# it is bad for automate picking the latest revision 
 # consider better caching for that function.
 def pastie_show(req, slug, version=None, author=None, skin=None):
 	" render the shell only "
@@ -291,7 +280,9 @@ def pastie_show(req, slug, version=None, author=None, skin=None):
 		user = get_object_or_404(User,username=author) if author else None
 		shell = get_object_or_404(Shell, pastie__slug=slug, version=version, author=user)
 	if not skin: skin = req.GET.get('skin', settings.MOOSHELL_DEFAULT_SKIN)
-	return pastie_display(req, slug, shell, dependencies=shell.js_dependency.all(), resources=shell.external_resources.all(), skin=skin)
+	return pastie_display(req, slug, shell, 
+						dependencies=shell.js_dependency.all(), 
+						resources=shell.external_resources.all(), skin=skin)
 
 
 #TODO: remove if not used

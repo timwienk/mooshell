@@ -14,7 +14,7 @@ class JSDependencyTest(MooshellBaseTestCase):
 		self.assertEqual(str(self.dependency), TEST_DEPENDENCY_NAME)
 
 
-	def test_order(self):
+	def test_ordering(self):
 		test_dep_name = 'x'
 		dep = self.get_dependency(name='test_dep_name', ord=0)
 		dep.save()
@@ -25,3 +25,8 @@ class JSDependencyTest(MooshellBaseTestCase):
 		self.assertEqual(len(deps), 2)
 		self.assertEqual(deps[0].name, TEST_DEPENDENCY_NAME)
 		dep.delete()
+
+	def test_adding_to_shell(self):
+		self.assertEqual(len(self.shell.js_dependency.all()), 0)
+		self.shell.js_dependency.add(self.dependency)
+		self.assertEqual(len(self.shell.js_dependency.all()), 1)

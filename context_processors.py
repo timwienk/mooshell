@@ -8,6 +8,8 @@ def load_settings(request):
 			'seo_title_pre': settings.MOOSHELL_SEO_TITLE_HEAD,
 			'seo_title_tail': settings.MOOSHELL_SEO_TITLE_TAIL,
 			'title_separator': settings.MOOSHELL_TITLE_SEPARATOR,
+			'SEO_DESCRIPTION': settings.MOOSHELL_SEO_DESCRIPTION,
+			'SEO_KEYWORDS': settings.MOOSHELL_SEO_KEYWORDS,
 			'DEBUG': settings.DEBUG,
 			'WEB_SERVER': request.META['SERVER_NAME'],
 			'default_library_group': settings.MOOSHELL_LIBRARY_GROUP,

@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
 
 from mooshell.models import *
 
@@ -10,6 +11,12 @@ TEST_LIB_VERSION = '1.0'
 TEST_LIB_HREF = '/js/lib/js_lib.js'
 TEST_DEPENDENCY_NAME = 'TestDependency'
 TEST_DEPENDENCY_URL = '/js/lib/js_dependency.js'
+TEST_EXTERNAL_URL_JS = 'http://example.com/some.js'
+TEST_EXTERNAL_URL_CSS = 'http://example.com/some.css'
+TEST_SLUG = "test_slug"
+TEST_USERNAME = 'test_user'
+TEST_EMAIL = 'test@example.com'
+TEST_PASSWORD = 'V4lidP4ss'
 
 class MooshellBaseTestCase(TestCase):
 	" base test case - provides functions for other test cases "
@@ -43,6 +50,24 @@ class MooshellBaseTestCase(TestCase):
 			active=active
 		)
 	
+	def get_pastie(self, slug=TEST_SLUG, author=None):
+		return Pastie(
+			slug=TEST_SLUG,
+			author=author
+		)
+			
+	def get_shell(self, pastie, js_lib, author=None, title=None):
+		return Shell(
+			pastie=pastie,
+			js_lib=js_lib,
+			author=author,
+			title=title
+		)
+
+	def get_user(self, username=TEST_USERNAME, email=TEST_EMAIL, password=TEST_PASSWORD):
+		return User.objects.create_user(username, email, password)
+	
+
 	def setUp(self):
 		self.lib_group = self.get_lib_group()
 		self.lib_group.save()
@@ -54,6 +79,14 @@ class MooshellBaseTestCase(TestCase):
 		self.lib.save()
 		self.dependency = self.get_dependency()
 		self.dependency.save()
+		self.external_js = ExternalResource(url=TEST_EXTERNAL_URL_JS)
+		self.external_js.save()
+		self.external_css = ExternalResource(url=TEST_EXTERNAL_URL_CSS)
+		self.external_css.save()
+		self.pastie = self.get_pastie()
+		self.pastie.save()
+		self.shell = self.get_shell(self.pastie, self.lib)
+		self.shell.save()
 
 	def tearDown(self):
 		self.lib_group.delete()
@@ -61,5 +94,7 @@ class MooshellBaseTestCase(TestCase):
 		self.wrap_l.delete()
 		self.lib.delete()
 		self.dependency.delete()
+		self.external_js.delete()
+		self.external_css.delete()
 	
 		
