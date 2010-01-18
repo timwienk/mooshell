@@ -386,22 +386,10 @@ def api_get_users_pasties(req, author, limit=50):
 	user = get_object_or_404(User, username=author)
 	pasties = Pastie.objects\
 					.filter(author__username=author)\
-					[:limit]
-	log_to_file("%s\tpasties no: %i" % (user.username, len(pasties)), req)
-
-	pasties = Pastie.objects\
-					.filter(author__username=author)\
-					.exclude(favourite__title__isnull=True)\
-					[:limit]
-	log_to_file("%s\tpasties no: %i" % (user.username, len(pasties)), req)
-
-	pasties = Pastie.objects\
-					.filter(author__username=author)\
 					.exclude(favourite__title__isnull=True)\
 					.exclude(favourite__title="")\
+					.order_by('-created_at')\
 					[:limit]
-
-	log_to_file("%s\tpasties no: %i" % (user.username, len(pasties)), req)
 	
 	try:
 		server = settings.MOOSHELL_FORCE_SERVER
