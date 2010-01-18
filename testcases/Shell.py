@@ -19,11 +19,13 @@ class ShellTest(MooshellBaseTestCase):
 		shell.code_html = '0123456789012345678901'
 		self.assertEqual(str(shell), 'test - %s-1: 01234567890123456789' % TEST_SLUG)
 		
-	def test_get_public_only(self):
-		self.shell.private=True
+	def test_search_public_only(self):
+		self.shell.private = True
+		self.shell.author = self.user
 		self.shell.save()
 		self.assertEqual(len(Shell.objects.all()), 0)
 		self.failUnless(Shell.objects.all_with_private())
+		self.assertEqual(len(Shell.objects.all_available(self.user)), 1)
 		
 	def test_versioning(self):
 		# same version AND shell is forbidden
@@ -37,4 +39,9 @@ class ShellTest(MooshellBaseTestCase):
 		shell1.save()
 		self.assertEqual(shell1.version, 2)
 		
+	def test_get_private(self):
+		self.shell.private=True
+		self.shell.author = self.user
+		self.shell.save()
+		self.failUnless(Shell.objects.get_owned(self.user, pastie__slug=TEST_SLUG, version=0))
 		

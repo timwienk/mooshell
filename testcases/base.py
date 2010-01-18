@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
 from mooshell.models import *
 
@@ -17,6 +18,7 @@ TEST_SLUG = "test_slug"
 TEST_USERNAME = 'test_user'
 TEST_EMAIL = 'test@example.com'
 TEST_PASSWORD = 'V4lidP4ss'
+
 
 class MooshellBaseTestCase(TestCase):
 	" base test case - provides functions for other test cases "
@@ -64,7 +66,7 @@ class MooshellBaseTestCase(TestCase):
 			title=title
 		)
 
-	def get_user(self, username=TEST_USERNAME, email=TEST_EMAIL, password=TEST_PASSWORD):
+	def create_user(self, username=TEST_USERNAME, email=TEST_EMAIL, password=TEST_PASSWORD):
 		return User.objects.create_user(username, email, password)
 	
 
@@ -87,6 +89,9 @@ class MooshellBaseTestCase(TestCase):
 		self.pastie.save()
 		self.shell = self.get_shell(self.pastie, self.lib)
 		self.shell.save()
+		self.create_user()
+		self.user = authenticate(username=TEST_USERNAME, password=TEST_PASSWORD)
+		
 
 	def tearDown(self):
 		self.lib_group.delete()
@@ -96,5 +101,6 @@ class MooshellBaseTestCase(TestCase):
 		self.dependency.delete()
 		self.external_js.delete()
 		self.external_css.delete()
+		self.user.delete()
 	
 		

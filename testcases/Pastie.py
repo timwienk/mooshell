@@ -38,10 +38,9 @@ class PastieTest(MooshellBaseTestCase):
 		self.assertEqual(pastie.slug, TEST_SLUG1)
 
 	def test_get_by_author(self):
-		author = self.get_user()
-		self.pastie.author = author
+		self.pastie.author = self.user
 		self.pastie.save()
-		self.failUnless(Pastie.objects.filter(author__username=author.username))
+		self.failUnless(Pastie.objects.filter(author__username=self.user.username))
 		
 	def test_favourite(self):
 		shell = self.get_shell(self.pastie, self.lib)
