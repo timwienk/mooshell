@@ -13,7 +13,7 @@
 			<script type='text/javascript'>var resources = [];</script>
 			{% for res in shell.external_resources.all %}
 				<li id='external_resource_{{ res.id }}'>
-					<span class='filename' title="{{ res.url }}">{{ res.filename }}</span><a onclick='remove_resource({{ res.id }})'>Remove</a>
+					<a class='filename' href="{{ res.url }}" title="{{ res.url }}">{{ res.filename }}</a><a onclick='remove_resource({{ res.id }})' class='remove'>Remove</a>
 				</li>
 				<script type='text/javascript'>resources.push({{ res.id }})</script>
 			{% endfor %}
@@ -58,14 +58,17 @@
 						var li = new Element('li', {
 							'id': 'external_resource_' + response.id
 						}).inject($('external_resources_list'));
-						new Element('span', {
+						new Element('a', {
 							'text': response.filename,
 							'title': response.url,
-							'class': 'filename'
+							'class': 'filename',
+							'href': response.url,
+							'target': '_blank'
 						}).inject(li);
 						new Element('a', {
 							'text': 'Remove',
 							'rel': response.id,
+							'class': 'remove',
 							'events': {
 								'click': function(e) {
 									e.stop();
